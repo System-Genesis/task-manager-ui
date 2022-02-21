@@ -59,8 +59,8 @@ const SignIn = ({ label, OnChange }) => {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.dark' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography variant='h4' sx={{ mb: 3, fontWeight: 'bold' }}>
-            TRAKING
+          <Typography variant='h4' sx={{ mb: 3, fontWeight: 'bold', textTransform: 'uppercase' }}>
+            traking
           </Typography>
           <Input
             label={(label = 'Username')}
