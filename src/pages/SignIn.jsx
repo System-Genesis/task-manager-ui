@@ -16,25 +16,16 @@ const SignIn = ({ label, OnChange }) => {
   const [user, setUser] = useState({ team: '', password: '' });
   const [error, setError] = useState({ team: false, password: false });
 
-  const handleError = () => {
-    if (user.team === '') {
-      setError({ ...error, team: true });
-    }
-    if (user.password === '') {
-      setError({ ...error, password: true });
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError({ team: false, password: false });
 
-    console.log(user);
+    error.team = !user.team;
+    error.password = !user.password;
 
-    handleError();
-
-    console.log(error);
-    if (!error.team && !error.password) {
+    if (error.team || error.password) {
+      setError({ ...error });
+    } else {
       try {
         const res = await axios.post('http://localhost:3002/api/login', user);
         console.log(res.data);
@@ -59,13 +50,17 @@ const SignIn = ({ label, OnChange }) => {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.dark' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography variant='h4' sx={{ mb: 3, fontWeight: 'bold', textTransform: 'uppercase' }}>
+          <Typography
+            variant='h4'
+            sx={{ mb: 3, fontWeight: 'bold', textTransform: 'uppercase' }}
+          >
             traking
           </Typography>
           <Input
             label={(label = 'Username')}
             OnChange={(e) => {
               e.preventDefault();
+              setError({ ...error, team: false });
               setUser({ ...user, team: e.target.value });
             }}
             error={error.team}
@@ -74,10 +69,12 @@ const SignIn = ({ label, OnChange }) => {
             label={(label = 'Password')}
             OnChange={(e) => {
               e.preventDefault();
+              setError({ ...error, password: false });
               setUser({ ...user, password: e.target.value });
             }}
             error={error.password}
           />
+          {(error.team || error.password) && <Typography variant="h6" sx={{ color: 'red' }} >The Username or Password is Incorrect</Typography>}
           <SubmitButton />
         </Box>
       </form>
