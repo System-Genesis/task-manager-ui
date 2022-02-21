@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Input from '../components/Input';
 import SubmitButton from '../components/Button';
-
+import axios from 'axios';
 
 const useStyles = makeStyles({});
 
@@ -16,17 +16,32 @@ const SignIn = ({ label, OnChange }) => {
   const [user, setUser] = useState({ team: '', password: '' });
   const [error, setError] = useState({ team: false, password: false });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError({ team: false, password: false });
-
-    console.log(user);
-
+  const handleError = () => {
     if (user.team === '') {
       setError({ ...error, team: true });
     }
     if (user.password === '') {
       setError({ ...error, password: true });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError({ team: false, password: false });
+
+    console.log(user);
+
+    handleError();
+
+    console.log(error);
+    if (!error.team && !error.password) {
+      try {
+        const res = await axios.post('http://localhost:3002/api/login', user);
+        console.log(res.data);
+        console.log('data');
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -44,7 +59,9 @@ const SignIn = ({ label, OnChange }) => {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.dark' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography variant='h4' sx={{mb:3, fontWeight: 'bold'}}>KARTING</Typography>
+          <Typography variant='h4' sx={{ mb: 3, fontWeight: 'bold' }}>
+            TRAKING
+          </Typography>
           <Input
             label={(label = 'Username')}
             OnChange={(e) => {
