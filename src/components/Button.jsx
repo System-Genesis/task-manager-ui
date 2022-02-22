@@ -8,7 +8,7 @@ const SubmitButton = () => {
       variant='contained'
       color='primary'
       fullWidth
-      sx={{ mt: 4 }}
+      sx={{ mt: 3 }}
     >
       Submit
     </Button>

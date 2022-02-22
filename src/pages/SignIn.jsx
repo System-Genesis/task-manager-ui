@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
 import { makeStyles } from '@mui/styles';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -8,13 +8,24 @@ import Typography from '@mui/material/Typography';
 import Input from '../components/Input';
 import SubmitButton from '../components/Button';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { setObj, getObj } from '../utils/localStorage';
 
 const useStyles = makeStyles({});
 
 const SignIn = ({ label, OnChange }) => {
+  let navigate = useNavigate();
+
   const classes = useStyles();
   const [user, setUser] = useState({ team: '', password: '' });
   const [error, setError] = useState({ team: false, password: false });
+
+  // useEffect(() => {
+  //   const localUser = getObj('data');
+  //   setUser(localUser);
+
+  //   if (localUser) navigate(`/${localUser.rule}`);
+  // }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,11 +38,12 @@ const SignIn = ({ label, OnChange }) => {
       setError({ ...error });
     } else {
       try {
-        const res = await axios.post('http://localhost:3002/api/login', user);
-        console.log(res.data);
-        console.log('data');
+        const res = await axios.post('http://localhost:3010/login', user);
+        setObj('data', res.data);
+
+        navigate(`/${res.data.rule}`);
       } catch (error) {
-        console.log(error);
+        setError({ team: true, password: true });
       }
     }
   };
@@ -74,7 +86,20 @@ const SignIn = ({ label, OnChange }) => {
             }}
             error={error.password}
           />
-          {(error.team || error.password) && <Typography variant="h6" sx={{ color: 'red' }} >The Username or Password is Incorrect</Typography>}
+          {(error.team || error.password) && (
+            <Typography
+              variant='h6'
+              sx={{
+                color: 'red',
+                border: '3px dashed red',
+                borderRadius: '5px',
+                padding: '5px',
+                mt: 3,
+              }}
+            >
+              The Username or Password is Incorrect
+            </Typography>
+          )}
           <SubmitButton />
         </Box>
       </form>

@@ -5,7 +5,8 @@ import {
   responsiveFontSizes,
   ThemeProvider,
 } from '@mui/material/styles';
-
+import Manager from './pages/Manager';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 let theme = createTheme({
   typography: {
     // fontFamily: 'Shizuru, cursive'
@@ -17,7 +18,13 @@ theme = responsiveFontSizes(theme);
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <SignIn />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/login' element={<SignIn />} />
+          <Route path='/manager' element={<Manager />} />
+        </Routes>
+      </BrowserRouter>
+      
     </ThemeProvider>
   );
 }
