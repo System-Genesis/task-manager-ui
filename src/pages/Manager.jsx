@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getObj } from '../utils/localStorage';
 import Area from '../components/Area';
 
-const Manager = ({title}) => {
+const Manager = () => {
   let navigate = useNavigate();
   const [user, setUser] = useState(null);
 
