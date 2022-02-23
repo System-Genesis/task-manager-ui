@@ -38,7 +38,7 @@ const SignIn = ({ label, OnChange }) => {
       setError({ ...error });
     } else {
       try {
-        const res = await axios.post('http://localhost:3010/login', user);
+        const res = await axios.post('http://localhost:3020/login', user);
         setObj('data', res.data);
 
         navigate(`/${res.data.rule}`);
@@ -91,9 +91,6 @@ const SignIn = ({ label, OnChange }) => {
               variant='h6'
               sx={{
                 color: 'red',
-                border: '3px dashed red',
-                borderRadius: '5px',
-                padding: '5px',
                 mt: 3,
               }}
             >
