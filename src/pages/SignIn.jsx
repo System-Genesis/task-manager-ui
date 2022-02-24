@@ -94,7 +94,7 @@ const SignIn = ({ label, OnChange }) => {
                 mt: 3,
               }}
             >
-              The Username or Password is Incorrect
+              Username or Password Incorrect
             </Typography>
           )}
           <SubmitButton />

@@ -18,7 +18,7 @@ theme = responsiveFontSizes(theme);
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
+      <BrowserRouter >
         <Routes>
           <Route path='/login' element={<SignIn />} />
           <Route path='/manager' element={<Manager />} />

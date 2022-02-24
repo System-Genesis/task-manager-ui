@@ -4,8 +4,9 @@ import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import { getObj } from '../utils/localStorage';
 import Area from '../components/Area';
+import NavBar from '../components/NavBar';
 
-const Manager = () => {
+const Manager = ({ signInUser }) => {
   let navigate = useNavigate();
   const [user, setUser] = useState(null);
 
@@ -18,12 +19,12 @@ const Manager = () => {
   return !user ? (
     <p>loading...</p>
   ) : (
-    <Container>
-      <h1>Hello {user?.name}</h1>
-      <h2>You are {user?.rule}</h2>
-      
-      <Area />
-    </Container>
+    <>
+      <NavBar signInUser={user?.rule} />
+      <Container>
+        <Area />
+      </Container>
+    </>
   );
 };
 
