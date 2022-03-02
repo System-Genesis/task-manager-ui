@@ -1,16 +1,17 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 
-const SubmitButton = () => {
+const SubmitButton = ({fullWidth, href,txt = 'Submit'}) => {
   return (
     <Button
       type='submit'
       variant='contained'
       color='primary'
-      fullWidth
-      sx={{ mt: 3 }}
+      fullWidth= {fullWidth}
+      sx={{ m: 2, }}
+      href= {href}
     >
-      Submit
+      {txt}
     </Button>
   );
 };

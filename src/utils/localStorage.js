@@ -16,3 +16,7 @@ export const setObj = (name, obj) => {
     JSON.stringify({ ...obj, time: new Date() })
   );
 };
+
+export const clear = () => {
+  localStorage.clear();
+}

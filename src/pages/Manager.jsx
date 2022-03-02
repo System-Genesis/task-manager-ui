@@ -6,7 +6,7 @@ import { getObj } from '../utils/localStorage';
 import Area from '../components/Area';
 import NavBar from '../components/NavBar';
 
-const Manager = ({ signInUser }) => {
+const Manager = () => {
   let navigate = useNavigate();
   const [user, setUser] = useState(null);
 

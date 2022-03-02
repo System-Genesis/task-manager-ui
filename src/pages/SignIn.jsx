@@ -97,7 +97,7 @@ const SignIn = ({ label, OnChange }) => {
               Username or Password Incorrect
             </Typography>
           )}
-          <SubmitButton />
+          <SubmitButton fullWidth={true}  />
         </Box>
       </form>
     </Container>
