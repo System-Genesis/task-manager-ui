@@ -1,29 +1,16 @@
-import React from 'react';
+/* eslint-disable no-undef */
+import React, { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import { InfoContext } from '../InfoContext'
 
 import SubmitButton from './Button';
 
 const Area = () => {
-  const areas = [
-    {
-      pageNum: 1,
-      title: 'Post',
-      btns: [
-        {
-          title: 'post by Id & source',
-          href: 'https://www.youtube.com/',
-        },
-      ],
-    },
-    {
-      pageNum: 2,
-      title: 'Get',
-      btns: [{ title: 'get by Id & source', href: 'https://mui.com/api/button/' }],
-    },
-  ];
+  const [info, setInfo] = useContext(InfoContext)
+
   return (
     <Grid container>
       <Box
@@ -34,7 +21,7 @@ const Area = () => {
           justifyContent: 'center',
         }}
       >
-        {areas.map((obj) => (
+        {info.map((obj) => (
           <Grid item xs={12} md={6} lg={6}>
             <Paper
               elevation={10}
@@ -65,8 +52,8 @@ const Area = () => {
                   flexWrap: 'wrap',
                 }}
               >
-                {obj.btns.map((b) => (
-                  <SubmitButton href={b.href} fullWidth={false} txt={b.title} />
+                {obj.btns.map((btn) => (
+                  <SubmitButton href={btn.href} fullWidth={false} txt={btn.title} />
                 ))}
               </Box>
             </Paper>

@@ -13,7 +13,7 @@ import { setObj, getObj } from '../utils/localStorage';
 
 const useStyles = makeStyles({});
 
-const SignIn = ({ label, OnChange }) => {
+const SignIn = ({ OnChange }) => {
   let navigate = useNavigate();
 
   const classes = useStyles();
@@ -40,6 +40,7 @@ const SignIn = ({ label, OnChange }) => {
       try {
         const res = await axios.post('http://localhost:3020/login', user);
         setObj('data', res.data);
+        console.log(res.data);
 
         navigate(`/${res.data.rule}`);
       } catch (error) {
@@ -69,7 +70,8 @@ const SignIn = ({ label, OnChange }) => {
             traking
           </Typography>
           <Input
-            label={(label = 'Username')}
+            label={'Username'}
+            fullWidth={true}
             OnChange={(e) => {
               e.preventDefault();
               setError({ ...error, team: false });
@@ -78,7 +80,8 @@ const SignIn = ({ label, OnChange }) => {
             error={error.team}
           />
           <Input
-            label={(label = 'Password')}
+            label={'Password'}
+            fullWidth={true}
             OnChange={(e) => {
               e.preventDefault();
               setError({ ...error, password: false });
@@ -97,7 +100,7 @@ const SignIn = ({ label, OnChange }) => {
               Username or Password Incorrect
             </Typography>
           )}
-          <SubmitButton fullWidth={true}  />
+          <SubmitButton txt={'submit'} fullWidth={true}  />
         </Box>
       </form>
     </Container>

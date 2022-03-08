@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 
-const SubmitButton = ({fullWidth, href,txt = 'Submit'}) => {
+const SubmitButton = ({fullWidth, href, txt, onClick}) => {
   return (
     <Button
       type='submit'

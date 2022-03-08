@@ -3,15 +3,33 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
+import { clear } from '../utils/localStorage';
 
-const NavBar = ({signInUser}) => {
+const NavBar = ({ signInUser }) => {
+  let navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/login');
+    clear();
+  };
   return (
-    <AppBar position='static' color='default' elevation={5} sx={{mb:8}} >
+    <AppBar position='static' color='default' elevation={5} sx={{ mb: 5 }}>
       <Toolbar>
-        <Typography variant='h6' sx={{ flexGrow: 1 }} fontWeight= 'bold' color='primary' textTransform='capitalize'>
+        <Typography
+          variant='h6'
+          sx={{ flexGrow: 1 }}
+          fontWeight='bold'
+          color='primary'
+          textTransform='capitalize'
+        >
           hello {signInUser}
         </Typography>
-        <Button color='primary' variant='contained' size= 'medium'>
+        <Button
+          color='primary'
+          variant='contained'
+          size='medium'
+          onClick={handleClick}
+        >
           Sign Out
         </Button>
       </Toolbar>
