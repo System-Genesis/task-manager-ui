@@ -17,6 +17,25 @@ export const InfoProvider = (props) => {
               { value: 'aka', sourceName: 'aka' },
               { value: 'souf', sourceName: 'souf' },
             ],
+            type: [
+              { value: 'sdda', sourceName: 'sda' },
+              { value: 'souf', sourceName: 'souf' },
+            ],
+          },
+        },
+        {
+          title: 'post by  source',
+          href: '/action',
+          params: {
+           
+            source: [
+              { value: 'aka', sourceName: 'aka' },
+              { value: 'souf', sourceName: 'souf' },
+            ],
+            type: [
+              { value: 'sdda', sourceName: 'sda' },
+              { value: 'souf', sourceName: 'souf' },
+            ],
           },
         },
       ],
@@ -33,8 +52,10 @@ export const InfoProvider = (props) => {
       ],
     },
   ]);
+  const [index, setIndex] = useState(1)
+
   return (
-    <InfoContext.Provider value={[info, setInfo]}>
+    <InfoContext.Provider value={[info, setInfo,index,setIndex]}>
       {props.children}
     </InfoContext.Provider>
   );

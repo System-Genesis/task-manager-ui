@@ -10,6 +10,7 @@ import SubmitButton from '../components/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { setObj, getObj } from '../utils/localStorage';
+import PasswordInput from '../components/PasswordInput';
 
 const useStyles = makeStyles({});
 
@@ -79,10 +80,9 @@ const SignIn = ({ OnChange }) => {
             }}
             error={error.team}
           />
-          <Input
-            label={'Password'}
-            fullWidth={true}
-            OnChange={(e) => {
+          <PasswordInput
+            onChange={(e) => {
+              console.log( e.target.value );
               e.preventDefault();
               setError({ ...error, password: false });
               setUser({ ...user, password: e.target.value });
@@ -100,7 +100,7 @@ const SignIn = ({ OnChange }) => {
               Username or Password Incorrect
             </Typography>
           )}
-          <SubmitButton txt={'submit'} fullWidth={true}  />
+          <SubmitButton txt={'submit'} fullWidth={true} />
         </Box>
       </form>
     </Container>
