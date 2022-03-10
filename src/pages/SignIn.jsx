@@ -82,7 +82,6 @@ const SignIn = ({ OnChange }) => {
           />
           <PasswordInput
             onChange={(e) => {
-              console.log( e.target.value );
               e.preventDefault();
               setError({ ...error, password: false });
               setUser({ ...user, password: e.target.value });

@@ -33,7 +33,7 @@ export const PasswordInput = ({onChange, error}) => {
     <InputLabel >Password</InputLabel>
     <OutlinedInput
       type={values.showPassword ? 'text' : 'password'}
-      value={values.password}
+    //   value={values.password}
       onChange={handleChange('password')}
       endAdornment={
         <InputAdornment>

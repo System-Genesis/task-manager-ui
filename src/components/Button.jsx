@@ -7,9 +7,10 @@ const SubmitButton = ({fullWidth, href, txt, onClick}) => {
       type='submit'
       variant='contained'
       color='primary'
-      fullWidth= {fullWidth}
+      fullWidth={fullWidth}
       sx={{ m: 2, }}
-      href= {href}
+      href={href}
+      onClick={onClick}
     >
       {txt}
     </Button>

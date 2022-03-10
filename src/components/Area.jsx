@@ -53,7 +53,7 @@ const Area = () => {
                 }}
               >
                 {obj.btns.map((btn) => (
-                  <SubmitButton href={btn.href} fullWidth={false} txt={btn.title} />
+                  <SubmitButton href={btn.href} onClick={() => setInfo()} fullWidth={false} txt={btn.title} />
                 ))}
               </Box>
             </Paper>

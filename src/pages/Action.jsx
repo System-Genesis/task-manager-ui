@@ -58,7 +58,7 @@ export const Action = () => {
           <SelectList inputLabel={'source'} array={button1}></SelectList>
         )}
         <br /> */}
-        <SubmitButton color={primary} txt={'Submit'} />
+        <SubmitButton  txt={'Submit'} />
       </Box>
     </div>
   );
