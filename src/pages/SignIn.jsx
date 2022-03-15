@@ -14,9 +14,8 @@ import PasswordInput from '../components/PasswordInput';
 
 const useStyles = makeStyles({});
 
-const SignIn = ({ OnChange }) => {
+const SignIn = () => {
   let navigate = useNavigate();
-
   const classes = useStyles();
   const [user, setUser] = useState({ team: '', password: '' });
   const [error, setError] = useState({ team: false, password: false });

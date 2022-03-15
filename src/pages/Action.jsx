@@ -9,21 +9,35 @@ import SelectList from '../components/Select';
 import { useNavigate } from 'react-router-dom';
 import { getObj } from '../utils/localStorage';
 import { teal } from '@mui/material/colors';
+import axios from 'axios';
 
 export const Action = () => {
-  const [info, setInfo,index, setIndex] = useContext(InfoContext);
-
   const primary = teal[500];
   let navigate = useNavigate();
   const [user, setUser] = useState(null);
-  console.log(index);
+  const [params, setParams] = useState({});
+  // const [source, setSource] = useState('');
+  const [btn] = useState(useContext(InfoContext).getBtn());
+  const reqType = useContext(InfoContext).getTypeReq();
 
   useEffect(() => {
     const localUser = getObj('data');
     setUser(localUser);
-    if (!localUser || localUser.rule !== 'manager') navigate(`/login`);
+    if (!localUser || localUser.rule !== 'manager') navigate(`/`);
   }, []);
-  const button1 = info[0].btns[1].params.source;
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:3020/action', {
+        params,
+        reqType,
+        name: btn.name,
+      });
+      console.log(res);
+    } catch (error) {}
+    console.log(params);
+  };
   return (
     <div>
       <NavBar signInUser={user?.rule} />
@@ -33,7 +47,7 @@ export const Action = () => {
         color={primary}
         sx={{ mb: 2, fontWeight: 'bold' }}
       >
-        הכנס את הערכים הרלוונטים
+        הכנס את הערכים
       </Typography>
       <Box
         sx={{
@@ -42,23 +56,33 @@ export const Action = () => {
           justifyContent: 'center',
         }}
       >
-        {Object.keys(info[0].btns[index].params).map((par, i) => {
-          console.log(typeof info[0].btns[index].params[par] == 'string' );
-          if (typeof info[0].btns[index].params[par] == 'string') {
-            return <Input label={par} key={i} />;
+        {Object.keys(btn.params).map((par, i) => {
+          if (typeof btn.params[par] == 'string') {
+            return (
+              <Input
+                label={par}
+                key={i}
+                OnChange={(e) => {
+                  setParams({ ...params, [par]: e.target.value });
+                  console.log(params);
+                }}
+              />
+            );
           }
-          return <SelectList
-            key={i}
-            inputLabel={par}
-            array={info[0].btns[index].params[par]}
-          ></SelectList>;
+          return (
+            <SelectList
+              key={i}
+              inputLabel={par}
+              array={['', ...btn.params[par]]}
+              value={params[par] ? params[par] : ''}
+              onChange={(e) => {
+                setParams({ ...params, [par]: e.target.value });
+                console.log(params);
+              }}
+            />
+          );
         })}
-        {/* <Input label={info[0].btns[index].params.identifiers} />
-        {button1 && (
-          <SelectList inputLabel={'source'} array={button1}></SelectList>
-        )}
-        <br /> */}
-        <SubmitButton  txt={'Submit'} />
+        <SubmitButton txt={'Submit'} onClick={handleClick} />
       </Box>
     </div>
   );

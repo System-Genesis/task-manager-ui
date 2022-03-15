@@ -9,7 +9,7 @@ import { clear } from '../utils/localStorage';
 const NavBar = ({ signInUser }) => {
   let navigate = useNavigate();
   const handleClick = () => {
-    navigate('/login');
+    navigate('/');
     clear();
   };
   return (

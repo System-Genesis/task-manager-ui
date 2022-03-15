@@ -24,7 +24,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
-            <Route path='/login' element={<SignIn />} />
+            <Route path='/' element={<SignIn />} />
             <Route path='/manager' element={<Manager />} />
             <Route path='/action' element={<Action />} />
           </Routes>

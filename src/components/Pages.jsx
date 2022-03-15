@@ -4,12 +4,14 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import { InfoContext } from '../InfoContext'
-
+import { InfoContext } from '../InfoContext';
 import SubmitButton from './Button';
+import { useNavigate } from 'react-router-dom';
 
-const Area = () => {
-  const [info, setInfo] = useContext(InfoContext)
+const Pages = () => {
+  let navigate = useNavigate();
+
+  const { info, changeBtn } = useContext(InfoContext);
 
   return (
     <Grid container>
@@ -21,8 +23,8 @@ const Area = () => {
           justifyContent: 'center',
         }}
       >
-        {info.map((obj) => (
-          <Grid item xs={12} md={6} lg={6}>
+        {info.map((obj, pageIndex) => (
+          <Grid key={pageIndex} item xs={12} md={6} lg={6}>
             <Paper
               elevation={10}
               variant='elevation'
@@ -52,8 +54,16 @@ const Area = () => {
                   flexWrap: 'wrap',
                 }}
               >
-                {obj.btns.map((btn) => (
-                  <SubmitButton href={btn.href} onClick={() => setInfo()} fullWidth={false} txt={btn.title} />
+                {obj.btns.map((btn, i) => (
+                  <SubmitButton
+                    key={i}
+                    onClick={() => {
+                      changeBtn(pageIndex, i);
+                      navigate('/action');
+                    }}
+                    fullWidth={false}
+                    txt={btn.title}
+                  />
                 ))}
               </Box>
             </Paper>
@@ -64,4 +74,4 @@ const Area = () => {
   );
 };
 
-export default Area;
+export default Pages;
