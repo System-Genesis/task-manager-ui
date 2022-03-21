@@ -34,9 +34,8 @@ export const Action = () => {
         reqType,
         name: btn.name,
       });
-      console.log(res);
+      console.log(res.data);
     } catch (error) {}
-    console.log(params);
   };
   return (
     <div>
