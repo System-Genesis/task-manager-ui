@@ -4,19 +4,19 @@ export const data = [
     title: 'Get',
     btns: [
       {
-        title: 'Id & source from splitter',
+        title: 'identifier & source from splitter',
         params: {
           identifier: 'identifier',
           source: ['aka', 'souf'],
         },
-        name: 'sourceAndIdentifier',
+        name: 'splitter/identifier/:identifier/source/:source',
       },
       {
         title: 'Get by source',
         params: {
           source: ['aka', 'souf'],
         },
-        name: 'source',
+        name: 'splitter/source/:source',
       },
     ],
   },
@@ -25,12 +25,12 @@ export const data = [
     title: 'Post',
     btns: [
       {
-        title: 'Post by Id & source',
+        title: 'Post by identifier & source',
         params: {
           identifier: 'identifier',
           source: ['aka', 'souf'],
         },
-        name: 'sourceAndIdentifier',
+        name: 'splitter/identifier/:identifier/source/:source',
       },
     ],
   },

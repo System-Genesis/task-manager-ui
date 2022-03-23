@@ -19,6 +19,7 @@ export const Action = () => {
   // const [source, setSource] = useState('');
   const [btn] = useState(useContext(InfoContext).getBtn());
   const reqType = useContext(InfoContext).getTypeReq();
+  const [dataToShow, setDataToShow] = useState(null);
 
   useEffect(() => {
     const localUser = getObj('data');
@@ -26,17 +27,26 @@ export const Action = () => {
     if (!localUser || localUser.rule !== 'manager') navigate(`/`);
   }, []);
 
+  const buildUrl = (params1, url) => {
+    Object.keys(params1).map((param) => {
+      url = url.replace(`:${param}`, params1[param])
+    })
+    return url;
+  }
+
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3020/action', {
-        params,
+     const url = buildUrl(params, btn.name);
+     const res = await axios.post('http://localhost:3020/action', {
+        url,
         reqType,
-        name: btn.name,
       });
       console.log(res.data);
+      setDataToShow(res.data)
     } catch (error) {}
   };
+
   return (
     <div>
       <NavBar signInUser={user?.rule} />
@@ -63,7 +73,7 @@ export const Action = () => {
                 key={i}
                 OnChange={(e) => {
                   setParams({ ...params, [par]: e.target.value });
-                  console.log(params);
+                  // console.log(params);
                 }}
               />
             );
@@ -76,12 +86,15 @@ export const Action = () => {
               value={params[par] ? params[par] : ''}
               onChange={(e) => {
                 setParams({ ...params, [par]: e.target.value });
-                console.log(params);
+                // console.log(params);
               }}
             />
           );
         })}
         <SubmitButton txt={'Submit'} onClick={handleClick} />
+      </Box>
+      <Box>
+        {dataToShow&&`${JSON.stringify(dataToShow)}`}
       </Box>
     </div>
   );
