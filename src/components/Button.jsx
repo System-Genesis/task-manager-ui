@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 
-const SubmitButton = ({fullWidth, txt, onClick}) => {
+const SubmitButton = ({fullWidth, txt, onClick, endIcon}) => {
   return (
     <Button
       type='submit'
@@ -10,6 +10,7 @@ const SubmitButton = ({fullWidth, txt, onClick}) => {
       fullWidth={fullWidth}
       sx={{ m: 2 }}
       onClick={onClick}
+      endIcon={endIcon}
     >
       {txt}
     </Button>

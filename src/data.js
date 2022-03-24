@@ -4,6 +4,18 @@ export const data = [
     title: 'Get',
     btns: [
       {
+        title: 'all from splitter',
+        name: 'splitter/all',
+        message: 'זהירות!! בקשה כבדה '
+      },
+      {
+        title: 'source from splitter',
+        params: {
+          source: ['aka', 'souf'],
+        },
+        name: 'splitter/source/:source',
+      },
+      {
         title: 'identifier & source from splitter',
         params: {
           identifier: 'identifier',
@@ -12,11 +24,11 @@ export const data = [
         name: 'splitter/identifier/:identifier/source/:source',
       },
       {
-        title: 'Get by source',
+        title: 'identifier from splitter',
         params: {
-          source: ['aka', 'souf'],
+          identifier: 'identifier',
         },
-        name: 'splitter/source/:source',
+        name: 'splitter/identifier/:identifier',
       },
     ],
   },
@@ -35,29 +47,3 @@ export const data = [
     ],
   },
 ];
-
-//   const srvice = {
-
-//     get:{
-//       // {
-//       //   name:'byIdentifier',
-//       //   params: { identifiers:'46546'},
-//       // }
-
-//       byIdentifier:(p)=> ('blblb'+p.identifiers)
-//     },
-//     // {
-//     //   name:'sourceAndIdentifier',
-//     //   params: {source: 'aka', identifiers:'46546'},
-//     // }
-
-//     post:{
-//       sourceAndIdentifier:(p)=> api.name(p)
-//     },
-//   }
-
-// api
-// name (o)=>('blblb'+p.source+'fdsfsd'+p.identifiers)
-
-// // cont
-//   service['post'][par.name](par.prams)
