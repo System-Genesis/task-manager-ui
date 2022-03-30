@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useContext, useState, useEffect } from 'react';
 import Input from '../components/Input';
 import NavBar from '../components/NavBar';
@@ -9,49 +10,83 @@ import SelectList from '../components/Select';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate } from 'react-router-dom';
 import { getObj } from '../utils/localStorage';
-import { teal } from '@mui/material/colors';
+import { teal, grey } from '@mui/material/colors';
 import axios from 'axios';
-import JSONPretty from 'react-json-pretty';
+import Loading from '../components/Loading';
+import buildUrl from '../utils/buildUrl';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import 'react-json-pretty/themes/monikai.css';
+import { JsonFormatter } from 'react-json-formatter';
 
-export const Action = () => {
+const Action = () => {
   const primary = teal[500];
+  const greyColor = grey[600];
   let navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [params, setParams] = useState({});
-  // const [source, setSource] = useState('');
   const [btn] = useState(useContext(InfoContext).getBtn());
   const reqType = useContext(InfoContext).getTypeReq();
   const [dataToShow, setDataToShow] = useState(null);
+  const [loading, setLoading] = useState('determinate');
+
+  const file = () => {
+    let myFile = new File(["gffgh"], 'data.txt', { type: 'text/plain' });
+    saveAs(myFile);
+  };
+
+  const JsonStyle = {
+    propertyStyle: { color: 'red' },
+    stringStyle: { color: 'green' },
+    colonStyle: { color: 'darkorange' },
+  };
 
   useEffect(() => {
-    const localUser = getObj('data');
-    setUser(localUser);
-    if (!localUser || localUser.rule !== 'manager') navigate(`/`);
+    const localData = getObj('data');
+    if (!localData) navigate(`/`);
+    setUser(localData.user);
   }, []);
 
-  const buildUrl = (par, url) => {
-    Object.keys(par).map((param) => {
-      url = url.replace(`:${param}`, par[param]);
-    });
-    return url;
-  };
+  useEffect(() => {
+    setLoading('determinate');
+  }, [dataToShow]);
 
   const handleClick = async (e) => {
     e.preventDefault();
     try {
+      setLoading('indeterminate');
       const url = buildUrl(params, btn.name);
       const res = await axios.post('http://localhost:3020/action', {
         url,
         reqType,
       });
       console.log(res.data);
-      setDataToShow(res.data);
-    } catch (error) {}
+      if (res.data && !Array.isArray(res.data)) {
+        setDataToShow([res.data]);
+      } else {
+        setDataToShow(res.data);
+      }
+    } catch (error) {
+      setDataToShow([error.message]);
+    }
   };
 
   return (
     <div>
       <NavBar signInUser={user?.rule} />
+      <Typography
+        variant='h4'
+        align='center'
+        color={greyColor}
+        sx={{
+          mb: 2,
+          fontWeight: 'bold',
+          textTransform: 'capitalize',
+          textDecoration: 'underline',
+        }}
+      >
+        {`${reqType} by ${btn.title}`}
+      </Typography>
       <Typography
         variant='h4'
         align='center'
@@ -69,27 +104,26 @@ export const Action = () => {
       >
         {btn.params &&
           Object.keys(btn.params).map((par, i) => {
-            if (typeof btn.params[par] == 'string') {
+            if (Array.isArray(btn.params[par])) {
               return (
-                <Input
-                  label={par}
+                <SelectList
                   key={i}
-                  OnChange={(e) => {
+                  inputLabel={par}
+                  array={['', ...btn.params[par]]}
+                  value={params[par] ? params[par] : ''}
+                  onChange={(e) => {
                     setParams({ ...params, [par]: e.target.value });
-                    // console.log(params);
                   }}
                 />
               );
             }
             return (
-              <SelectList
+              <Input
+                label={par}
+                type={btn.params[par]}
                 key={i}
-                inputLabel={par}
-                array={['', ...btn.params[par]]}
-                value={params[par] ? params[par] : ''}
-                onChange={(e) => {
+                OnChange={(e) => {
                   setParams({ ...params, [par]: e.target.value });
-                  // console.log(params);
                 }}
               />
             );
@@ -103,12 +137,62 @@ export const Action = () => {
           onClick={handleClick}
         />
       </Box>
-      <Box sx={{ ml: 5 }}>
-        <JSONPretty
-          id='json-pretty'
-          data={dataToShow && `${JSON.stringify(dataToShow)}`}
-        ></JSONPretty>
-      </Box>
+      {loading === 'indeterminate' ? (
+        <Loading variant={loading} />
+      ) : (
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignContent: 'flex-start',
+            margin: '0 auto',
+            justifyContent: 'center',
+          }}
+        >
+          {!dataToShow || dataToShow.length === 0 ? (
+            <Typography
+              variant='h5'
+              color='error'
+              sx={{
+                p: 2,
+                mt: 3,
+              }}
+            >
+              - No Data To Show -
+            </Typography>
+          ) : (
+            dataToShow.map((json, i) => {
+              return (
+                <Grid key={i} item xs={6} md={4} lg={4}>
+                  <Paper
+                    elevation={8}
+                    variant='elevation'
+                    sx={{
+                      // minWidth: '25vw',
+                      height: '93%',
+                      m: 3,
+                      p: 2,
+                      borderRadius: '20px',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {
+                      <JsonFormatter
+                        json={JSON.stringify(json, null, 2).replace(
+                          /\//g,
+                          ' /'
+                        )}
+                        tabWith='2'
+                        JsonStyle={JsonStyle}
+                      />
+                    }
+                  </Paper>
+                </Grid>
+              );
+            })
+          )}
+        </Box>
+      )}{' '}
     </div>
   );
 };

@@ -5,7 +5,8 @@ import {
   responsiveFontSizes,
   ThemeProvider,
 } from '@mui/material/styles';
-import Manager from './pages/Manager';
+import Button from './pages/Button';
+// import User from './pages/User';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { InfoProvider } from './InfoContext';
 import Action from './pages/Action';
@@ -25,7 +26,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<SignIn />} />
-            <Route path='/manager' element={<Manager />} />
+            <Route path='/button' element={<Button />} />
             <Route path='/action' element={<Action />} />
           </Routes>
         </BrowserRouter>

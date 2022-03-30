@@ -41,8 +41,7 @@ const SignIn = () => {
         const res = await axios.post('http://localhost:3020/login', user);
         setObj('data', res.data);
         console.log(res.data);
-
-        navigate(`/${res.data.rule}`);
+        navigate('/button');
       } catch (error) {
         setError({ team: true, password: true });
       }

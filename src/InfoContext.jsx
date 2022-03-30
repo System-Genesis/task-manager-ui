@@ -1,14 +1,14 @@
 import React, { useState, createContext } from 'react';
-import { data } from './data';
 
 export const InfoContext = createContext();
 
 export const InfoProvider = (props) => {
-  const info = data;
+  const [info , setInfo ] = useState(null); 
 
   const [index, setIndex] = useState({
     pageNum: 0,
     btnNum: 0,
+
   });
 
   const getBtn = () => {
@@ -27,7 +27,7 @@ export const InfoProvider = (props) => {
   };
 
   return (
-    <InfoContext.Provider value={{ info, changeBtn, getBtn, getTypeReq }}>
+    <InfoContext.Provider value={{ info, changeBtn, getBtn, getTypeReq, setInfo }}>
       {props.children}
     </InfoContext.Provider>
   );

@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -10,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 
 const Pages = () => {
   let navigate = useNavigate();
-
   const { info, changeBtn } = useContext(InfoContext);
 
   return (
@@ -24,7 +22,7 @@ const Pages = () => {
         }}
       >
         {info.map((obj, pageIndex) => (
-          <Grid key={pageIndex} item xs={12} md={6} lg={6}>
+          <Grid key={pageIndex} item xs={6} md={6} lg={6}>
             <Paper
               elevation={10}
               variant='elevation'

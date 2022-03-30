@@ -1,19 +1,24 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import { getObj } from '../utils/localStorage';
 import Pages from '../components/Pages';
 import NavBar from '../components/NavBar';
+import { InfoContext } from '../InfoContext';
 
 const Manager = () => {
   let navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const { setInfo } = useContext(InfoContext);
 
   useEffect(() => {
-    const localUser = getObj('data');
-    setUser(localUser);
-    if (!localUser || localUser.rule !== 'manager') navigate(`/`);
+    const localData = getObj('data');
+    if (!localData) {
+      navigate(`/`);
+    } else {
+      setUser(localData.user);
+      setInfo(localData.data);
+    }
   }, []);
 
   return !user ? (

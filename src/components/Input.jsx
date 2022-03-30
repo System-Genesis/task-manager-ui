@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 
-const Input = ({ label, OnChange, error, fullWidth }) => {
+const Input = ({ label, OnChange, error, fullWidth ,type}) => {
 
   return (
     <TextField
@@ -11,6 +11,7 @@ const Input = ({ label, OnChange, error, fullWidth }) => {
       required
       margin='dense'
       onChange={OnChange}
+      type={type}
       error={error}
     >
     </TextField>
