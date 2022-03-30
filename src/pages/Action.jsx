@@ -23,17 +23,13 @@ const Action = () => {
   const primary = teal[500];
   const greyColor = grey[600];
   let navigate = useNavigate();
+  const reqType = useContext(InfoContext).getTypeReq();
   const [user, setUser] = useState(null);
   const [params, setParams] = useState({});
   const [btn] = useState(useContext(InfoContext).getBtn());
-  const reqType = useContext(InfoContext).getTypeReq();
   const [dataToShow, setDataToShow] = useState(null);
   const [loading, setLoading] = useState('determinate');
-
-  const file = () => {
-    let myFile = new File(["gffgh"], 'data.txt', { type: 'text/plain' });
-    saveAs(myFile);
-  };
+  const [error, setError] = useState({select: false, input: false})
 
   const JsonStyle = {
     propertyStyle: { color: 'red' },
@@ -53,21 +49,33 @@ const Action = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    try {
-      setLoading('indeterminate');
-      const url = buildUrl(params, btn.name);
-      const res = await axios.post('http://localhost:3020/action', {
-        url,
-        reqType,
-      });
-      console.log(res.data);
-      if (res.data && !Array.isArray(res.data)) {
-        setDataToShow([res.data]);
-      } else {
-        setDataToShow(res.data);
+    setError({ select: false, input: false });
+
+    error.select = !params.source;
+    error.input = !params.identifier;
+
+    if (error.select || error.input) {
+      setError({ ...error });
+    }
+    else {
+      try {
+        setLoading('indeterminate');
+        const url = buildUrl(params, btn.name);
+        const res = await axios.post('http://localhost:3020/action', {
+          url,
+          reqType,
+        });
+        console.log(res.data);
+        if (res.data && !Array.isArray(res.data)) {
+          setDataToShow([res.data]);
+        } else {
+          setDataToShow(res.data);
+        }
       }
-    } catch (error) {
-      setDataToShow([error.message]);
+      catch (error) {
+        setDataToShow([error.message]);
+        setError({select: true, input: true})
+      }
     }
   };
 
@@ -113,7 +121,9 @@ const Action = () => {
                   value={params[par] ? params[par] : ''}
                   onChange={(e) => {
                     setParams({ ...params, [par]: e.target.value });
+                    setError({ ...error, select: false });
                   }}
+                  error={error.select}
                 />
               );
             }
@@ -124,7 +134,9 @@ const Action = () => {
                 key={i}
                 OnChange={(e) => {
                   setParams({ ...params, [par]: e.target.value });
+                  setError({ ...error, input: false });
                 }}
+                error={error.input}
               />
             );
           })}

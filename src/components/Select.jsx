@@ -4,9 +4,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 
-const SelectList = ({ inputLabel, array, onChange, value }) => {
+const SelectList = ({ inputLabel, array, onChange, value, error }) => {
   return (
-    <FormControl required sx={{ m: 1, minWidth: 120 }}>
+    <FormControl required error={error} sx={{ m: 1, minWidth: 120 }}>
       <InputLabel id='demo-simple-select-helper-label'>{inputLabel}</InputLabel>
       <Select
         labelId='demo-simple-select-helper-label'
