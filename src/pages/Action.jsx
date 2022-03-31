@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-undef */
 import React, { useContext, useState, useEffect } from 'react';
 import Input from '../components/Input';
@@ -9,7 +10,7 @@ import { InfoContext } from '../InfoContext';
 import SelectList from '../components/Select';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate } from 'react-router-dom';
-import { getObj } from '../utils/localStorage';
+import { getObj, setObj } from '../utils/localStorage';
 import { teal, grey } from '@mui/material/colors';
 import axios from 'axios';
 import Loading from '../components/Loading';
@@ -29,7 +30,7 @@ const Action = () => {
   const [btn] = useState(useContext(InfoContext).getBtn());
   const [dataToShow, setDataToShow] = useState(null);
   const [loading, setLoading] = useState('determinate');
-  const [error, setError] = useState({select: false, input: false})
+  const [error, setError] = useState({});
 
   const JsonStyle = {
     propertyStyle: { color: 'red' },
@@ -49,15 +50,11 @@ const Action = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    setError({ select: false, input: false });
-
-    error.select = !params.source;
-    error.input = !params.identifier;
-
-    if (error.select || error.input) {
+    setError({});
+    Object.keys(btn.params).forEach((par) => (error[par] = !params[par]));
+    if (Object.values(error).some((i) => i)) {
       setError({ ...error });
-    }
-    else {
+    } else {
       try {
         setLoading('indeterminate');
         const url = buildUrl(params, btn.name);
@@ -66,15 +63,32 @@ const Action = () => {
           reqType,
         });
         console.log(res.data);
+
+  
+
         if (res.data && !Array.isArray(res.data)) {
           setDataToShow([res.data]);
+          // setObj('response', res.data)
+          const element = document.createElement("a");
+          const textFile = new Blob([JSON.stringify(res.data)], {type: 'json/aplication'}); 
+          element.href = URL.createObjectURL(textFile);
+          element.download = "userFile.json";
+          document.body.appendChild(element); 
+          element.click();
         } else {
           setDataToShow(res.data);
+          // setObj('response', res.data)
+          const element = document.createElement("a");
+          const textFile = new Blob([JSON.stringify(res.data)], {type: 'json/aplication'}); 
+          element.href = URL.createObjectURL(textFile);
+          element.download = "userFile.json";
+          document.body.appendChild(element); 
+          element.click();
+
         }
-      }
-      catch (error) {
+      } catch (error) {
         setDataToShow([error.message]);
-        setError({select: true, input: true})
+        setError({ ...error });
       }
     }
   };
@@ -93,7 +107,7 @@ const Action = () => {
           textDecoration: 'underline',
         }}
       >
-        {`${reqType} by ${btn.title}`}
+        {`${reqType} ${btn.title}`}
       </Typography>
       <Typography
         variant='h4'
@@ -121,9 +135,9 @@ const Action = () => {
                   value={params[par] ? params[par] : ''}
                   onChange={(e) => {
                     setParams({ ...params, [par]: e.target.value });
-                    setError({ ...error, select: false });
+                    setError({ ...error, [par]: false });
                   }}
-                  error={error.select}
+                  error={error[par]}
                 />
               );
             }
@@ -134,9 +148,9 @@ const Action = () => {
                 key={i}
                 OnChange={(e) => {
                   setParams({ ...params, [par]: e.target.value });
-                  setError({ ...error, input: false });
+                  setError({ ...error, [par]: false });
                 }}
-                error={error.input}
+                error={error[par]}
               />
             );
           })}
