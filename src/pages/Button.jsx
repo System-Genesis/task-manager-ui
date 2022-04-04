@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useState, useContext } from 'react';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';

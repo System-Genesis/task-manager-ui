@@ -13,6 +13,7 @@ const Input = ({ label, OnChange, error, fullWidth ,type }) => {
       onChange={OnChange}
       type={type}
       error={error}
+      autoFocus
     >
     </TextField>
   );

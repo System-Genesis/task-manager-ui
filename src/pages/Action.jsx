@@ -19,6 +19,8 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import 'react-json-pretty/themes/monikai.css';
 import { JsonFormatter } from 'react-json-formatter';
+import printToFile from '../utils/printToFile';
+import MultipleSelect from '../components/MultipleSelect';
 
 const Action = () => {
   const primary = teal[500];
@@ -62,29 +64,15 @@ const Action = () => {
           url,
           reqType,
         });
-        console.log(res.data);
-
-  
-
-        if (res.data && !Array.isArray(res.data)) {
-          setDataToShow([res.data]);
-          // setObj('response', res.data)
-          const element = document.createElement("a");
-          const textFile = new Blob([JSON.stringify(res.data)], {type: 'json/aplication'}); 
-          element.href = URL.createObjectURL(textFile);
-          element.download = "userFile.json";
-          document.body.appendChild(element); 
-          element.click();
+        if (res.data.length < 100) {
+          if (res.data && !Array.isArray(res.data)) {
+            setDataToShow([res.data]);
+          } else {
+            setDataToShow(res.data);
+          }
         } else {
-          setDataToShow(res.data);
-          // setObj('response', res.data)
-          const element = document.createElement("a");
-          const textFile = new Blob([JSON.stringify(res.data)], {type: 'json/aplication'}); 
-          element.href = URL.createObjectURL(textFile);
-          element.download = "userFile.json";
-          document.body.appendChild(element); 
-          element.click();
-
+          printToFile(res.data);
+          setLoading('determinate');
         }
       } catch (error) {
         setDataToShow([error.message]);
@@ -126,21 +114,59 @@ const Action = () => {
       >
         {btn.params &&
           Object.keys(btn.params).map((par, i) => {
+            // if (Array.isArray(btn.params[par])) {
+            //   return (
+            //     <SelectList
+            //       key={i}
+            //       inputLabel={par}
+            //       array={['', ...btn.params[par]]}
+            //       value={params[par] ? params[par] : ''}
+            //       onChange={(e) => {
+            //         setParams({ ...params, [par]: e.target.value });
+            //         setError({ ...error, [par]: false });
+            //       }}
+            //       error={error[par]}
+            //     />
+            //   );
+            // }
             if (Array.isArray(btn.params[par])) {
-              return (
-                <SelectList
-                  key={i}
-                  inputLabel={par}
-                  array={['', ...btn.params[par]]}
-                  value={params[par] ? params[par] : ''}
-                  onChange={(e) => {
-                    setParams({ ...params, [par]: e.target.value });
-                    setError({ ...error, [par]: false });
-                  }}
-                  error={error[par]}
-                />
-              );
+              if (btn.type === 'select') {
+                return (
+                  <SelectList
+                    key={i}
+                    inputLabel={par}
+                    array={['', ...btn.params[par]]}
+                    value={params[par] ? params[par] : ''}
+                    onChange={(e) => {
+                      setParams({ ...params, [par]: e.target.value });
+                      setError({ ...error, [par]: false });
+                    }}
+                    error={error[par]}
+                  />
+                );
+              } else if (btn.type === 'multiple') {
+                return (
+                  <MultipleSelect
+                    key={i}
+                    inputLabel={par}
+                    array={['', ...btn.params[par]]}
+                    value={params[par] ? params[par] : []}
+                    onChange={(e) => {
+                      const {
+                        target: { value },
+                      } = e;
+                      setParams(...params, 
+                        // On autofill we get a stringified value.
+                        typeof value === 'string' ? value.split(',') : value,
+                      );
+                      setError({ ...error, [par]: false });
+                    }}
+                    error={error[par]}
+                  />
+                );
+              }
             }
+
             return (
               <Input
                 label={par}
