@@ -16,7 +16,7 @@ import { getObj, setObj } from '../utils/localStorage';
 import { teal, grey } from '@mui/material/colors';
 import axios from 'axios';
 import Loading from '../components/Loading';
-import buildUrl from '../utils/buildUrl';
+import buildRequest from '../utils/buildRequest';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import 'react-json-pretty/themes/monikai.css';
@@ -61,13 +61,10 @@ const Action = () => {
     } else {
       try {
         setLoading('indeterminate');
-        console.log(params);
-        if (btn.title === 'daily') {
-          const res
-        }
-        const url = buildUrl(params, btn.name);
+        const request = buildRequest(params, btn.name, btn.type);
+        console.log(request);
         const res = await axios.post('http://localhost:3020/action', {
-          url,
+          ...request,
           reqType,
         });
         if (res.data.length < 100) {
@@ -121,7 +118,7 @@ const Action = () => {
         {btn.params &&
           Object.keys(btn.params).map((par, i) => {
             if (Array.isArray(btn.params[par])) {
-              if (btn.type === 'select') {
+              if (btn.select === 'select') {
                 return (
                   <SelectList
                     key={i}
@@ -135,7 +132,7 @@ const Action = () => {
                     error={error[par]}
                   />
                 );
-              } else if (btn.type === 'multiple') {
+              } else if (btn.select === 'multiple') {
                 return (
                   <MultipleSelect
                     key={i}
@@ -144,7 +141,9 @@ const Action = () => {
                     value={params[par] ? params[par] : []}
                     onChange={(e) => {
                       setParams({ ...params, [par]: e.target.value });
-                      typeof params[par] === 'string' ? params[par].split(',') : params[par];
+                      typeof params[par] === 'string'
+                        ? params[par].split(',')
+                        : params[par];
                       setError({ ...error, [par]: false });
                     }}
                     error={error[par]}

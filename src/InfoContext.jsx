@@ -18,7 +18,7 @@ export const InfoProvider = (props) => {
   const getTypeReq = () => {
     return info[index.pageNum].title.toLocaleLowerCase();
   };
-
+  
   const changeBtn = (page, btnIndex) => {
     setIndex({
       pageNum: page,

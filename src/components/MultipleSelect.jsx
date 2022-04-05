@@ -45,17 +45,6 @@ const MultipleSelect = ({array, inputLabel, onChange, value, error}) => {
   const theme = useTheme();
   const [personName, setPersonName] = useState([]);
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-    console.log(personName);
-    
-  };
 
   return (
     <div>
