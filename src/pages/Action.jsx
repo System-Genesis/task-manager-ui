@@ -1,5 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-undef */
+/* eslint-disable no-unused-expressions */
+
 import React, { useContext, useState, useEffect } from 'react';
 import Input from '../components/Input';
 import NavBar from '../components/NavBar';
@@ -59,6 +61,10 @@ const Action = () => {
     } else {
       try {
         setLoading('indeterminate');
+        console.log(params);
+        if (btn.title === 'daily') {
+          const res
+        }
         const url = buildUrl(params, btn.name);
         const res = await axios.post('http://localhost:3020/action', {
           url,
@@ -114,21 +120,6 @@ const Action = () => {
       >
         {btn.params &&
           Object.keys(btn.params).map((par, i) => {
-            // if (Array.isArray(btn.params[par])) {
-            //   return (
-            //     <SelectList
-            //       key={i}
-            //       inputLabel={par}
-            //       array={['', ...btn.params[par]]}
-            //       value={params[par] ? params[par] : ''}
-            //       onChange={(e) => {
-            //         setParams({ ...params, [par]: e.target.value });
-            //         setError({ ...error, [par]: false });
-            //       }}
-            //       error={error[par]}
-            //     />
-            //   );
-            // }
             if (Array.isArray(btn.params[par])) {
               if (btn.type === 'select') {
                 return (
@@ -152,13 +143,8 @@ const Action = () => {
                     array={['', ...btn.params[par]]}
                     value={params[par] ? params[par] : []}
                     onChange={(e) => {
-                      const {
-                        target: { value },
-                      } = e;
-                      setParams(...params, 
-                        // On autofill we get a stringified value.
-                        typeof value === 'string' ? value.split(',') : value,
-                      );
+                      setParams({ ...params, [par]: e.target.value });
+                      typeof params[par] === 'string' ? params[par].split(',') : params[par];
                       setError({ ...error, [par]: false });
                     }}
                     error={error[par]}
@@ -166,7 +152,6 @@ const Action = () => {
                 );
               }
             }
-
             return (
               <Input
                 label={par}
