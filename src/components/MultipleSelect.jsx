@@ -19,19 +19,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
 const getStyles = (name, personName, theme) => {
   return {
     fontWeight:
@@ -43,7 +30,7 @@ const getStyles = (name, personName, theme) => {
 
 const MultipleSelect = ({array, inputLabel, onChange, value, error}) => {
   const theme = useTheme();
-  const [personName, setPersonName] = useState([]);
+  const [personName] = useState([]);
 
 
   return (
