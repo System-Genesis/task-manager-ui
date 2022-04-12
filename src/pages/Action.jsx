@@ -54,10 +54,14 @@ const Action = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    setError({});
-    Object.keys(btn.params).forEach((par) => (error[par] = !params[par]));
-    if (Object.values(error).some((i) => i)) {
-      setError({ ...error });
+    const currError = {};
+
+    Object.keys(btn.params).forEach((par) => (currError[par] = !params[par]));
+
+    if (Object.values(currError).some((i) => i)) {
+      setError({ ...currError });
+
+
     } else {
       try {
         setLoading('indeterminate');
