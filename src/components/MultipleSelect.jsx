@@ -31,8 +31,7 @@ const getStyles = (name, personName, theme) => {
 const MultipleSelect = ({array, inputLabel, onChange, value, error}) => {
   const theme = useTheme();
   const [personName] = useState([]);
-
-
+  
   return (
     <div>
       <FormControl error={error} sx={{ m: 1, width: 300 }}>

@@ -60,8 +60,6 @@ const Action = () => {
 
     if (Object.values(currError).some((i) => i)) {
       setError({ ...currError });
-
-
     } else {
       try {
         setLoading('indeterminate');
@@ -86,6 +84,11 @@ const Action = () => {
         setError({ ...error });
       }
     }
+  };
+
+  const handleCancelClick = () => {
+    setLoading('determinate');
+    setDataToShow(null);
   };
 
   return (
@@ -178,7 +181,22 @@ const Action = () => {
         />
       </Box>
       {loading === 'indeterminate' ? (
-        <Loading variant={loading} />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            mt: 2,
+          }}
+        >
+          <Loading variant={loading}/>
+          <SubmitButton
+            txt={'cancel'}
+            onClick={handleCancelClick}
+            color={'info'}
+          ></SubmitButton>
+        </Box>
       ) : (
         <Box
           sx={{
