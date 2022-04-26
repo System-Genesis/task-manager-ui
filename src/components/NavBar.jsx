@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { clear } from '../utils/localStorage';
+import Link from '@mui/material/Link';
 
 const NavBar = ({ signInUser }) => {
   let navigate = useNavigate();
@@ -22,8 +23,11 @@ const NavBar = ({ signInUser }) => {
           color='primary'
           textTransform='capitalize'
         >
-          hello {signInUser}
+          <Link href='/button' underline='none'>
+            hello {signInUser}
+          </Link>
         </Typography>
+       
         <Button
           color='primary'
           variant='contained'

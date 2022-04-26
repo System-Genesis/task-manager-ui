@@ -23,6 +23,7 @@ import 'react-json-pretty/themes/monikai.css';
 import { JsonFormatter } from 'react-json-formatter';
 import printToFile from '../utils/printToFile';
 import MultipleSelect from '../components/MultipleSelect';
+import errorHandler from '../utils/errorHandler';
 
 const Action = () => {
   const primary = teal[500];
@@ -77,10 +78,17 @@ const Action = () => {
           }
         } else {
           printToFile(res.data);
+          setDataToShow([
+            {
+              message: 'You got the data in a file',
+              'count of record': res.data.length,
+            },
+          ]);
           setLoading('determinate');
         }
       } catch (error) {
-        setDataToShow([error.message]);
+        const statusCode = JSON.parse(JSON.stringify(error)).status;
+        setDataToShow(errorHandler(statusCode));
         setError({ ...error });
       }
     }
@@ -190,7 +198,7 @@ const Action = () => {
             mt: 2,
           }}
         >
-          <Loading variant={loading}/>
+          <Loading variant={loading} />
           <SubmitButton
             txt={'cancel'}
             onClick={handleCancelClick}
@@ -227,7 +235,7 @@ const Action = () => {
                     variant='elevation'
                     sx={{
                       // minWidth: '25vw',
-                      height: '93%',
+                      height: '95%',
                       m: 3,
                       p: 2,
                       borderRadius: '20px',

@@ -22,13 +22,13 @@ const Pages = () => {
         }}
       >
         {info.map((obj, pageIndex) => (
-          <Grid key={pageIndex} item xs={6} md={6} lg={6}>
+          <Grid key={pageIndex} item xs={10} md={6} lg={6}>
             <Paper
               elevation={10}
               variant='elevation'
               sx={{
                 minWidth: '28vw',
-                minHeight: '70vh',
+                minHeight: '60vh',
                 m: 3,
                 borderRadius: '20px',
                 alignItems: 'center',
