@@ -24,6 +24,8 @@ import { JsonFormatter } from 'react-json-formatter';
 import printToFile from '../utils/printToFile';
 import MultipleSelect from '../components/MultipleSelect';
 import errorHandler from '../utils/errorHandler';
+import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
+import Swal from 'sweetalert2';
 
 const Action = () => {
   const primary = teal[500];
@@ -63,28 +65,66 @@ const Action = () => {
       setError({ ...currError });
     } else {
       try {
-        setLoading('indeterminate');
-        const request = buildRequest(params, btn.name, btn.type);
-        console.log(request);
-        const res = await axios.post('http://localhost:3020/action', {
-          ...request,
-          reqType,
-        });
-        if (res.data.length < 100000) {
-          if (res.data && !Array.isArray(res.data)) {
-            setDataToShow([res.data]);
+        if (btn.message) {
+          const swalRes = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, I am sure!',
+          });
+          if (swalRes.isConfirmed) {
+            setLoading('indeterminate');
+            const request = buildRequest(params, btn.name, btn.type);
+            console.log(request);
+            const res = await axios.post('http://localhost:3020/action', {
+              ...request,
+              reqType,
+            });
+            if (res.data.length < 100) {
+              if (res.data && !Array.isArray(res.data)) {
+                setDataToShow([res.data]);
+              } else {
+                setDataToShow(res.data);
+              }
+            } else {
+              printToFile(res.data);
+              setDataToShow([
+                {
+                  message: 'You got the data in a file',
+                  'count of record': res.data.length,
+                },
+              ]);
+              setLoading('determinate');
+            }
           } else {
-            setDataToShow(res.data);
           }
         } else {
-          printToFile(res.data);
-          setDataToShow([
-            {
-              message: 'You got the data in a file',
-              'count of record': res.data.length,
-            },
-          ]);
-          setLoading('determinate');
+          setLoading('indeterminate');
+          const request = buildRequest(params, btn.name, btn.type);
+          console.log(request);
+          const res = await axios.post('http://localhost:3020/action', {
+            ...request,
+            reqType,
+          });
+          if (res.data.length < 100) {
+            if (res.data && !Array.isArray(res.data)) {
+              setDataToShow([res.data]);
+            } else {
+              setDataToShow(res.data);
+            }
+          } else {
+            printToFile(res.data);
+            setDataToShow([
+              {
+                message: 'You got the data in a file',
+                'count of record': res.data.length,
+              },
+            ]);
+            setLoading('determinate');
+          }
         }
       } catch (error) {
         const statusCode = JSON.parse(JSON.stringify(error)).status;
@@ -101,7 +141,7 @@ const Action = () => {
 
   const handleDownloadClick = () => {
     printToFile(dataToShow);
-  }
+  };
 
   return (
     <div>
@@ -191,6 +231,15 @@ const Action = () => {
           txt={'Send'}
           onClick={handleClick}
         />
+        {dataToShow && dataToShow.length >= 2 ? (
+          <SubmitButton
+            txt={'Download'}
+            onClick={handleDownloadClick}
+            endIcon={<ArrowCircleDownOutlinedIcon />}
+          ></SubmitButton>
+        ) : (
+          <></>
+        )}
       </Box>
       {loading === 'indeterminate' ? (
         <Box
@@ -232,55 +281,40 @@ const Action = () => {
             </Typography>
           ) : (
             <>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  mt: 2,
-                }}
-              >
-              <SubmitButton
-                txt={'Download'}
-                onClick={handleDownloadClick}
-              ></SubmitButton>
-            </Box>
-
               {dataToShow.map((json, i) => {
-              return (
-                <Grid key={i} item xs={6} md={4} lg={4}>
-                  <Paper
-                    elevation={8}
-                    variant='elevation'
-                    sx={{
-                      // minWidth: '25vw',
-                      height: '95%',
-                      m: 3,
-                      p: 2,
-                      borderRadius: '20px',
-                      alignItems: 'center',
-                    }}
-                  >
-                    {
-                      <JsonFormatter
-                        json={JSON.stringify(json, null, 2).replace(
-                          /\//g,
-                          ' /'
-                        )}
-                        tabWith='2'
-                        JsonStyle={JsonStyle}
-                      />
-                    }
-                  </Paper>
-                </Grid>
-              );
-            })}
-        </>)}
-    </Box>
-  )
-}{ ' '}
-    </div >
+                return (
+                  <Grid key={i} item xs={6} md={6} lg={4}>
+                    <Paper
+                      elevation={8}
+                      variant='elevation'
+                      sx={{
+                        // minWidth: '25vw',
+                        height: '93%',
+                        m: 3,
+                        p: 2,
+                        borderRadius: '20px',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {
+                        <JsonFormatter
+                          json={JSON.stringify(json, null, 2).replace(
+                            /\//g,
+                            ' /'
+                          )}
+                          tabWith='2'
+                          JsonStyle={JsonStyle}
+                        />
+                      }
+                    </Paper>
+                  </Grid>
+                );
+              })}
+            </>
+          )}
+        </Box>
+      )}{' '}
+    </div>
   );
 };
 
