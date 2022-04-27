@@ -70,7 +70,7 @@ const Action = () => {
           ...request,
           reqType,
         });
-        if (res.data.length < 100) {
+        if (res.data.length < 100000) {
           if (res.data && !Array.isArray(res.data)) {
             setDataToShow([res.data]);
           } else {
@@ -98,6 +98,10 @@ const Action = () => {
     setLoading('determinate');
     setDataToShow(null);
   };
+
+  const handleDownloadClick = () => {
+    printToFile(dataToShow);
+  }
 
   return (
     <div>
@@ -227,7 +231,23 @@ const Action = () => {
               - No Data To Show -
             </Typography>
           ) : (
-            dataToShow.map((json, i) => {
+            <>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  mt: 2,
+                }}
+              >
+              <SubmitButton
+                txt={'Download'}
+                onClick={handleDownloadClick}
+              ></SubmitButton>
+            </Box>
+
+              {dataToShow.map((json, i) => {
               return (
                 <Grid key={i} item xs={6} md={4} lg={4}>
                   <Paper
@@ -255,11 +275,12 @@ const Action = () => {
                   </Paper>
                 </Grid>
               );
-            })
-          )}
-        </Box>
-      )}{' '}
-    </div>
+            })}
+        </>)}
+    </Box>
+  )
+}{ ' '}
+    </div >
   );
 };
 
