@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -6,13 +6,19 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { clear } from '../utils/localStorage';
 import Link from '@mui/material/Link';
+import { InfoContext } from '../InfoContext';
 
-const NavBar = ({ signInUser }) => {
+const NavBar = () => {
+  const userRule = useContext(InfoContext).getUserRule();
   let navigate = useNavigate();
-  const handleClick = () => {
+
+  const handleSignOutButton = () => {
     navigate('/');
     clear();
   };
+  const handleCreateBUtton = () => {
+    navigate('/create');
+  }
   return (
     <AppBar position='static' color='default' elevation={5} sx={{ mb: 5 }}>
       <Toolbar>
@@ -24,15 +30,27 @@ const NavBar = ({ signInUser }) => {
           textTransform='capitalize'
         >
           <Link href='/button' underline='none'>
-            hello {signInUser}
+            hello {userRule}
           </Link>
         </Typography>
-       
+        {userRule === 'manager' ? (
+          <Button
+            color='secondary'
+            variant='contained'
+            size='small'
+            onClick={handleCreateBUtton}
+            sx={{ mr: 2 }}
+          >
+            create user
+          </Button>
+        ) : (
+          <></>
+        )}
         <Button
           color='primary'
           variant='contained'
-          size='medium'
-          onClick={handleClick}
+          size='small'
+          onClick={handleSignOutButton}
         >
           Sign Out
         </Button>

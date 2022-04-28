@@ -33,7 +33,7 @@ const Manager = () => {
       <Container>
         <Pages />
       </Container>
-      {/* <Logo /> */}
+      <Logo />
     </>
   );
 };

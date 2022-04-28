@@ -1,44 +1,53 @@
-// import React from 'react';
-// import { LogoShowcase } from '@teambit/community.ui.logo-showcase';
-// import image from '../himan.jpeg';
+import React from 'react';
+import { LogoShowcase } from '@teambit/community.ui.logo-showcase';
+import himan from '../images/himan.jpeg';
+import leibman from '../images/leibman.jpeg';
+import eli from '../images/eli.jpeg';
+import tomi from '../images/tomi.jpeg';
+import noam from '../images/noam.jpeg';
+import roei from '../images/roei.jpeg';
+import hagai from '../images/hagai.jpeg';
+import yoni from '../images/yoni.jpeg';
 
-// export default function Logo() {
-//   return (
-//     <LogoShowcase
-//       images={[
-//         {
-//           src: image,
-//           alt: 'dell',
-//         },
-//         {
-//           src: image,
-//           alt: 'dell',
-//         },
-//         {
-//           src: image,
-//           alt: 'dell',
-//         },
-//         {
-//           src: image,
-//           alt: 'dell',
-//         },
-//         {
-//           src: image,
-//           alt: 'dell',
-//         },
-//         {
-//           src: image,
-//           alt: 'dell',
-//         },
-//         {
-//           src: image,
-//           alt: 'dell',
-//         },
-//         {
-//           src: image,
-//           alt: 'dell',
-//         },
-//       ]}
-//     />
-//   );
-// }
+const Logo = () => {
+  return (
+    <LogoShowcase
+      images={[
+        {
+          src: himan,
+          alt: 'himan',
+        },
+        {
+          src: leibman,
+          alt: 'leibman',
+        },
+        {
+          src: eli,
+          alt: 'eli',
+        },
+        {
+          src: tomi,
+          alt: 'tomi',
+        },
+        {
+          src: noam,
+          alt: 'noam',
+        },
+        {
+          src: roei,
+          alt: 'roei',
+        },
+        {
+          src: hagai,
+          alt: 'hagai',
+        },
+        {
+          src: yoni,
+          alt: 'yoni',
+        },
+      ]}
+    />
+  );
+}
+
+export default Logo;
