@@ -8,7 +8,7 @@ import { getObj } from '../utils/localStorage';
 import Pages from '../components/Pages';
 import NavBar from '../components/NavBar';
 import { InfoContext } from '../InfoContext';
-import Logo from '../components/Logo';
+// import Logo from '../components/Logo';
 
 const Manager = () => {
   let navigate = useNavigate();
@@ -33,7 +33,7 @@ const Manager = () => {
       <Container>
         <Pages />
       </Container>
-      <Logo />
+      {/* <Logo /> */}
     </>
   );
 };

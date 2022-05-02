@@ -25,7 +25,7 @@
     "react-scripts": "5.0.0",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
-    "sweetalert2": "^11.4.9",
+    "sweetalert2": "^11.4.10",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -53,6 +53,6 @@
     ]
   },
   "devDependencies": {
-    "sass": "^1.50.1"
+    "sass": "^1.51.0"
   }
 }
