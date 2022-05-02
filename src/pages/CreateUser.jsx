@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Container from '@mui/material/Container';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Avatar from '@mui/material/Avatar';
@@ -14,18 +14,26 @@ import { InfoContext } from '../InfoContext';
 
 const CreateUser = () => {
   let navigate = useNavigate();
-  // const userRule = useContext(InfoContext).getUserRule();
+  const userRule = useContext(InfoContext);
   const [user, setUser] = useState(null);
   const [error, setError] = useState({ team: false, password: false });
-
+  const { setInfo } = useContext(InfoContext);
 
   useEffect(() => {
     const localData = getObj('data');
-    if (!localData) navigate(`/`);
-      // if (userRule !== 'manager') {
-      //   navigate(`/`);
-      // }
+    if (!localData) {
+      navigate(`/`);
+    } else {
+      setUser(localData.user);
+      setInfo(localData.data);
+      console.log(localData.data);
+      if (localData.data[0].rule !== 'manager') {
+        console.log('4');
+        navigate(`/`);
+      }
+    }
   }, []);
+
   return (
     <Container maxWidth='xs'>
       <form noValidate autoComplete='off' onSubmit>
@@ -79,6 +87,7 @@ const CreateUser = () => {
         </Box>
       </form>
     </Container>
-  );};
+  );
+};
 
 export default CreateUser;
