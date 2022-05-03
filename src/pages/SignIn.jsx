@@ -28,23 +28,18 @@ const SignIn = () => {
   // }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError({ team: false, password: false });
-
-    error.team = !user.team;
-    error.password = !user.password;
-
-    if (error.team || error.password) {
-      setError({ ...error });
-    } else {
+    e.preventDefault();    
+    if (user.team && user.password) {
       try {
         const res = await axios.post('http://localhost:3020/login', user);
         setObj('data', res.data);
         console.log(res.data);
         navigate('/button');
-      } catch (error) {
+      } catch (error) {   
         setError({ team: true, password: true });
       }
+    } else {
+      setError({ team: !user.team, password: !user.password });
     }
   };
 
@@ -73,7 +68,9 @@ const SignIn = () => {
             fullWidth={true}
             OnChange={(e) => {
               e.preventDefault();
-              setError({ ...error, team: false });
+              if (error.team) {
+                setError({ ...error, team: false });
+              }
               setUser({ ...user, team: e.target.value });
             }}
             error={error.team}
