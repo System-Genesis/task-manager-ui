@@ -6,11 +6,11 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { clear } from '../utils/localStorage';
 import Link from '@mui/material/Link';
-import { InfoContext } from '../InfoContext';
+import { getObj } from '../utils/localStorage';
 
 const NavBar = () => {
-  const userRule = useContext(InfoContext).getUserRule();
   let navigate = useNavigate();
+  const getUserName = getObj('data').user.name;
 
   const handleSignOutButton = () => {
     navigate('/');
@@ -30,10 +30,9 @@ const NavBar = () => {
           textTransform='capitalize'
         >
           <Link href='/button' underline='none'>
-            hello {userRule}
+            hello {getUserName}
           </Link>
         </Typography>
-        {userRule === 'manager' ? (
           <Button
             color='secondary'
             variant='contained'
@@ -43,9 +42,6 @@ const NavBar = () => {
           >
             create user
           </Button>
-        ) : (
-          <></>
-        )}
         <Button
           color='primary'
           variant='contained'

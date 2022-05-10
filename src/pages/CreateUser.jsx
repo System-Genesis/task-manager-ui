@@ -19,20 +19,20 @@ const CreateUser = () => {
   const [error, setError] = useState({ team: false, password: false });
   const { setInfo } = useContext(InfoContext);
 
-  useEffect(() => {
-    const localData = getObj('data');
-    if (!localData) {
-      navigate(`/`);
-    } else {
-      setUser(localData.user);
-      setInfo(localData.data);
-      console.log(localData.data);
-      if (localData.data[0].rule !== 'manager') {
-        console.log('4');
-        navigate(`/`);
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   const localData = getObj('data');
+  //   if (!localData) {
+  //     navigate(`/`);
+  //   } else {
+  //     setUser(localData.user);
+  //     setInfo(localData.data);
+  //     console.log(localData.data);
+  //     if (localData.data[0].rule !== 'manager') {
+  //       console.log('4');
+  //       navigate(`/`);
+  //     }
+  //   }
+  // }, []);
 
   return (
     <Container maxWidth='xs'>

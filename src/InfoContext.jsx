@@ -17,10 +17,10 @@ export const InfoProvider = (props) => {
   const getTypeReq = () => {
     return info[index.pageNum].title.toLocaleLowerCase();
   };
-  const getUserRule = () => {
-    if (!info) return null;
-    return info[index.pageNum].rule;
-  };
+  // const getUserRule = () => {
+  //   if (!info) return null;
+  //   return info[index.pageNum].rule;
+  // };
 
   const changeBtn = (page, btnIndex) => {
     setIndex({
@@ -31,7 +31,7 @@ export const InfoProvider = (props) => {
 
   return (
     <InfoContext.Provider
-      value={{ info, changeBtn, getBtn, getTypeReq, setInfo, getUserRule }}
+      value={{ info, changeBtn, getBtn, getTypeReq, setInfo }}
     >
       {props.children}
     </InfoContext.Provider>
