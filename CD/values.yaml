@@ -1,0 +1,18 @@
+name: 'kartingUI'
+replicaCount: 1
+
+images:
+  PullSecrets:
+    name: kartoffelreg
+  repository: genesisproject.azurecr.io/kartingUI
+  tag: 'latest'
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 3000
+
+config:
+  configmaps:
+    name: kartingUI

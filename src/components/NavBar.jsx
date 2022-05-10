@@ -1,24 +1,21 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import { clear } from '../utils/localStorage';
+import { clear, getObj } from '../utils/localStorage';
 import Link from '@mui/material/Link';
-import { InfoContext } from '../InfoContext';
 
 const NavBar = () => {
-  const userRule = useContext(InfoContext).getUserRule();
   let navigate = useNavigate();
+  const getUserName = getObj('data').user.name;
 
   const handleSignOutButton = () => {
     navigate('/');
     clear();
   };
-  const handleCreateBUtton = () => {
-    navigate('/create');
-  }
+
   return (
     <AppBar position='static' color='default' elevation={5} sx={{ mb: 5 }}>
       <Toolbar>
@@ -30,22 +27,9 @@ const NavBar = () => {
           textTransform='capitalize'
         >
           <Link href='/button' underline='none'>
-            hello {userRule}
+            hello {getUserName}
           </Link>
         </Typography>
-        {userRule === 'manager' ? (
-          <Button
-            color='secondary'
-            variant='contained'
-            size='small'
-            onClick={handleCreateBUtton}
-            sx={{ mr: 2 }}
-          >
-            create user
-          </Button>
-        ) : (
-          <></>
-        )}
         <Button
           color='primary'
           variant='contained'

@@ -6,15 +6,12 @@ import {
   ThemeProvider,
 } from '@mui/material/styles';
 import Button from './pages/Button';
-// import User from './pages/User';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { InfoProvider } from './InfoContext';
 import Action from './pages/Action';
-import Create from './pages/CreateUser';
-
+require('dotenv').config()
 let theme = createTheme({
   typography: {
-    // fontFamily: 'Shizuru, cursive'
   },
 });
 
@@ -29,7 +26,6 @@ function App() {
             <Route path='/' element={<SignIn />} />
             <Route path='/button' element={<Button />} />
             <Route path='/action' element={<Action />} />
-            <Route path='/create' element={<Create />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

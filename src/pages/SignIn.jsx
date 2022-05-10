@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Container from '@mui/material/Container';
 import { makeStyles } from '@mui/styles';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -9,8 +9,13 @@ import Input from '../components/Input';
 import SubmitButton from '../components/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { setObj, getObj } from '../utils/localStorage';
+import { setObj } from '../utils/localStorage';
 import PasswordInput from '../components/PasswordInput';
+import * as config from '../config/config';
+import * as dotenv from 'dotenv';
+
+
+dotenv.config();
 
 const useStyles = makeStyles({});
 
@@ -20,22 +25,15 @@ const SignIn = () => {
   const [user, setUser] = useState({ team: '', password: '' });
   const [error, setError] = useState({ team: false, password: false });
 
-  // useEffect(() => {
-  //   const localUser = getObj('data');
-  //   setUser(localUser);
-
-  //   if (localUser) navigate(`/${localUser.rule}`);
-  // }, []);
-
   const handleSubmit = async (e) => {
-    e.preventDefault();    
+    e.preventDefault();
     if (user.team && user.password) {
       try {
-        const res = await axios.post('http://localhost:3020/login', user);
+        const res = await axios.post(`${config.beckend}/login`, user);
         setObj('data', res.data);
         console.log(res.data);
         navigate('/button');
-      } catch (error) {   
+      } catch (error) {
         setError({ team: true, password: true });
       }
     } else {
@@ -85,7 +83,7 @@ const SignIn = () => {
           />
           {(error.team || error.password) && (
             <Typography
-              variant='h6'
+              variant='h7'
               sx={{
                 color: 'red',
                 mt: 3,

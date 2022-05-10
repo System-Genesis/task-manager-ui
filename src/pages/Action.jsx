@@ -12,7 +12,7 @@ import { InfoContext } from '../InfoContext';
 import SelectList from '../components/Select';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate } from 'react-router-dom';
-import { getObj, setObj } from '../utils/localStorage';
+import { getObj } from '../utils/localStorage';
 import { teal, grey } from '@mui/material/colors';
 import axios from 'axios';
 import Loading from '../components/Loading';
@@ -26,6 +26,11 @@ import MultipleSelect from '../components/MultipleSelect';
 import errorHandler from '../utils/errorHandler';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import Swal from 'sweetalert2';
+import * as config from '../config/config';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
 
 const Action = () => {
   const primary = teal[500];
@@ -79,7 +84,7 @@ const Action = () => {
             setLoading('indeterminate');
             const request = buildRequest(params, btn.name, btn.type);
             console.log(request);
-            const res = await axios.post('http://localhost:3020/action', {
+            const res = await axios.post(`${config.beckend}/action`, {
               ...request,
               reqType,
             });
@@ -105,7 +110,7 @@ const Action = () => {
           setLoading('indeterminate');
           const request = buildRequest(params, btn.name, btn.type);
           console.log(request);
-          const res = await axios.post('http://localhost:3020/action', {
+          const res = await axios.post(`${config.beckend}/action`, {
             ...request,
             reqType,
           });
