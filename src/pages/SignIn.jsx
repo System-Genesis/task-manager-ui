@@ -11,13 +11,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { setObj } from '../utils/localStorage';
 import PasswordInput from '../components/PasswordInput';
-import * as config from '../config/config';
-import * as dotenv from 'dotenv';
-
-
-dotenv.config();
 
 const useStyles = makeStyles({});
+const { REACT_APP_BECKEND_URL } = process.env;
 
 const SignIn = () => {
   let navigate = useNavigate();
@@ -29,7 +25,7 @@ const SignIn = () => {
     e.preventDefault();
     if (user.team && user.password) {
       try {
-        const res = await axios.post(`${config.beckend}/login`, user);
+        const res = await axios.post(`${REACT_APP_BECKEND_URL}/login`, user);
         setObj('data', res.data);
         console.log(res.data);
         navigate('/button');

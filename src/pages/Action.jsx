@@ -26,11 +26,8 @@ import MultipleSelect from '../components/MultipleSelect';
 import errorHandler from '../utils/errorHandler';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import Swal from 'sweetalert2';
-import * as config from '../config/config';
-import * as dotenv from 'dotenv';
 
-dotenv.config();
-
+const { REACT_APP_BECKEND_URL } = process.env;
 
 const Action = () => {
   const primary = teal[500];
@@ -84,7 +81,7 @@ const Action = () => {
             setLoading('indeterminate');
             const request = buildRequest(params, btn.name, btn.type);
             console.log(request);
-            const res = await axios.post(`${config.beckend}/action`, {
+            const res = await axios.post(`${REACT_APP_BECKEND_URL}/action`, {
               ...request,
               reqType,
             });
@@ -110,7 +107,7 @@ const Action = () => {
           setLoading('indeterminate');
           const request = buildRequest(params, btn.name, btn.type);
           console.log(request);
-          const res = await axios.post(`${config.beckend}/action`, {
+          const res = await axios.post(`${REACT_APP_BECKEND_URL}/action`, {
             ...request,
             reqType,
           });

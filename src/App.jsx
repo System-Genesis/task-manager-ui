@@ -9,7 +9,7 @@ import Button from './pages/Button';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { InfoProvider } from './InfoContext';
 import Action from './pages/Action';
-require('dotenv').config()
+// require('dotenv').config()
 let theme = createTheme({
   typography: {
   },
