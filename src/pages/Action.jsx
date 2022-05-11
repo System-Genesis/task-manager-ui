@@ -1,3 +1,4 @@
+/* eslint-disable react/style-prop-object */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-expressions */

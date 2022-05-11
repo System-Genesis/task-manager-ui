@@ -18,7 +18,7 @@ const NavBar = () => {
   };
   const handleCreateBUtton = () => {
     navigate('/create');
-  }
+  };
   return (
     <AppBar position='static' color='default' elevation={5} sx={{ mb: 5 }}>
       <Toolbar>
@@ -33,15 +33,15 @@ const NavBar = () => {
             hello {getUserName}
           </Link>
         </Typography>
-          <Button
-            color='secondary'
-            variant='contained'
-            size='small'
-            onClick={handleCreateBUtton}
-            sx={{ mr: 2 }}
-          >
-            create user
-          </Button>
+        <Button
+          color='secondary'
+          variant='contained'
+          size='small'
+          onClick={handleCreateBUtton}
+          sx={{ mr: 2 }}
+        >
+          create user
+        </Button>
         <Button
           color='primary'
           variant='contained'

@@ -17,10 +17,6 @@ export const InfoProvider = (props) => {
   const getTypeReq = () => {
     return info[index.pageNum].title.toLocaleLowerCase();
   };
-  // const getUserRule = () => {
-  //   if (!info) return null;
-  //   return info[index.pageNum].rule;
-  // };
 
   const changeBtn = (page, btnIndex) => {
     setIndex({
