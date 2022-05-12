@@ -9,7 +9,7 @@ const RadiosGroup = ({ onChange }) => {
   return (
     <FormControl>
       <FormLabel>Rule</FormLabel>
-      <RadioGroup onChange={onChange} row defaultValue='manager'>
+      <RadioGroup onChange={onChange} row defaultValue='user'>
         <FormControlLabel value='manager' control={<Radio />} label='manager' />
         <FormControlLabel value='user' control={<Radio />} label='user' />
       </RadioGroup>

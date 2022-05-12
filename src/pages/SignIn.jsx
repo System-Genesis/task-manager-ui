@@ -78,7 +78,10 @@ const SignIn = () => {
             }}
             error={error.team}
           />
+          <Box sx={{ mt: 1 }} />
           <PasswordInput
+            label={'Password'}
+            fullWidth={true}
             onChange={(e) => {
               e.preventDefault();
               setError({ ...error, password: false });
@@ -86,15 +89,16 @@ const SignIn = () => {
             }}
             error={error.password}
           />
+          <Box sx={{ my: 0.7 }} />
           {(error.team || error.password) && (
             <Typography
-              variant='h6'
+              variant='h7'
               sx={{
                 color: 'red',
-                mt: 3,
+                mt: 2,
               }}
             >
-              Username or Password Incorrect
+              Username or Password Incorrect 
             </Typography>
           )}
           <SubmitButton txt={'submit'} fullWidth={true} />
