@@ -14,13 +14,14 @@ import { InfoContext } from '../InfoContext';
 import RadiosGroup from '../components/RadiosGroup';
 import NavBar from '../components/NavBar';
 import { Grid } from '@mui/material';
+import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 
 const CreateUser = () => {
   let navigate = useNavigate();
   const [user, setUser] = useState({
     name: '',
     password: '',
-    rule: '',
+    rule: 'user',
     confirm: '',
   });
   const [error, setError] = useState({
@@ -39,24 +40,35 @@ const CreateUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError({ team: false, password: false, confirm: false });
+    setError({ name: false, password: false, confirm: false });
 
+    console.log('a');
     error.name = !user.name;
     error.password = !user.password;
-    error.confirm = !user.confirm;
+    if (error.password ) {
+      error.confirm = false;
+    console.log('b');
 
-    if (error.team || error.password) {
+    } else {
+      error.confirm = !user.confirm;
+    console.log('c');
+      if (user.password !== user.confirm) {
+        error.confirm = true;
+        setUser({ ...user, confirm: '' });
+    console.log('d');
+      }
+    }
+
+    if (error.name || error.password || user.password !== user.confirm) {
       setError({ ...error });
-    }
-    else if (user.password !== user.confirm) {
-      setError({ confirm: true });
-    }
-     else {
+    console.log('e');
+
+    } else {
       try {
         // const res = await axios.post('http://localhost:3020/users', user);
-        console.log('sdfsdf');
+        console.log('ghfghf');
       } catch (error) {
-        setError({ name: true, password: true, confirm: true });
+        setError({ name: true, password: true });
       }
     }
   };
@@ -96,15 +108,22 @@ const CreateUser = () => {
                   error={error.name}
                 />
                 {error.name && (
-                  <Typography
-                    variant='h7'
-                    sx={{
-                      color: 'red',
-                      mt: 4,
-                    }}
-                  >
-                    Enter Username
-                  </Typography>
+                  <>
+                    <ErrorOutlinedIcon
+                      sx={{ position: 'relative', top: '5px' }}
+                      fontSize='small'
+                      color='error'
+                    />
+                    <Typography
+                      variant='h7'
+                      sx={{
+                        color: 'red',
+                        // mt: 4,
+                      }}
+                    >
+                      Enter a Username
+                    </Typography>
+                  </>
                 )}
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -119,30 +138,65 @@ const CreateUser = () => {
                   error={error.password}
                 />
                 {error.password && (
-                  <Typography
-                    variant='h7'
-                    sx={{
-                      color: 'red',
-                      mt: 2,
-                    }}
-                  >
-                    Enter Password
-                  </Typography>
+                  <>
+                    <ErrorOutlinedIcon
+                      sx={{ position: 'relative', top: '5px' }}
+                      fontSize='small'
+                      color='error'
+                    />
+                    <Typography
+                      variant='h7'
+                      sx={{
+                        color: 'red',
+                        // mt: 2,
+                      }}
+                    >
+                      Enter a Password
+                    </Typography>
+                  </>
                 )}
-                {error.confirm && (
-                  <Typography
-                    variant='h7'
-                    sx={{
-                      color: 'red',
-                      mt: 2,
-                    }}
-                  >
-                    Those passwords didn’t match. Try again.
-                  </Typography>
+                {user.password.length > 0 &&
+                  user.password.length < 8 &&
+                  !error.password && (
+                    <>
+                      <ErrorOutlinedIcon
+                        sx={{ position: 'relative', top: '5px' }}
+                        fontSize='small'
+                        color='error'
+                      />
+                      <Typography
+                        variant='h7'
+                        sx={{
+                          color: 'red',
+                          mt: 2,
+                        }}
+                      >
+                        Use 8 characters or more for your password
+                      </Typography>
+                    </>
+                  )}
+                {error.confirm && user.password.length >= 8 && (
+                  <>
+                    <ErrorOutlinedIcon
+                      sx={{ position: 'relative', top: '5px' }}
+                      fontSize='small'
+                      color='error'
+                    />
+                    <Typography
+                      variant='h7'
+                      sx={{
+                        color: 'red',
+                        mt: 2,
+                      }}
+                    >
+                      Those passwords didn’t match. Try again.
+                    </Typography>
+                  </>
                 )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <PasswordInput
+                  value={user.confirm}
                   fullWidth={true}
                   label={'Confirm Password'}
                   onChange={(e) => {
