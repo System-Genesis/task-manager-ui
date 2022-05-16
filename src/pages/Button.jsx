@@ -8,14 +8,13 @@ import { getObj } from '../utils/localStorage';
 import Pages from '../components/Pages';
 import NavBar from '../components/NavBar';
 import { InfoContext } from '../InfoContext';
-// import Logo from '../components/Logo';
+import Logo from '../components/Logo';
 
 const Manager = () => {
   let navigate = useNavigate();
   const [user, setUser] = useState(null);
   const { setInfo } = useContext(InfoContext);
   const [isActive, setIsActive] = useState(false);
-
 
   useEffect(() => {
     const localData = getObj('data');
@@ -29,12 +28,11 @@ const Manager = () => {
 
   const handleClick = () => {
     // 👇️ toggle
-    setIsActive(current => !current);
+    setIsActive((current) => !current);
 
     // 👇️ or set to true
     // setIsActive(true);
   };
-
 
   return !user ? (
     <p>loading...</p>
@@ -44,10 +42,17 @@ const Manager = () => {
       <Container>
         <Pages />
       </Container>
-      {/* <Logo /> */}
-      <button style={{width: '550px', height: '300px', marginLeft: '20px',          backgroundColor: isActive ? 'salmon' : '',
-          color: isActive ? 'white' : '',}}         onClick={handleClick}
-          ></button>
+      <Logo />
+      <button
+        style={{
+          width: '550px',
+          height: '300px',
+          marginLeft: '20px',
+          backgroundColor: isActive ? 'salmon' : '',
+          color: isActive ? 'white' : '',
+        }}
+        onClick={handleClick}
+      ></button>
     </>
   );
 };
