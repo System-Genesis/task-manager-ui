@@ -146,7 +146,7 @@ const Action = () => {
 
   return (
     <div>
-      <NavBar signInUser={user?.rule} />
+      <NavBar  />
       <Typography
         variant='h4'
         align='center'

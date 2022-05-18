@@ -40,17 +40,7 @@ const CreateUser = () => {
             maxWidth='md'
             sx={{ mt: 10, border: '1px solid #dadce0', borderRadius: '8px' }}
           >
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-                padding: '20px 110px 80px 110px',
-              }}
-            >
               {getStage[stage]}
-            </Box>
           </Container>
         </>
       }
