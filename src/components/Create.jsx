@@ -15,6 +15,7 @@ import RadiosGroup from '../components/RadiosGroup';
 import NavBar from '../components/NavBar';
 import { Grid } from '@mui/material';
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
+import StepperNumber from './StepperNumber';
 
 export const Create = ({setNewUser, next}) => {
     const [user, setUser] = useState({
@@ -57,7 +58,6 @@ export const Create = ({setNewUser, next}) => {
             // const res = await axios.post('http://localhost:3020/users', user);
             delete user.confirm;
             setNewUser(user);
-            
             next();
           } catch (error) {
             setError({ name: true, password: true });
@@ -90,17 +90,10 @@ export const Create = ({setNewUser, next}) => {
       );
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit}>
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '80px 110px',
-      }}
-    >
-      <Avatar sx={{ m: 1, bgcolor: 'secondary.dark' }}>
+      <StepperNumber active={0} />
+      {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.dark' }}>
         <LockOutlinedIcon />
-      </Avatar>
+      </Avatar> */}
       <Typography
         variant='h4'
         sx={{ mb: 3, fontWeight: 'bold', textTransform: 'uppercase' }}
@@ -153,7 +146,6 @@ export const Create = ({setNewUser, next}) => {
         </Grid>
       </Grid>
       <SubmitButton txt={'Next'} width='30%' />
-    </Box>
   </form>
   )
 }
