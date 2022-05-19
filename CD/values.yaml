@@ -16,3 +16,12 @@ service:
 config:
   configmaps:
     name: task-manager-ui
+
+ingress:
+  enabled: true
+  hosts:
+  - host: genesis-ui.branch-yesodot.org  #app adrress
+    paths:
+      - path: /
+        service: task-manager-ui
+        port: "80"
