@@ -8,7 +8,6 @@ import Create from '../components/Create';
 import { AddPages } from '../components/AddPages';
 import SwipeableViews from 'react-swipeable-views';
 
-
 const CreateUser = () => {
   let navigate = useNavigate();
 
@@ -27,16 +26,6 @@ const CreateUser = () => {
     setStage(stage + 1);
   };
 
-  const getStage = {
-    0: <Create next={next} setNewUser={setUser} />,
-    1: <AddPages next={next} />,
-    2: <p onClick={() => { }}>good</p>,
-  };
-
-  const handleChange = (index) => (e) => {
-    setStage={index}
-  };
-
   return (
     <>
       {
@@ -46,9 +35,11 @@ const CreateUser = () => {
             maxWidth='md'
             sx={{ mt: 10, border: '1px solid #dadce0', borderRadius: '8px' }}
           >
-            <SwipeableViews index={stage} onChangeIndex={handleChange}>
-              {getStage[stage]}
-              </SwipeableViews>
+            <SwipeableViews index={stage} >
+              <Create next={next} setNewUser={setUser} />
+              <AddPages next={next} />
+              <p onClick={() => {}}>good</p>
+            </SwipeableViews>
           </Container>
         </>
       }
