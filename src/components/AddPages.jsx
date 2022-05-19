@@ -5,7 +5,7 @@ import SubmitButton from './Button';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import axios from 'axios';
 
-export const AddPages = () => {
+export const AddPages = ({ next }) => {
   const [isActive, setIsActive] = useState(false);
   const [btns, setBtns] = useState([]);
 
