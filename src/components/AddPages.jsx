@@ -8,11 +8,11 @@ import axios from 'axios';
 export const AddPages = ({ next }) => {
   const [isActive, setIsActive] = useState(false);
   const [btns, setBtns] = useState([]);
+  const [pages, setPages] = useState([]);
 
   const getBTnsTitle = async () => {
     try {
       const btnsTitle = await axios.get('http://localhost:3020/buttons/title');
-      console.log(btnsTitle.data);
       setBtns(btnsTitle.data);
     } catch (err) {
       console.log(err);
@@ -32,7 +32,8 @@ export const AddPages = ({ next }) => {
   //   };
 
   const handleClick = () => {
-    console.log(btns);
+    setPages(pages.splice(pages.length - 1, 1));
+    console.log(pages);
   };
 
   return (
@@ -54,34 +55,57 @@ export const AddPages = ({ next }) => {
         />
       </Box>
       <Grid container>
-        <Paper
-          elevation={5}
-          variant='elevation'
-          sx={{
-            m: 3,
-            borderRadius: '10px',
-            alignItems: 'center',
-          }}
-        >
-          <Box
+        <Grid item lg={5}>
+          <Paper
+            elevation={5}
+            variant='elevation'
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
+              m: 3,
+              borderRadius: '10px',
               alignItems: 'center',
-              maxHeight: '30vh',
-              overflow: 'scroll'
             }}
           >
-            <Typography>Buttons</Typography>
-            {btns.map((btn, i) => (
-              <>
-                <Grid key={i} item >
-                  <SubmitButton margin={1} color={'info'} txt={btn.title}></SubmitButton>
-                </Grid>
-              </>
-            ))}
-          </Box>
-        </Paper>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                maxHeight: '30vh',
+                overflow: 'scroll',
+              }}
+            >
+              {/* <Typography>Buttons</Typography> */}
+              {btns.map((btn, i) => (
+                <>
+                  <Grid key={i} item>
+                    <SubmitButton
+                      margin={1}
+                      color={'info'}
+                      txt={btn.title}
+                    ></SubmitButton>
+                  </Grid>
+                </>
+              ))}
+            </Box>
+          </Paper>
+        </Grid>
+        <Grid item lg={7}>
+          {pages > 1 ? (
+            <Paper
+              elevation={5}
+              variant='elevation'
+              sx={{
+                width: '250px',
+                height: '350px',
+                m: 3,
+                borderRadius: '10px',
+                alignItems: 'center',
+              }}
+            ></Paper>
+          ) : (
+            <></>
+          )}
+        </Grid>
       </Grid>
     </>
   );

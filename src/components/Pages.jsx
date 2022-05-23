@@ -1,8 +1,5 @@
 import React, { useContext } from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import { Box, Paper, Typography, Grid } from '@mui/material';
 import { InfoContext } from '../InfoContext';
 import SubmitButton from './Button';
 import { useNavigate } from 'react-router-dom';
@@ -61,6 +58,7 @@ const Pages = () => {
                     }}
                     fullWidth={false}
                     txt={btn.title}
+                    margin={2}
                   />
                 ))}
               </Box>
