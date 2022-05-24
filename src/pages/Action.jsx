@@ -46,6 +46,8 @@ const Action = () => {
     colonStyle: { color: 'darkorange' },
   };
 
+  const cancelTokenSource = axios.CancelToken.source();
+
   useEffect(() => {
     const localData = getObj('data');
     if (!localData) navigate(`/`);
@@ -80,10 +82,16 @@ const Action = () => {
             setLoading('indeterminate');
             const request = buildRequest(params, btn.name, btn.type);
             console.log(request);
-            const res = await axios.post('http://localhost:3020/action', {
-              ...request,
-              reqType,
-            });
+            const res = await axios.post(
+              'http://localhost:3020/action',
+              {
+                ...request,
+                reqType,
+              },
+              {
+                cancelToken: cancelTokenSource.token,
+              }
+            );
             if (res.data.length < 100) {
               if (res.data && !Array.isArray(res.data)) {
                 setDataToShow([res.data]);
@@ -106,10 +114,17 @@ const Action = () => {
           setLoading('indeterminate');
           const request = buildRequest(params, btn.name, btn.type);
           console.log(request);
-          const res = await axios.post('http://localhost:3020/action', {
-            ...request,
-            reqType,
-          });
+          const res = await axios.post(
+            'http://localhost:3020/action',
+            {
+              ...request,
+              reqType,
+            },
+            {
+              cancelToken: cancelTokenSource.token,
+            }
+          );
+          console.log('fhgf');
           if (res.data.length < 100) {
             if (res.data && !Array.isArray(res.data)) {
               setDataToShow([res.data]);
@@ -126,6 +141,7 @@ const Action = () => {
             ]);
             setLoading('determinate');
           }
+          console.log('fhgf2');
         }
       } catch (error) {
         const statusCode = JSON.parse(JSON.stringify(error)).status;
@@ -136,8 +152,14 @@ const Action = () => {
   };
 
   const handleCancelClick = () => {
-    setLoading('determinate');
-    setDataToShow(null);
+    try {
+      console.log('fhgf3');
+      setLoading('determinate');
+      cancelTokenSource.cancel();
+      setDataToShow([]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDownloadClick = () => {
@@ -146,7 +168,7 @@ const Action = () => {
 
   return (
     <div>
-      <NavBar  />
+      <NavBar />
       <Typography
         variant='h4'
         align='center'
@@ -231,15 +253,15 @@ const Action = () => {
           endIcon={<SendIcon />}
           txt={'Send'}
           onClick={handleClick}
+          margin={2}
         />
-        {dataToShow && dataToShow.length >= 2 ? (
+        {dataToShow && dataToShow.length >= 2 && (
           <SubmitButton
             txt={'Download'}
             onClick={handleDownloadClick}
             endIcon={<ArrowCircleDownOutlinedIcon />}
+            margin={2}
           ></SubmitButton>
-        ) : (
-          <></>
         )}
       </Box>
       {loading === 'indeterminate' ? (
@@ -257,6 +279,7 @@ const Action = () => {
             txt={'cancel'}
             onClick={handleCancelClick}
             color={'info'}
+            margin={2}
           ></SubmitButton>
         </Box>
       ) : (
@@ -314,7 +337,7 @@ const Action = () => {
             </>
           )}
         </Box>
-      )}{' '}
+      )}
     </div>
   );
 };

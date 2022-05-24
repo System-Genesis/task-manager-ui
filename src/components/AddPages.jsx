@@ -4,11 +4,13 @@ import { Box, Grid, Paper, Typography } from '@mui/material';
 import SubmitButton from './Button';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import axios from 'axios';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
 export const AddPages = ({ next }) => {
-  const [isActive, setIsActive] = useState(false);
   const [btns, setBtns] = useState([]);
-  const [pages, setPages] = useState([]);
+  const [pages, setPages] = useState([[]]);
+  const [currPage, setCurrPage] = useState(0);
 
   const getBTnsTitle = async () => {
     try {
@@ -23,17 +25,33 @@ export const AddPages = ({ next }) => {
     getBTnsTitle();
   }, []);
 
-  //   const handleClick = () => {
-  //     // 👇️ toggle
-  //     setIsActive((current) => !current);
+  const choosePage = (i) => setCurrPage(i);
 
-  //     // 👇️ or set to true
-  //     // setIsActive(true);
-  //   };
-
-  const handleClick = () => {
-    setPages(pages.splice(pages.length - 1, 1));
+  const handleAddPage = () => {
+    setPages([...pages, []]);
     console.log(pages);
+  };
+
+  const chooseBtn = (btn) => {
+    const newPages = [...pages];
+    newPages[currPage].push(btn);
+    setPages(newPages);
+    setBtns(btns.filter(({ _id }) => _id !== btn._id));
+  };
+
+  const unChooseBtn = (btn, pageNumber) => {
+    const newPages = [...pages];
+    newPages[pageNumber] = newPages[pageNumber].filter(
+      ({ _id }) => _id !== btn._id
+    );
+    setPages(newPages);
+    setBtns([...btns, btn]);
+  };
+
+  const deletePage = (pageNumber) => {
+    console.log('fgdgdf');
+    setBtns()
+    setPages(pages.filter((page, i) => pageNumber !== i));
   };
 
   return (
@@ -50,17 +68,29 @@ export const AddPages = ({ next }) => {
         <SubmitButton
           color={'warning'}
           txt={'Add Page'}
-          onClick={handleClick}
+          onClick={handleAddPage}
           endIcon={<AddCircleOutlineOutlinedIcon />}
         />
       </Box>
       <Grid container>
         <Grid item lg={5}>
+          <Typography
+            variant='h6'
+            sx={{
+              color: '#607d8b',
+              fontWeight: 'bold',
+              textAlign: 'center',
+            }}
+          >
+            Buttons
+          </Typography>
           <Paper
             elevation={5}
             variant='elevation'
             sx={{
-              m: 3,
+              mx: 3,
+              mt: 1,
+              mb: 3,
               borderRadius: '10px',
               alignItems: 'center',
             }}
@@ -71,17 +101,19 @@ export const AddPages = ({ next }) => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 maxHeight: '30vh',
-                overflow: 'scroll',
+                overflow: 'auto',
               }}
             >
-              {/* <Typography>Buttons</Typography> */}
-              {btns.map((btn, i) => (
+              {btns?.map((btn, i) => (
                 <>
                   <Grid key={i} item>
                     <SubmitButton
                       margin={1}
+                      width={'15vw'}
+                      size={'small'}
                       color={'info'}
                       txt={btn.title}
+                      onClick={() => chooseBtn(btn)}
                     ></SubmitButton>
                   </Grid>
                 </>
@@ -90,21 +122,46 @@ export const AddPages = ({ next }) => {
           </Paper>
         </Grid>
         <Grid item lg={7}>
-          {pages > 1 ? (
-            <Paper
-              elevation={5}
-              variant='elevation'
-              sx={{
-                width: '250px',
-                height: '350px',
-                m: 3,
-                borderRadius: '10px',
-                alignItems: 'center',
-              }}
-            ></Paper>
-          ) : (
-            <></>
-          )}
+          <Grid container>
+            {pages.map((page, pageIndex) => (
+              <Grid item lg={6} key={pageIndex}>
+                <Paper
+                  onClick={() => choosePage(pageIndex)}
+                  elevation={5}
+                  variant='elevation'
+                  sx={{
+                    width: '80%',
+                    height: '350px',
+                    m: 3,
+                    borderRadius: '10px',
+                    alignItems: 'center',
+                    overflow: 'auto',
+                    border: `3px solid  ${
+                      pageIndex === currPage ? 'lightBlue' : 'white'
+                    }`,
+                  }}
+                >
+                  <IconButton onClick={() => deletePage(pageIndex)}>
+                    <DeleteIcon color={'error'} />
+                  </IconButton>
+                  {page.map((btn, btnIndex) => (
+                    <>
+                      <Grid key={btnIndex} item>
+                        <SubmitButton
+                          size={'small'}
+                          margin={1}
+                          width={'10vw'}
+                          color={'info'}
+                          txt={btn.title}
+                          onClick={() => unChooseBtn(btn, pageIndex)}
+                        ></SubmitButton>
+                      </Grid>
+                    </>
+                  ))}
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
       </Grid>
     </>
