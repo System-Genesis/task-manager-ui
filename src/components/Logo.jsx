@@ -11,43 +11,77 @@ import yoni from '../images/yoni.jpeg';
 
 const Logo = () => {
   return (
-    <LogoShowcase
-      images={[
-        {
-          src: himan,
-          alt: 'himan',
-        },
-        {
-          src: leibman,
-          alt: 'leibman',
-        },
-        {
-          src: eli,
-          alt: 'eli',
-        },
-        {
-          src: tomi,
-          alt: 'tomi',
-        },
-        {
-          src: noam,
-          alt: 'noam',
-        },
-        {
-          src: roei,
-          alt: 'roei',
-        },
-        {
-          src: hagai,
-          alt: 'hagai',
-        },
-        {
-          src: yoni,
-          alt: 'yoni',
-        },
-      ]}
-    />
+    <div style={{ overflow: 'hidden' }}>
+      <LogoShowcase
+        images={[
+          {
+            src: himan,
+            alt: 'himan',
+          },
+          {
+            src: leibman,
+            alt: 'leibman',
+          },
+          {
+            src: eli,
+            alt: 'eli',
+          },
+          {
+            src: tomi,
+            alt: 'tomi',
+          },
+          {
+            src: noam,
+            alt: 'noam',
+          },
+          {
+            src: roei,
+            alt: 'roei',
+          },
+          {
+            src: hagai,
+            alt: 'hagai',
+          },
+          {
+            src: yoni,
+            alt: 'yoni',
+          },
+          {
+            src: himan,
+            alt: 'himan',
+          },
+          {
+            src: leibman,
+            alt: 'leibman',
+          },
+          {
+            src: eli,
+            alt: 'eli',
+          },
+          {
+            src: tomi,
+            alt: 'tomi',
+          },
+          {
+            src: noam,
+            alt: 'noam',
+          },
+          {
+            src: roei,
+            alt: 'roei',
+          },
+          {
+            src: hagai,
+            alt: 'hagai',
+          },
+          {
+            src: yoni,
+            alt: 'yoni',
+          },
+        ]}
+      />
+    </div>
   );
-}
+};
 
 export default Logo;
