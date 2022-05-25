@@ -49,9 +49,10 @@ export const AddPages = ({ next }) => {
   };
 
   const deletePage = (pageNumber) => {
-    console.log('fgdgdf');
-    setBtns()
+    const newPages = [...pages];
     setPages(pages.filter((page, i) => pageNumber !== i));
+    setBtns([...btns, ...newPages[pageNumber]]);
+    setCurrPage(0);
   };
 
   return (
@@ -73,7 +74,9 @@ export const AddPages = ({ next }) => {
         />
       </Box>
       <Grid container>
-        <Grid item lg={5}>
+        <Grid item lg={5} md={5} 
+          sm={6}
+        >
           <Typography
             variant='h6'
             sx={{
@@ -100,7 +103,7 @@ export const AddPages = ({ next }) => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                maxHeight: '30vh',
+                maxHeight: '40vh',
                 overflow: 'auto',
               }}
             >
@@ -121,10 +124,19 @@ export const AddPages = ({ next }) => {
             </Box>
           </Paper>
         </Grid>
-        <Grid item lg={7}>
+        <Grid
+          item
+          lg={7}
+          md={7}
+          sm={12}
+          sx={{
+            height: '48vh',
+            overflow: 'auto',
+          }}
+        >
           <Grid container>
             {pages.map((page, pageIndex) => (
-              <Grid item lg={6} key={pageIndex}>
+              <Grid item lg={6} md={6} key={pageIndex}>
                 <Paper
                   onClick={() => choosePage(pageIndex)}
                   elevation={5}
@@ -146,11 +158,16 @@ export const AddPages = ({ next }) => {
                   </IconButton>
                   {page.map((btn, btnIndex) => (
                     <>
-                      <Grid key={btnIndex} item>
+                      <Grid
+                        key={btnIndex}
+                        item
+                        lg={12}
+                        sx={{ textAlign: 'center' }}
+                      >
                         <SubmitButton
                           size={'small'}
                           margin={1}
-                          width={'10vw'}
+                          width={'90%'}
                           color={'info'}
                           txt={btn.title}
                           onClick={() => unChooseBtn(btn, pageIndex)}

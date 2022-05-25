@@ -33,9 +33,16 @@ const CreateUser = () => {
           <NavBar />
           <Container
             maxWidth='md'
-            sx={{ mt: 10, border: '1px solid #dadce0', borderRadius: '8px' }}
+            sx={{
+              mt: 10,
+              border: '1px solid #dadce0',
+              borderRadius: '8px',
+              height: '68vh',
+              overflow: 'auto',
+              backgroundColor: '#f3f7f0'
+            }}
           >
-            <SwipeableViews index={stage} >
+            <SwipeableViews index={stage}>
               <Create next={next} setNewUser={setUser} />
               <AddPages next={next} />
               <p onClick={() => {}}>good</p>

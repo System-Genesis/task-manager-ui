@@ -140,7 +140,7 @@ export const Create = ({ setNewUser, next }) => {
             />
           </Grid>
         </Grid>
-        <SubmitButton txt={'Next'} width='30%' />
+        <SubmitButton margin={3} txt={'Next'} width='30%' />
       </Box>
     </form>
   );
