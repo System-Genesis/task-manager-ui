@@ -6,6 +6,7 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import Input from './Input'
 
 export const AddPages = ({ next }) => {
   const [btns, setBtns] = useState([]);
@@ -72,6 +73,7 @@ export const AddPages = ({ next }) => {
           onClick={handleAddPage}
           endIcon={<AddCircleOutlineOutlinedIcon />}
         />
+        <Input label={'Page name'} helperText={'Enter the name of the page'} />
       </Box>
       <Grid container>
         <Grid item lg={5} md={5} 
@@ -103,7 +105,7 @@ export const AddPages = ({ next }) => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                maxHeight: '40vh',
+                maxHeight: '37vh',
                 overflow: 'auto',
               }}
             >
@@ -143,8 +145,8 @@ export const AddPages = ({ next }) => {
                   variant='elevation'
                   sx={{
                     width: '80%',
-                    height: '350px',
-                    m: 3,
+                    height: '38vh',
+                    m: 2,
                     borderRadius: '10px',
                     alignItems: 'center',
                     overflow: 'auto',
