@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import StepperNumber from './StepperNumber';
-import { Box, Grid, Paper, Typography } from '@mui/material';
+import { Box, Grid, Paper, Typography, Button } from '@mui/material';
 import SubmitButton from './Button';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import axios from 'axios';
@@ -63,20 +63,28 @@ export const AddPages = ({ next }) => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          padding: '20px 110px 20px 110px',
+          padding: '20px 110px 10px 110px',
         }}
       >
         <StepperNumber active={1} />
-        <SubmitButton
-          color={'warning'}
-          txt={'Add Page'}
-          onClick={handleAddPage}
-          endIcon={<AddCircleOutlineOutlinedIcon />}
-        />
-        <Input label={'Page name'} helperText={'Enter the name of the page'} />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}>
+          <Input color={'info'} label={'Page name'} helperText={'Enter the name of the page'} />
+          <Button
+            color='warning'
+            variant='contained'
+            onClick={handleAddPage}
+            endIcon={<AddCircleOutlineOutlinedIcon />}
+            sx={{ ml: 2, mt: 2, textTransform: 'capitalize', height: '5vh' }}
+          >Add Page
+          </Button>
+        </Box>
       </Box>
       <Grid container>
-        <Grid item lg={5} md={5} 
+        <Grid item lg={5} md={5}
           sm={6}
         >
           <Typography
@@ -150,9 +158,8 @@ export const AddPages = ({ next }) => {
                     borderRadius: '10px',
                     alignItems: 'center',
                     overflow: 'auto',
-                    border: `3px solid  ${
-                      pageIndex === currPage ? 'lightBlue' : 'white'
-                    }`,
+                    border: `3px solid  ${pageIndex === currPage ? 'lightBlue' : 'white'
+                      }`,
                   }}
                 >
                   <IconButton onClick={() => deletePage(pageIndex)}>

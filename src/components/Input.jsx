@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 
-const Input = ({ label, OnChange, error, fullWidth ,type, helperText }) => {
+const Input = ({ label, OnChange, error, fullWidth ,type, helperText, color }) => {
 
   return (
     <TextField
@@ -15,6 +15,7 @@ const Input = ({ label, OnChange, error, fullWidth ,type, helperText }) => {
       error={error}
       autoFocus
       helperText={helperText}
+      color={color}
     >
     </TextField>
   );

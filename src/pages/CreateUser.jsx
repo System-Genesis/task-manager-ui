@@ -38,7 +38,7 @@ const CreateUser = () => {
               border: '1px solid #dadce0',
               borderRadius: '8px',
               height: '68vh',
-              overflow: 'static',
+              overflow: 'hidden',
               backgroundColor: '#f3f7f0'
             }}
           >

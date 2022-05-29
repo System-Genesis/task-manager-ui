@@ -113,7 +113,6 @@ const Action = () => {
         } else {
           setLoading('indeterminate');
           const request = buildRequest(params, btn.name, btn.type);
-          console.log(request);
           const res = await axios.post(
             'http://localhost:3020/action',
             {
@@ -153,7 +152,6 @@ const Action = () => {
 
   const handleCancelClick = () => {
     try {
-      console.log('fhgf3');
       setLoading('determinate');
       cancelTokenSource.cancel();
       setDataToShow([]);
