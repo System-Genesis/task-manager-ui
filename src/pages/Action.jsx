@@ -123,7 +123,6 @@ const Action = () => {
               cancelToken: cancelTokenSource.token,
             }
           );
-          console.log('fhgf');
           if (res.data.length < 100) {
             if (res.data && !Array.isArray(res.data)) {
               setDataToShow([res.data]);
@@ -140,7 +139,6 @@ const Action = () => {
             ]);
             setLoading('determinate');
           }
-          console.log('fhgf2');
         }
       } catch (error) {
         const statusCode = JSON.parse(JSON.stringify(error)).status;

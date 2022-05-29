@@ -6,9 +6,9 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-import Input from './Input'
+import Input from './Input';
 
-export const AddPages = ({ next }) => {
+export const AddPages = ({ next, back }) => {
   const [btns, setBtns] = useState([]);
   const [pages, setPages] = useState([[]]);
   const [currPage, setCurrPage] = useState(0);
@@ -31,6 +31,7 @@ export const AddPages = ({ next }) => {
   const handleAddPage = () => {
     setPages([...pages, []]);
     console.log(pages);
+    // console.log(title);
   };
 
   const chooseBtn = (btn) => {
@@ -56,6 +57,16 @@ export const AddPages = ({ next }) => {
     setCurrPage(0);
   };
 
+  const backButton = (e) => {
+    e.preventDefault();
+    back();
+  };
+
+  const nextButton = (e) => {
+    e.preventDefault();
+    next();
+  };
+
   return (
     <>
       <Box
@@ -67,26 +78,43 @@ export const AddPages = ({ next }) => {
         }}
       >
         <StepperNumber active={1} />
+        <Grid
+          container
+          sx={{ justifyContent: 'space-between' }}
+          style={{ padding: '10px 0px' }}
+        >
+          <Grid item>
+            <SubmitButton color={'info'} onClick={backButton} txt={'Back'} />
+          </Grid>
+
+          <Grid item>
+            <SubmitButton color={'info'} onClick={nextButton} txt={'Next'} />
+          </Grid>
+        </Grid>
+
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
-          }}>
-          <Input color={'info'} label={'Page name'} helperText={'Enter the name of the page'} />
+          }}
+        >
+          <Input
+            label={'Page Title'}
+            helperText={'Enter the name of the page'}
+          />
           <Button
             color='warning'
             variant='contained'
             onClick={handleAddPage}
             endIcon={<AddCircleOutlineOutlinedIcon />}
             sx={{ ml: 2, mt: 2, textTransform: 'capitalize', height: '5vh' }}
-          >Add Page
+          >
+            Add Page
           </Button>
         </Box>
       </Box>
       <Grid container>
-        <Grid item lg={5} md={5}
-          sm={6}
-        >
+        <Grid item lg={5} md={5} sm={6}>
           <Typography
             variant='h6'
             sx={{
@@ -158,8 +186,9 @@ export const AddPages = ({ next }) => {
                     borderRadius: '10px',
                     alignItems: 'center',
                     overflow: 'auto',
-                    border: `3px solid  ${pageIndex === currPage ? 'lightBlue' : 'white'
-                      }`,
+                    border: `3px solid  ${
+                      pageIndex === currPage ? 'lightBlue' : 'white'
+                    }`,
                   }}
                 >
                   <IconButton onClick={() => deletePage(pageIndex)}>

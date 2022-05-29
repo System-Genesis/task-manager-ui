@@ -91,7 +91,7 @@ export const Create = ({ setNewUser, next }) => {
       </Avatar> */}
         <Typography
           variant='h4'
-          sx={{ mb: 3, fontWeight: 'bold', textTransform: 'uppercase' }}
+          sx={{ mb: 3, fontWeight: 'bold', textTransform: 'uppercase', color: '#4e342e'}}
         >
           Create User
         </Typography>
@@ -131,7 +131,7 @@ export const Create = ({ setNewUser, next }) => {
               error={error.confirm}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{mb: 4}}>
             <RadiosGroup
               onChange={(e) => {
                 e.preventDefault();
@@ -140,7 +140,7 @@ export const Create = ({ setNewUser, next }) => {
             />
           </Grid>
         </Grid>
-        <SubmitButton margin={3} txt={'Next'} width='30%' />
+        <SubmitButton margin={3} txt={'Next'} width='20%' />
       </Box>
     </form>
   );

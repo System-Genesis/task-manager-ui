@@ -25,6 +25,9 @@ const CreateUser = () => {
   const next = () => {
     setStage(stage + 1);
   };
+  const back = () => {
+    setStage(stage - 1);
+  }
 
   return (
     <>
@@ -44,7 +47,7 @@ const CreateUser = () => {
           >
             <SwipeableViews index={stage}>
               <Create next={next} setNewUser={setUser} />
-              <AddPages next={next} />
+              <AddPages next={next} back={back} />
               <p onClick={() => {}}>good</p>
             </SwipeableViews>
           </Container>

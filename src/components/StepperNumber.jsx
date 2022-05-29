@@ -7,17 +7,17 @@ import StepLabel from '@mui/material/StepLabel';
 const steps = ['Create the User', 'Add the pages', 'Add the buttons'];
 
 const StepperNumber = ({ active }) => {
-    return (
-        <Box sx={{ width: '100%', mb: 5 }}>
-            <Stepper activeStep={active} alternativeLabel>
-                {steps.map((label) => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                    </Step>
-                ))}
-            </Stepper>
-        </Box>
-    );
+  return (
+    <Box sx={{ width: '100%', mb: 5 }}>
+      <Stepper activeStep={active} alternativeLabel>
+        {steps.map((label) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+    </Box>
+  );
 }
 
 export default StepperNumber;
