@@ -6,11 +6,11 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-import Input from './Input';
+import Swal from 'sweetalert2';
 
-export const AddPages = ({ next, back }) => {
+export const AddPages = ({ next, back, setNewPages }) => {
   const [btns, setBtns] = useState([]);
-  const [pages, setPages] = useState([{title: '', buttons: []}]);
+  const [pages, setPages] = useState([]);
   const [currPage, setCurrPage] = useState(0);
 
   const getBTnsTitle = async () => {
@@ -28,22 +28,51 @@ export const AddPages = ({ next, back }) => {
 
   const choosePage = (i) => setCurrPage(i);
 
-  const handleAddPage = () => {
-    setPages([...pages, []]);
-    console.log(pages);
-    // console.log(title);
+  const handleAddPage = async () => {
+    console.log(pages.length);
+    const { value: text } = await Swal.fire({
+      title: 'Enter the Title of the page',
+      input: 'text',
+      showCancelButton: true,
+      inputValidator: (text) => {
+        if (!text) {
+          return 'You need to write something!';
+        }
+      },
+    });
+    if (text) {
+      setPages([...pages, { title: text, buttons: [] }]);
+    }
   };
 
-  const chooseBtn = (btn) => {
-    const newPages = [...pages];
-    newPages[currPage].push(btn);
-    setPages(newPages);
-    setBtns(btns.filter(({ _id }) => _id !== btn._id));
+  const chooseBtn = async (btn) => {
+    if (pages.length > 0) {
+      const newPages = [...pages];
+      newPages[currPage].buttons.push(btn);
+      setPages(newPages);
+      setBtns(btns.filter(({ _id }) => _id !== btn._id));
+    } else {
+      const { value: text } = await Swal.fire({
+        title: 'Yoe must to create page before you choose button',
+        inputLabel: 'Enter your Page title',
+        input: 'text',
+        showCancelButton: true,
+        inputValidator: (text) => {
+          if (!text) {
+            return 'You need to write something!';
+          }
+        },
+      });
+      if (text) {
+        setPages([...pages, { title: text, buttons: [btn] }]);
+        setBtns(btns.filter(({ _id }) => _id !== btn._id));
+      }
+    }
   };
 
   const unChooseBtn = (btn, pageNumber) => {
     const newPages = [...pages];
-    newPages[pageNumber] = newPages[pageNumber].filter(
+    newPages[pageNumber].buttons = newPages[pageNumber].buttons.filter(
       ({ _id }) => _id !== btn._id
     );
     setPages(newPages);
@@ -52,8 +81,8 @@ export const AddPages = ({ next, back }) => {
 
   const deletePage = (pageNumber) => {
     const newPages = [...pages];
+    setBtns([...btns, ...newPages[pageNumber].buttons]);
     setPages(pages.filter((page, i) => pageNumber !== i));
-    setBtns([...btns, ...newPages[pageNumber]]);
     setCurrPage(0);
   };
 
@@ -64,7 +93,50 @@ export const AddPages = ({ next, back }) => {
 
   const nextButton = (e) => {
     e.preventDefault();
-    next();
+    console.log(pages.length);
+    if (pages.length === 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You must create a pages before you go next ',
+      });
+    } else {
+      for (let i = 0; i < pages.length; i++) {
+        const allPages = [...pages];
+        if (allPages[i].buttons.length === 0) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'You must to add a buttons to the pages before you go next',
+          });
+        } else {
+          next();
+          setNewPages(pages)
+        }
+      }
+    }
+  };
+
+  const handleTitle = async (pageNumber) => {
+    const btn = pages[pageNumber].buttons;
+    const title = pages[pageNumber].title;
+    const { value: text } = await Swal.fire({
+      title: 'Enter the Title of the page',
+      input: 'text',
+      inputValue: title,
+      showCancelButton: true,
+      inputValidator: (text) => {
+        if (!text) {
+          return 'You need to write something!';
+        }
+      },
+    });
+
+    if (text) {
+      pages[pageNumber] = { title: text, buttons: btn };
+      setPages([...pages]);
+      console.log(pages);
+    }
   };
 
   return (
@@ -91,30 +163,15 @@ export const AddPages = ({ next, back }) => {
             <SubmitButton color={'info'} onClick={nextButton} txt={'Next'} />
           </Grid>
         </Grid>
-
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}
+        <Button
+          color='warning'
+          variant='contained'
+          onClick={handleAddPage}
+          endIcon={<AddCircleOutlineOutlinedIcon />}
+          sx={{ textTransform: 'capitalize' }}
         >
-          <Input
-            label={'Page Title'}
-            helperText={'Enter the name of the page'}
-            OnChange={(e) => {
-              setPages([...pages], {title: e.target.value})
-            }}
-         />
-          <Button
-            color='warning'
-            variant='contained'
-            onClick={handleAddPage}
-            endIcon={<AddCircleOutlineOutlinedIcon />}
-            sx={{ ml: 2, mt: 2, textTransform: 'capitalize', height: '5vh' }}
-          >
-            Add Page
-          </Button>
-        </Box>
+          Add Page
+        </Button>
       </Box>
       <Grid container>
         <Grid item lg={5} md={5} sm={6}>
@@ -183,6 +240,7 @@ export const AddPages = ({ next, back }) => {
                   elevation={5}
                   variant='elevation'
                   sx={{
+                    '&:hover > .boxTitle > .trashed': { display: 'block' },
                     width: '80%',
                     height: '38vh',
                     m: 2,
@@ -194,10 +252,32 @@ export const AddPages = ({ next, back }) => {
                     }`,
                   }}
                 >
-                  <IconButton onClick={() => deletePage(pageIndex)}>
-                    <DeleteIcon color={'error'} />
-                  </IconButton>
-                  <Typography>{pages.title}</Typography>
+                  <Box
+                    className='boxTitle'
+                    sx={{ mt: 0.5, position: 'relative', width: '100%' }}
+                  >
+                    <IconButton
+                      sx={{ position: 'absolute', display: 'none', mt: 0 }}
+                      onClick={() => deletePage(pageIndex)}
+                      className='trashed'
+                    >
+                      <DeleteIcon color={'error'} />
+                    </IconButton>
+                    <Typography
+                      variant='h5'
+                      sx={{
+                        color: '#5d4037',
+                        textDecoration: 'underline',
+                        margin: '0 auto',
+                        width: 'fit-content',
+                        fontWeight: 'bold',
+                        '&:hover': { cursor: 'pointer', opacity: '0.7' },
+                      }}
+                      onClick={() => handleTitle(pageIndex)}
+                    >
+                      {page.title}
+                    </Typography>
+                  </Box>
                   {page?.buttons.map((btn, btnIndex) => (
                     <>
                       <Grid

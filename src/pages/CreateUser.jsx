@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
 import { getObj } from '../utils/localStorage';
 import NavBar from '../components/NavBar';
@@ -13,6 +12,7 @@ const CreateUser = () => {
 
   const [stage, setStage] = useState(0);
   const [user, setUser] = useState();
+  const [pages, setPages] = useState([]);
 
   useEffect(() => {
     const localData = getObj('data');
@@ -47,7 +47,7 @@ const CreateUser = () => {
           >
             <SwipeableViews index={stage}>
               <Create next={next} setNewUser={setUser} />
-              <AddPages next={next} back={back} />
+              <AddPages next={next} back={back} setNewPages={setPages} />
               <p onClick={() => {}}>good</p>
             </SwipeableViews>
           </Container>

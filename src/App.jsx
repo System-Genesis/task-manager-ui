@@ -14,7 +14,7 @@ import Create from './pages/CreateUser';
 
 let theme = createTheme({
   typography: {
-    // fontFamily: 'Shizuru, cursive'
+    fontFamily: 'Rubik, sans-serif'
   },
 });
 
