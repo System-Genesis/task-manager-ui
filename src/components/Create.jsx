@@ -131,7 +131,7 @@ export const Create = ({ setNewUser, next }) => {
               error={error.confirm}
             />
           </Grid>
-          <Grid item xs={12} sx={{mb: 4}}>
+          <Grid item xs={12} sx={{mb: 1}}>
             <RadiosGroup
               onChange={(e) => {
                 e.preventDefault();

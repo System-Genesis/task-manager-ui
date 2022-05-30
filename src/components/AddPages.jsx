@@ -10,7 +10,7 @@ import Input from './Input';
 
 export const AddPages = ({ next, back }) => {
   const [btns, setBtns] = useState([]);
-  const [pages, setPages] = useState([[]]);
+  const [pages, setPages] = useState([{title: '', buttons: []}]);
   const [currPage, setCurrPage] = useState(0);
 
   const getBTnsTitle = async () => {
@@ -101,7 +101,10 @@ export const AddPages = ({ next, back }) => {
           <Input
             label={'Page Title'}
             helperText={'Enter the name of the page'}
-          />
+            OnChange={(e) => {
+              setPages([...pages], {title: e.target.value})
+            }}
+         />
           <Button
             color='warning'
             variant='contained'
@@ -173,7 +176,7 @@ export const AddPages = ({ next, back }) => {
           }}
         >
           <Grid container>
-            {pages.map((page, pageIndex) => (
+            {pages?.map((page, pageIndex) => (
               <Grid item lg={6} md={6} key={pageIndex}>
                 <Paper
                   onClick={() => choosePage(pageIndex)}
@@ -194,7 +197,8 @@ export const AddPages = ({ next, back }) => {
                   <IconButton onClick={() => deletePage(pageIndex)}>
                     <DeleteIcon color={'error'} />
                   </IconButton>
-                  {page.map((btn, btnIndex) => (
+                  <Typography>{pages.title}</Typography>
+                  {page?.buttons.map((btn, btnIndex) => (
                     <>
                       <Grid
                         key={btnIndex}
@@ -222,14 +226,3 @@ export const AddPages = ({ next, back }) => {
     </>
   );
 };
-
-// {/* <button
-//     style={{
-//       width: '550px',
-//       height: '300px',
-//       marginLeft: '20px',
-//       backgroundColor: isActive ? 'salmon' : '',
-//       color: isActive ? 'white' : '',
-//     }}
-//     onClick={handleClick}
-//   ></button> */}
