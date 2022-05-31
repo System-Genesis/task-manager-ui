@@ -29,7 +29,6 @@ export const AddPages = ({ next, back, setNewPages }) => {
   const choosePage = (i) => setCurrPage(i);
 
   const handleAddPage = async () => {
-    console.log(pages.length);
     const { value: text } = await Swal.fire({
       title: 'Enter the Title of the page',
       input: 'text',
@@ -112,6 +111,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
         } else {
           next();
           setNewPages(pages)
+          console.log(pages);
         }
       }
     }

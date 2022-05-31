@@ -11,7 +11,7 @@ import { Grid } from '@mui/material';
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import StepperNumber from './StepperNumber';
 
-export const Create = ({ setNewUser, next }) => {
+export const Create = ({ next, setNewUser }) => {
   const [user, setUser] = useState({
     name: '',
     password: '',
@@ -23,7 +23,7 @@ export const Create = ({ setNewUser, next }) => {
     password: false,
     confirm: false,
   });
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError({ name: false, password: false, confirm: false });
@@ -45,6 +45,7 @@ export const Create = ({ setNewUser, next }) => {
       try {
         delete user.confirm;
         setNewUser(user);
+        console.log(user);
         next();
       } catch (error) {
         setError({ name: true, password: true });

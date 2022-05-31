@@ -6,6 +6,8 @@ import NavBar from '../components/NavBar';
 import Create from '../components/Create';
 import { AddPages } from '../components/AddPages';
 import SwipeableViews from 'react-swipeable-views';
+import Finish from '../components/Finish';
+
 
 const CreateUser = () => {
   let navigate = useNavigate();
@@ -48,7 +50,7 @@ const CreateUser = () => {
             <SwipeableViews index={stage}>
               <Create next={next} setNewUser={setUser} />
               <AddPages next={next} back={back} setNewPages={setPages} />
-              <p onClick={() => {}}>good</p>
+              <Finish info={{user,pages}} />
             </SwipeableViews>
           </Container>
         </>
