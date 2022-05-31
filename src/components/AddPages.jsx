@@ -92,8 +92,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
 
   const nextButton = (e) => {
     e.preventDefault();
-    console.log(pages.length);
-    if (pages.length === 0) {
+    if (pages.length <= 0) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -102,7 +101,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
     } else {
       for (let i = 0; i < pages.length; i++) {
         const allPages = [...pages];
-        if (allPages[i].buttons.length === 0) {
+        if (allPages[i].buttons.length <= 0) {
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -110,7 +109,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
           });
         } else {
           next();
-          setNewPages(pages)
+          setNewPages(pages);
           console.log(pages);
         }
       }
@@ -156,11 +155,30 @@ export const AddPages = ({ next, back, setNewPages }) => {
           style={{ padding: '10px 0px' }}
         >
           <Grid item>
-            <SubmitButton color={'info'} onClick={backButton} txt={'Back'} />
+            <Button
+              variant='contained'
+              onClick={backButton}
+              sx={{
+                textTransform: 'capitalize',
+                bgcolor: '#546e7a',
+                '&:hover': { bgcolor: '#546e7a', opacity: 10 },
+              }}
+            >
+              Back
+            </Button>
           </Grid>
-
           <Grid item>
-            <SubmitButton color={'info'} onClick={nextButton} txt={'Next'} />
+            <Button
+              variant='contained'
+              onClick={nextButton}
+              sx={{
+                textTransform: 'capitalize',
+                bgcolor: '#546e7a',
+                '&:hover': { bgcolor: '#546e7a', opacity: 10 },
+              }}
+            >
+              Next
+            </Button>
           </Grid>
         </Grid>
         <Button

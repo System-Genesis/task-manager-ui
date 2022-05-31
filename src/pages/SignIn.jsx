@@ -17,8 +17,8 @@ const useStyles = makeStyles({});
 const SignIn = () => {
   let navigate = useNavigate();
   const classes = useStyles();
-  const [user, setUser] = useState({ team: '', password: '' });
-  const [error, setError] = useState({ team: false, password: false });
+  const [user, setUser] = useState({ userName: '', password: '' });
+  const [error, setError] = useState({ userName: false, password: false });
 
   // useEffect(() => {
   //   const localUser = getObj('data');
@@ -29,12 +29,12 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError({ team: false, password: false });
+    setError({ userName: false, password: false });
 
-    error.team = !user.team;
+    error.userName = !user.userName;
     error.password = !user.password;
 
-    if (error.team || error.password) {
+    if (error.userName || error.password) {
       setError({ ...error });
     } else {
       try {
@@ -43,7 +43,7 @@ const SignIn = () => {
         console.log(res.data);
         navigate('/button');
       } catch (error) {
-        setError({ team: true, password: true });
+        setError({ userName: true, password: true });
       }
     }
   };
@@ -73,10 +73,10 @@ const SignIn = () => {
             fullWidth={true}
             OnChange={(e) => {
               e.preventDefault();
-              setError({ ...error, team: false });
-              setUser({ ...user, team: e.target.value });
+              setError({ ...error, userName: false });
+              setUser({ ...user, userName: e.target.value });
             }}
-            error={error.team}
+            error={error.userName}
           />
           <Box sx={{ mt: 1 }} />
           <PasswordInput
@@ -90,7 +90,7 @@ const SignIn = () => {
             error={error.password}
           />
           <Box sx={{ my: 0.7 }} />
-          {(error.team || error.password) && (
+          {(error.userName || error.password) && (
             <Typography
               variant='h7'
               sx={{
@@ -98,7 +98,7 @@ const SignIn = () => {
                 mt: 2,
               }}
             >
-              Username or Password Incorrect 
+              Username or Password Incorrect
             </Typography>
           )}
           <SubmitButton margin={2} txt={'submit'} fullWidth={true} />

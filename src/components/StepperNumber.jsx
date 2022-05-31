@@ -4,7 +4,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
-const steps = ['Create the User', 'Add the pages', 'Add the buttons'];
+const steps = ['Create the User', 'Build the pages', 'Finish'];
 
 const StepperNumber = ({ active }) => {
   return (

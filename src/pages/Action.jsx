@@ -50,8 +50,14 @@ const Action = () => {
 
   useEffect(() => {
     const localData = getObj('data');
-    if (!localData) navigate(`/`);
-    setUser(localData.user);
+    if (!localData) {
+      navigate(`/`);
+    } else {
+      setUser(localData.user);
+      if (reqType === null) {
+        navigate(`/button`);
+      }
+    }
   }, []);
 
   useEffect(() => {

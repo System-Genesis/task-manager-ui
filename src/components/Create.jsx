@@ -4,7 +4,7 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Input from '../components/Input';
-import SubmitButton from '../components/Button';
+import Button from '@mui/material/Button';
 import PasswordInput from '../components/PasswordInput';
 import RadiosGroup from '../components/RadiosGroup';
 import { Grid } from '@mui/material';
@@ -23,7 +23,7 @@ export const Create = ({ next, setNewUser }) => {
     password: false,
     confirm: false,
   });
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError({ name: false, password: false, confirm: false });
@@ -92,7 +92,12 @@ export const Create = ({ next, setNewUser }) => {
       </Avatar> */}
         <Typography
           variant='h4'
-          sx={{ mb: 3, fontWeight: 'bold', textTransform: 'uppercase', color: '#4e342e'}}
+          sx={{
+            mb: 3,
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            color: '#4e342e',
+          }}
         >
           Create User
         </Typography>
@@ -132,7 +137,7 @@ export const Create = ({ next, setNewUser }) => {
               error={error.confirm}
             />
           </Grid>
-          <Grid item xs={12} sx={{mb: 1}}>
+          <Grid item xs={12} sx={{ mb: 1 }}>
             <RadiosGroup
               onChange={(e) => {
                 e.preventDefault();
@@ -141,7 +146,19 @@ export const Create = ({ next, setNewUser }) => {
             />
           </Grid>
         </Grid>
-        <SubmitButton margin={3} txt={'Next'} width='20%' />
+        <Button
+          variant='contained'
+          type='submit'
+          sx={{            
+            textTransform: 'capitalize',
+            bgcolor: '#546e7a',
+            width: '20%',
+            m: 3,
+            '&:hover': { bgcolor: '#546e7a', opacity: 10 },
+          }}
+        >
+          Back
+        </Button>
       </Box>
     </form>
   );

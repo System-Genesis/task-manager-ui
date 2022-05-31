@@ -50,7 +50,7 @@ const CreateUser = () => {
             <SwipeableViews index={stage}>
               <Create next={next} setNewUser={setUser} />
               <AddPages next={next} back={back} setNewPages={setPages} />
-              <Finish info={{user,pages}} />
+              <Finish info={{user,pages}} back={back} />
             </SwipeableViews>
           </Container>
         </>
