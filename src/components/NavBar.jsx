@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -10,15 +10,17 @@ import { getObj } from '../utils/localStorage';
 
 const NavBar = () => {
   let navigate = useNavigate();
-  const getUserName = getObj('data').user.name;
+  const getUserName = getObj('data')?.user?.name;
 
   const handleSignOutButton = () => {
     navigate('/');
     clear();
   };
+
   const handleCreateBUtton = () => {
     navigate('/create');
   };
+
   return (
     <AppBar position='static' color='default' elevation={5} sx={{ mb: 5 }}>
       <Toolbar>

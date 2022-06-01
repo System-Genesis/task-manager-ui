@@ -11,11 +11,13 @@ export const InfoProvider = (props) => {
   });
 
   const getBtn = () => {
+    if(!info)return null;
     return info[index.pageNum].btns[index.btnNum];
   };
 
   const getTypeReq = () => {
-    return info[index.pageNum].title.toLocaleLowerCase();
+    if(!info)return null;
+    return info[index?.pageNum]?.title?.toLocaleLowerCase();
   };
 
   const changeBtn = (page, btnIndex) => {

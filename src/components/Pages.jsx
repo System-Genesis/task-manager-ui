@@ -57,7 +57,7 @@ const Pages = () => {
                       navigate('/action');
                     }}
                     fullWidth={false}
-                    txt={btn.title}
+                    txt={btn?.title}
                     margin={2}
                   />
                 ))}

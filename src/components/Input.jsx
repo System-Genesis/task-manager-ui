@@ -1,8 +1,15 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 
-const Input = ({ label, OnChange, error, fullWidth ,type, helperText, color }) => {
-
+const Input = ({
+  label,
+  onChange,
+  error,
+  fullWidth,
+  type,
+  helperText,
+  color,
+}) => {
   return (
     <TextField
       variant='outlined'
@@ -10,14 +17,13 @@ const Input = ({ label, OnChange, error, fullWidth ,type, helperText, color }) =
       fullWidth={fullWidth}
       required
       margin='dense'
-      onChange={OnChange}
+      onChange={onChange}
       type={type}
       error={error}
       autoFocus
       helperText={helperText}
       color={color}
-    >
-    </TextField>
+    ></TextField>
   );
 };
 

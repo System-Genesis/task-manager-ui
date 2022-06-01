@@ -9,23 +9,32 @@ import Input from '../components/Input';
 import SubmitButton from '../components/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { setObj, getObj } from '../utils/localStorage';
+import { setObj } from '../utils/localStorage';
 import PasswordInput from '../components/PasswordInput';
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles({
+  box: {
+    marginTop: '120px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  typographyHeader: {
+    marginBottom: '24px',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+  typographyError: {
+    color: 'red',
+    marginTop: '16px',
+  },
+});
 
 const SignIn = () => {
   let navigate = useNavigate();
   const classes = useStyles();
   const [user, setUser] = useState({ userName: '', password: '' });
   const [error, setError] = useState({ userName: false, password: false });
-
-  // useEffect(() => {
-  //   const localUser = getObj('data');
-  //   setUser(localUser);
-
-  //   if (localUser) navigate(`/${localUser.rule}`);
-  // }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +49,6 @@ const SignIn = () => {
       try {
         const res = await axios.post('http://localhost:3020/login', user);
         setObj('data', res.data);
-        console.log(res.data);
         navigate('/button');
       } catch (error) {
         setError({ userName: true, password: true });
@@ -48,56 +56,38 @@ const SignIn = () => {
     }
   };
 
+  const handleUserChange = (e, key) => {
+    e.preventDefault();
+    setUser({ ...user, [key]: e.target.value });
+    setError({ ...error, [key]: false });
+  };
+
   return (
     <Container maxWidth='xs'>
       <form noValidate autoComplete='off' onSubmit={handleSubmit}>
-        <Box
-          sx={{
-            marginTop: 15,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
+        <Box className={classes.box}>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.dark' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography
-            variant='h4'
-            sx={{ mb: 3, fontWeight: 'bold', textTransform: 'uppercase' }}
-          >
+          <Typography className={classes.typographyHeader} variant='h4'>
             traking
           </Typography>
           <Input
             label={'Username'}
             fullWidth={true}
-            OnChange={(e) => {
-              e.preventDefault();
-              setError({ ...error, userName: false });
-              setUser({ ...user, userName: e.target.value });
-            }}
+            onChange={(e) => handleUserChange(e, 'userName')}
             error={error.userName}
           />
           <Box sx={{ mt: 1 }} />
           <PasswordInput
             label={'Password'}
             fullWidth={true}
-            onChange={(e) => {
-              e.preventDefault();
-              setError({ ...error, password: false });
-              setUser({ ...user, password: e.target.value });
-            }}
+            onChange={(e) => handleUserChange(e, 'password')}
             error={error.password}
           />
           <Box sx={{ my: 0.7 }} />
           {(error.userName || error.password) && (
-            <Typography
-              variant='h7'
-              sx={{
-                color: 'red',
-                mt: 2,
-              }}
-            >
+            <Typography variant='h7' className={classes.typographyError}>
               Username or Password Incorrect
             </Typography>
           )}

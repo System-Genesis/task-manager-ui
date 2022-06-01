@@ -2,24 +2,20 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-expressions */
-
 import React, { useContext, useState, useEffect } from 'react';
 import Input from '../components/Input';
 import NavBar from '../components/NavBar';
 import SubmitButton from '../components/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Box, Typography, Paper, Grid } from '@mui/material';
 import { InfoContext } from '../InfoContext';
 import SelectList from '../components/Select';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate } from 'react-router-dom';
-import { getObj, setObj } from '../utils/localStorage';
+import { getObj } from '../utils/localStorage';
 import { teal, grey } from '@mui/material/colors';
 import axios from 'axios';
 import Loading from '../components/Loading';
 import buildRequest from '../utils/buildRequest';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
 import 'react-json-pretty/themes/monikai.css';
 import { JsonFormatter } from 'react-json-formatter';
 import printToFile from '../utils/printToFile';
@@ -54,7 +50,7 @@ const Action = () => {
       navigate(`/`);
     } else {
       setUser(localData.user);
-      if (reqType === null) {
+      if (!btn) {
         navigate(`/button`);
       }
     }
@@ -68,13 +64,13 @@ const Action = () => {
     e.preventDefault();
     const currError = {};
 
-    Object.keys(btn.params).forEach((par) => (currError[par] = !params[par]));
+    Object.keys(btn?.params).forEach((par) => (currError[par] = !params[par]));
 
     if (Object.values(currError).some((i) => i)) {
       setError({ ...currError });
     } else {
       try {
-        if (btn.message) {
+        if (btn?.message) {
           const swalRes = await Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -86,7 +82,7 @@ const Action = () => {
           });
           if (swalRes.isConfirmed) {
             setLoading('indeterminate');
-            const request = buildRequest(params, btn.name, btn.type);
+            const request = buildRequest(params, btn?.name, btn?.type);
             console.log(request);
             const res = await axios.post(
               'http://localhost:3020/action',
@@ -118,7 +114,7 @@ const Action = () => {
           }
         } else {
           setLoading('indeterminate');
-          const request = buildRequest(params, btn.name, btn.type);
+          const request = buildRequest(params, btn?.name, btn?.type);
           const res = await axios.post(
             'http://localhost:3020/action',
             {
@@ -182,7 +178,7 @@ const Action = () => {
           textDecoration: 'underline',
         }}
       >
-        {`${reqType} ${btn.title}`}
+        {`${reqType} ${btn?.title}`}
       </Typography>
       <Typography
         variant='h4'
@@ -199,15 +195,15 @@ const Action = () => {
           justifyContent: 'center',
         }}
       >
-        {btn.params &&
-          Object.keys(btn.params).map((par, i) => {
-            if (Array.isArray(btn.params[par])) {
-              if (btn.select === 'select') {
+        {btn?.params &&
+          Object.keys(btn?.params).map((par, i) => {
+            if (Array.isArray(btn?.params[par])) {
+              if (btn?.select === 'select') {
                 return (
                   <SelectList
                     key={i}
                     inputLabel={par}
-                    array={['', ...btn.params[par]]}
+                    array={['', ...btn?.params[par]]}
                     value={params[par] ? params[par] : ''}
                     onChange={(e) => {
                       setParams({ ...params, [par]: e.target.value });
@@ -216,12 +212,12 @@ const Action = () => {
                     error={error[par]}
                   />
                 );
-              } else if (btn.select === 'multiple') {
+              } else if (btn?.select === 'multiple') {
                 return (
                   <MultipleSelect
                     key={i}
                     inputLabel={par}
-                    array={['', ...btn.params[par]]}
+                    array={['', ...btn?.params[par]]}
                     value={params[par] ? params[par] : []}
                     onChange={(e) => {
                       setParams({ ...params, [par]: e.target.value });
@@ -238,7 +234,7 @@ const Action = () => {
             return (
               <Input
                 label={par}
-                type={btn.params[par]}
+                type={btn?.params[par]}
                 key={i}
                 OnChange={(e) => {
                   setParams({ ...params, [par]: e.target.value });
@@ -249,7 +245,7 @@ const Action = () => {
             );
           })}
         <Box sx={{ mt: 2 }}>
-          {btn.message && <Typography variant='h5'>{btn.message}</Typography>}
+          {btn?.message && <Typography variant='h5'>{btn?.message}</Typography>}
         </Box>
         <SubmitButton
           endIcon={<SendIcon />}

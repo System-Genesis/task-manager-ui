@@ -15,6 +15,7 @@ export const PasswordInput = ({onChange, error, fullWidth, label, value}) => {
     
       const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
+        console.log(onchange);
         onChange(event);
       };
     

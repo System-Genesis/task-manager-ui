@@ -49,7 +49,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
       const newPages = [...pages];
       newPages[currPage].buttons.push(btn);
       setPages(newPages);
-      setBtns(btns.filter(({ _id }) => _id !== btn._id));
+      setBtns(btns.filter(({ _id }) => _id !== btn?._id));
     } else {
       const { value: text } = await Swal.fire({
         title: 'Yoe must to create page before you choose button',
@@ -64,7 +64,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
       });
       if (text) {
         setPages([...pages, { title: text, buttons: [btn] }]);
-        setBtns(btns.filter(({ _id }) => _id !== btn._id));
+        setBtns(btns.filter(({ _id }) => _id !== btn?._id));
       }
     }
   };
@@ -72,7 +72,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
   const unChooseBtn = (btn, pageNumber) => {
     const newPages = [...pages];
     newPages[pageNumber].buttons = newPages[pageNumber].buttons.filter(
-      ({ _id }) => _id !== btn._id
+      ({ _id }) => _id !== btn?._id
     );
     setPages(newPages);
     setBtns([...btns, btn]);
@@ -230,7 +230,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
                       width={'15vw'}
                       size={'small'}
                       color={'info'}
-                      txt={btn.title}
+                      txt={btn?.title}
                       onClick={() => chooseBtn(btn)}
                     ></SubmitButton>
                   </Grid>
@@ -264,8 +264,9 @@ export const AddPages = ({ next, back, setNewPages }) => {
                     borderRadius: '10px',
                     alignItems: 'center',
                     overflow: 'auto',
-                    border: `3px solid  ${pageIndex === currPage ? 'lightBlue' : 'white'
-                      }`,
+                    border: `3px solid  ${
+                      pageIndex === currPage ? 'lightBlue' : 'white'
+                    }`,
                   }}
                 >
                   <Box
@@ -307,7 +308,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
                           margin={1}
                           width={'90%'}
                           color={'info'}
-                          txt={btn.title}
+                          txt={btn?.title}
                           onClick={() => unChooseBtn(btn, pageIndex)}
                         ></SubmitButton>
                       </Grid>
