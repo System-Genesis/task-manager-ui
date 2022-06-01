@@ -157,7 +157,7 @@ export const Create = ({ next, setNewUser }) => {
             '&:hover': { bgcolor: '#546e7a', opacity: 10 },
           }}
         >
-          Back
+          Next
         </Button>
       </Box>
     </form>

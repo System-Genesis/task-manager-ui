@@ -93,7 +93,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
   const nextButton = (e) => {
     e.preventDefault();
     if (pages.length <= 0) {
-      Swal.fire({
+      return Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: 'You must create a pages before you go next ',
@@ -101,19 +101,18 @@ export const AddPages = ({ next, back, setNewPages }) => {
     } else {
       for (let i = 0; i < pages.length; i++) {
         const allPages = [...pages];
-        if (allPages[i].buttons.length <= 0) {
-          Swal.fire({
+        console.log(allPages[i].buttons.length);
+        if (allPages[i].buttons.length === 0) {
+          return Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: 'You must to add a buttons to the pages before you go next',
           });
-        } else {
-          next();
-          setNewPages(pages);
-          console.log(pages);
         }
       }
     }
+    next();
+    setNewPages(pages);
   };
 
   const handleTitle = async (pageNumber) => {
@@ -265,9 +264,8 @@ export const AddPages = ({ next, back, setNewPages }) => {
                     borderRadius: '10px',
                     alignItems: 'center',
                     overflow: 'auto',
-                    border: `3px solid  ${
-                      pageIndex === currPage ? 'lightBlue' : 'white'
-                    }`,
+                    border: `3px solid  ${pageIndex === currPage ? 'lightBlue' : 'white'
+                      }`,
                   }}
                 >
                   <Box
