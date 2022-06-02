@@ -35,6 +35,7 @@ const Action = () => {
   const [dataToShow, setDataToShow] = useState(null);
   const [loading, setLoading] = useState('determinate');
   const [error, setError] = useState({});
+  const [cancel, setCancel] = useState(false);
 
   const JsonStyle = {
     propertyStyle: { color: 'red' },
@@ -42,7 +43,7 @@ const Action = () => {
     colonStyle: { color: 'darkorange' },
   };
 
-  const cancelTokenSource = axios.CancelToken.source();
+  const cancelTokenSource = axios.CancelToken;
 
   useEffect(() => {
     const localData = getObj('data');
@@ -97,24 +98,29 @@ const Action = () => {
             cancelToken: cancelTokenSource.token,
           }
         );
-        if (res.data.length < 100) {
-          if (res.data && !Array.isArray(res.data)) {
-            setDataToShow([res.data]);
-          } else {
-            setDataToShow(res.data);
-          }
-        } else {
-          printToFile(res.data);
-          setDataToShow([
-            {
-              message: 'You got the data in a file',
-              'count of record': res.data.length,
-            },
-          ]);
+        if (cancel === true) {
           setLoading('determinate');
+          setDataToShow(null);
+          setCancel(false);
+        } else {
+          if (res.data.length < 100) {
+            if (res.data && !Array.isArray(res.data)) {
+              setDataToShow([res.data]);
+            } else {
+              setDataToShow(res.data);
+            }
+          } else {
+            printToFile(res.data);
+            setDataToShow([
+              {
+                message: 'You got the data in a file',
+                'count of record': res.data.length,
+              },
+            ]);
+            setLoading('determinate');
+          }
         }
-      }
-      catch (error) {
+      } catch (error) {
         const statusCode = JSON.parse(JSON.stringify(error)).status;
         setDataToShow(errorHandler(statusCode));
         setError({ ...error });
@@ -123,13 +129,8 @@ const Action = () => {
   };
 
   const handleCancelClick = () => {
-    try {
-      setLoading('determinate');
-      cancelTokenSource.cancel();
-      setDataToShow([]);
-    } catch (error) {
-      console.log(error);
-    }
+    cancelToken.current.cancel();
+    setCancel(true);
   };
 
   const handleDownloadClick = () => {
@@ -208,7 +209,7 @@ const Action = () => {
                 label={par}
                 type={btn?.params[par]}
                 key={i}
-                OnChange={(e) => {
+                onChange={(e) => {
                   setParams({ ...params, [par]: e.target.value });
                   setError({ ...error, [par]: false });
                 }}

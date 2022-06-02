@@ -26,7 +26,7 @@ const NavBar = () => {
       <Toolbar>
         <Typography
           variant='h6'
-          sx={{ flexGrow: 1 }}
+          sx={{ flexGrow: 1, '&:hover': { cursor: 'pointer', opacity: '0.9' } }}
           fontWeight='bold'
           color='primary'
           textTransform='capitalize'

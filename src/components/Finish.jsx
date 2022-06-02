@@ -4,8 +4,65 @@ import StepperNumber from './StepperNumber';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  mainBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px 110px 10px 110px',
+  },
+  gridButton: {
+    justifyContent: 'space-between',
+    padding: '10px 0px',
+  },
+  button: {
+    textTransform: 'capitalize',
+    backgroundColor: '#546e7a',
+    '&:hover': { backgroundColor: '#546e7a', opacity: 10 },
+  },
+  typographyPage: {
+    marginTop: '32px',
+    textTransform: 'none',
+    fontFamily: 'Roboto Mono, monospace',
+  },
+  nameAndPassword: {
+    textTransform: 'none',
+    fontFamily: 'Roboto Mono, monospace',
+  },
+  page: {
+    overflow: 'auto',
+    margin: '0 auto',
+    height: '48vh',
+  },
+  paper: {
+    width: '210px',
+    height: '38vh',
+    margin: '16px',
+    borderRadius: '5px',
+    overflow: 'auto',
+    backgroundColor: '#deddd4',
+  },
+  pageHeader: {
+    color: '#455a64',
+    fontFamily: 'Roboto Mono, monospace',
+    textDecoration: 'underline',
+    margin: '0 auto',
+    width: 'fit-content',
+    fontWeight: 'bold',
+  },
+  buttonPage: {
+    textTransform: 'none',
+    width: '90%',
+    marginTop: '8px',
+    backgroundColor: '#cda597',
+    '&:hover': { backgroundColor: '#cda597' },
+  },
+});
 
 const Finish = ({ info, back }) => {
+  const classes = useStyles();
   let navigate = useNavigate();
   const [active, setActive] = useState(2);
 
@@ -30,29 +87,14 @@ const Finish = ({ info, back }) => {
 
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '20px 110px 10px 110px',
-        }}
-      >
+      <Box className={classes.mainBox}>
         <StepperNumber active={active} />
-        <Grid
-          container
-          sx={{ justifyContent: 'space-between' }}
-          style={{ padding: '10px 0px' }}
-        >
+        <Grid container className={classes.gridButton}>
           <Grid item>
             <Button
               variant='contained'
               onClick={backButton}
-              sx={{
-                textTransform: 'capitalize',
-                bgcolor: '#546e7a',
-                '&:hover': { bgcolor: '#546e7a', opacity: 10 },
-              }}
+              className={classes.button}
             >
               Back
             </Button>
@@ -61,11 +103,7 @@ const Finish = ({ info, back }) => {
             <Button
               variant='contained'
               onClick={finishButton}
-              sx={{
-                textTransform: 'capitalize',
-                bgcolor: '#546e7a',
-                '&:hover': { bgcolor: '#546e7a', opacity: 10 },
-              }}
+              className={classes.button}
             >
               Finish
             </Button>
@@ -77,37 +115,24 @@ const Finish = ({ info, back }) => {
           <Typography
             color='#00897b'
             variant='h4'
-            sx={{ textTransform: 'none', fontFamily: 'Roboto Mono, monospace' }}
+            className={classes.nameAndPassword}
           >
             Name <DoubleArrowIcon sx={{ color: '#c0ca33' }} />{' '}
             {info?.user?.name}
           </Typography>
-          <Typography
-            color='#00897b'
-            variant='h4'
-            sx={{ textTransform: 'none', fontFamily: 'Roboto Mono, monospace' }}
-          >
+          <Typography color='#00897b' variant='h4'>
             Rule <DoubleArrowIcon sx={{ color: '#c0ca33' }} />{' '}
             {info?.user?.rule}
           </Typography>
           <Typography
             color='#00897b'
             variant='h3'
-            sx={{
-              mt: 4,
-              textTransform: 'none',
-              fontFamily: 'Roboto Mono, monospace',
-            }}
+            className={classes.typographyPage}
           >
             Pages <DoubleArrowIcon sx={{ color: '#c0ca33' }} />
           </Typography>
         </Grid>
-        <Grid
-          item
-          lg={7}
-          md={7}
-          sx={{ overflow: 'auto', m: '0 auto', height: '48vh' }}
-        >
+        <Grid item lg={7} md={7} className={classes.page}>
           <Grid container>
             {info?.pages?.map((page, pageIndex) => (
               <>
@@ -115,27 +140,9 @@ const Finish = ({ info, back }) => {
                   <Paper
                     elevation={1}
                     variant='elevation'
-                    sx={{
-                      width: '210px',
-                      height: '38vh',
-                      m: 2,
-                      borderRadius: '5px',
-                      // alignItems: 'center',
-                      overflow: 'auto',
-                      bgcolor: '#deddd4',
-                    }}
+                    className={classes.paper}
                   >
-                    <Typography
-                      variant='h5'
-                      sx={{
-                        color: '#455a64',
-                        fontFamily: 'Roboto Mono, monospace',
-                        textDecoration: 'underline',
-                        margin: '0 auto',
-                        width: 'fit-content',
-                        fontWeight: 'bold',
-                      }}
-                    >
+                    <Typography variant='h5' className={classes.pageHeader}>
                       {page.title}
                     </Typography>
                     {page?.buttons.map((btn, btnIndex) => (
@@ -149,13 +156,7 @@ const Finish = ({ info, back }) => {
                           <Button
                             variant='contained'
                             size='small'
-                            sx={{
-                              textTransform: 'none',
-                              width: '90%',
-                              mt: 1,
-                              bgcolor: '#cda597',
-                              '&:hover': { bgcolor: '#cda597' },
-                            }}
+                            className={classes.buttonPage}
                           >
                             {btn?.title}
                           </Button>

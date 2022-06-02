@@ -106,7 +106,7 @@ export const Create = ({ next, setNewUser }) => {
             <Input
               label={'Username'}
               fullWidth={true}
-              OnChange={(e) => handleUserChange(e, 'name')}
+              onChange={(e) => handleUserChange(e, 'name')}
               error={error.name}
             />
             {error.name && errorMsg('Enter a Username')}

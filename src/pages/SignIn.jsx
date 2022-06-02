@@ -19,11 +19,6 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  typographyHeader: {
-    marginBottom: '24px',
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-  },
   typographyError: {
     color: 'red',
     marginTop: '16px',
@@ -69,7 +64,10 @@ const SignIn = () => {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.dark' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography className={classes.typographyHeader} variant='h4'>
+          <Typography
+            sx={{ mb: 3, fontWeight: 'bold', textTransform: 'uppercase' }}
+            variant='h4'
+          >
             traking
           </Typography>
           <Input
