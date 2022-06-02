@@ -69,80 +69,52 @@ const Action = () => {
     if (Object.values(currError).some((i) => i)) {
       setError({ ...currError });
     } else {
+      if (btn?.message) {
+        const swalRes = await Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, I am sure!',
+        });
+        if (!swalRes.isConfirmed) {
+          return '';
+        }
+      }
+
       try {
-        if (btn?.message) {
-          const swalRes = await Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, I am sure!',
-          });
-          if (swalRes.isConfirmed) {
-            setLoading('indeterminate');
-            const request = buildRequest(params, btn?.name, btn?.type);
-            console.log(request);
-            const res = await axios.post(
-              'http://localhost:3020/action',
-              {
-                ...request,
-                reqType,
-              },
-              {
-                cancelToken: cancelTokenSource.token,
-              }
-            );
-            if (res.data.length < 100) {
-              if (res.data && !Array.isArray(res.data)) {
-                setDataToShow([res.data]);
-              } else {
-                setDataToShow(res.data);
-              }
-            } else {
-              printToFile(res.data);
-              setDataToShow([
-                {
-                  message: 'You got the data in a file',
-                  'count of record': res.data.length,
-                },
-              ]);
-              setLoading('determinate');
-            }
+        setLoading('indeterminate');
+        const request = buildRequest(params, btn?.name, btn?.type);
+        const res = await axios.post(
+          'http://localhost:3020/action',
+          {
+            ...request,
+            reqType,
+          },
+          {
+            cancelToken: cancelTokenSource.token,
+          }
+        );
+        if (res.data.length < 100) {
+          if (res.data && !Array.isArray(res.data)) {
+            setDataToShow([res.data]);
           } else {
+            setDataToShow(res.data);
           }
         } else {
-          setLoading('indeterminate');
-          const request = buildRequest(params, btn?.name, btn?.type);
-          const res = await axios.post(
-            'http://localhost:3020/action',
+          printToFile(res.data);
+          setDataToShow([
             {
-              ...request,
-              reqType,
+              message: 'You got the data in a file',
+              'count of record': res.data.length,
             },
-            {
-              cancelToken: cancelTokenSource.token,
-            }
-          );
-          if (res.data.length < 100) {
-            if (res.data && !Array.isArray(res.data)) {
-              setDataToShow([res.data]);
-            } else {
-              setDataToShow(res.data);
-            }
-          } else {
-            printToFile(res.data);
-            setDataToShow([
-              {
-                message: 'You got the data in a file',
-                'count of record': res.data.length,
-              },
-            ]);
-            setLoading('determinate');
-          }
+          ]);
+          setLoading('determinate');
         }
-      } catch (error) {
+      }
+      catch (error) {
         const statusCode = JSON.parse(JSON.stringify(error)).status;
         setDataToShow(errorHandler(statusCode));
         setError({ ...error });
