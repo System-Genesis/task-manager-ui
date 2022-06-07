@@ -24,18 +24,20 @@ import errorHandler from '../utils/errorHandler';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import Swal from 'sweetalert2';
 
+// let cancel = false;
+
 const Action = () => {
   const primary = teal[500];
   const greyColor = grey[600];
   let navigate = useNavigate();
-  const reqType = useContext(InfoContext).getTypeReq();
-  const [user, setUser] = useState(null);
+  const reqType = useContext(InfoContext).getTypeReq();  
   const [params, setParams] = useState({});
+  const [cancel, setCancel] = useState(false);
   const [btn] = useState(useContext(InfoContext).getBtn());
   const [dataToShow, setDataToShow] = useState(null);
+
   const [loading, setLoading] = useState('determinate');
   const [error, setError] = useState({});
-  const [cancel, setCancel] = useState(false);
 
   const JsonStyle = {
     propertyStyle: { color: 'red' },
@@ -43,17 +45,25 @@ const Action = () => {
     colonStyle: { color: 'darkorange' },
   };
 
-  const cancelTokenSource = axios.CancelToken;
-
+  const abortAxios = new AbortController();
+  const fetchData = async (abortController, request) => {
+    return axios.post(
+      'http://localhost:3020/action',
+      {
+        ...request,
+        reqType,
+      },
+      {
+        signal: abortController.signal,
+      }
+    );
+  }
   useEffect(() => {
     const localData = getObj('data');
     if (!localData) {
       navigate(`/`);
-    } else {
-      setUser(localData.user);
-      if (!btn) {
-        navigate(`/button`);
-      }
+    } else if (!btn) {
+      navigate(`/button`);
     }
   }, []);
 
@@ -64,7 +74,7 @@ const Action = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     const currError = {};
-
+    setCancel(prev => false);
     Object.keys(btn?.params).forEach((par) => (currError[par] = !params[par]));
 
     if (Object.values(currError).some((i) => i)) {
@@ -88,49 +98,36 @@ const Action = () => {
       try {
         setLoading('indeterminate');
         const request = buildRequest(params, btn?.name, btn?.type);
-        const res = await axios.post(
-          'http://localhost:3020/action',
-          {
-            ...request,
-            reqType,
-          },
-          {
-            cancelToken: cancelTokenSource.token,
-          }
-        );
-        if (cancel === true) {
-          setLoading('determinate');
-          setDataToShow(null);
-          setCancel(false);
-        } else {
-          if (res.data.length < 100) {
-            if (res.data && !Array.isArray(res.data)) {
-              setDataToShow([res.data]);
-            } else {
-              setDataToShow(res.data);
-            }
+        // console.log(req);
+        const res = await fetchData(abortAxios, request);
+        if (res.data.length < 65) {
+          if (res.data && !Array.isArray(res.data)) {
+            setDataToShow([res.data]);
           } else {
-            printToFile(res.data);
-            setDataToShow([
-              {
-                message: 'You got the data in a file',
-                'count of record': res.data.length,
-              },
-            ]);
-            setLoading('determinate');
+            setDataToShow(res.data);
           }
-        }
+        } else {
+          printToFile(res.data);
+          setDataToShow([
+            {
+              message: 'You got the data in a file',
+              'count of record': res.data.length,
+            },
+          ]);          
+        }        
       } catch (error) {
         const statusCode = JSON.parse(JSON.stringify(error)).status;
         setDataToShow(errorHandler(statusCode));
-        setError({ ...error });
+        setError({ ...error });        
       }
     }
   };
 
   const handleCancelClick = () => {
-    cancelToken.current.cancel();
-    setCancel(true);
+    setLoading('determinate');
+    abortAxios.abort();
+    setCancel(prev => true);
+    // console.log('cancel');
   };
 
   const handleDownloadClick = () => {
@@ -226,7 +223,7 @@ const Action = () => {
           onClick={handleClick}
           margin={2}
         />
-        {dataToShow && dataToShow.length >= 2 && (
+        {!cancel && dataToShow && dataToShow.length >= 2 && (
           <SubmitButton
             txt={'Download'}
             onClick={handleDownloadClick}
@@ -263,7 +260,7 @@ const Action = () => {
             justifyContent: 'center',
           }}
         >
-          {!dataToShow || dataToShow.length === 0 ? (
+          {cancel || !dataToShow || dataToShow.length === 0 ? (
             <Typography
               variant='h5'
               color='error'
@@ -276,7 +273,7 @@ const Action = () => {
             </Typography>
           ) : (
             <>
-              {dataToShow.map((json, i) => {
+              {dataToShow && dataToShow.map((json, i) => {
                 return (
                   <Grid key={i} item xs={6} md={6} lg={4}>
                     <Paper
