@@ -40,14 +40,14 @@ export const AddPages = ({ next, back, setNewPages }) => {
       },
     });
     if (text) {
-      setPages([...pages, { title: text, buttons: [] }]);
+      setPages([...pages, { title: text, btns: [] }]);
     }
   };
 
   const chooseBtn = async (btn) => {
     if (pages.length > 0) {
       const newPages = [...pages];
-      newPages[currPage].buttons.push(btn);
+      newPages[currPage].btns.push(btn);
       setPages(newPages);
       setBtns(btns.filter(({ _id }) => _id !== btn?._id));
     } else {
@@ -63,7 +63,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
         },
       });
       if (text) {
-        setPages([...pages, { title: text, buttons: [btn] }]);
+        setPages([...pages, { title: text, btns: [btn] }]);
         setBtns(btns.filter(({ _id }) => _id !== btn?._id));
       }
     }
@@ -71,7 +71,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
 
   const unChooseBtn = (btn, pageNumber) => {
     const newPages = [...pages];
-    newPages[pageNumber].buttons = newPages[pageNumber].buttons.filter(
+    newPages[pageNumber].btns = newPages[pageNumber].btns.filter(
       ({ _id }) => _id !== btn?._id
     );
     setPages(newPages);
@@ -80,7 +80,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
 
   const deletePage = (pageNumber) => {
     const newPages = [...pages];
-    setBtns([...btns, ...newPages[pageNumber].buttons]);
+    setBtns([...btns, ...newPages[pageNumber].btns]);
     setPages(pages.filter((page, i) => pageNumber !== i));
     setCurrPage(0);
   };
@@ -101,8 +101,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
     } else {
       for (let i = 0; i < pages.length; i++) {
         const allPages = [...pages];
-        console.log(allPages[i].buttons.length);
-        if (allPages[i].buttons.length === 0) {
+        if (allPages[i].btns.length === 0) {
           return Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -116,7 +115,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
   };
 
   const handleTitle = async (pageNumber) => {
-    const btn = pages[pageNumber].buttons;
+    const btn = pages[pageNumber].btns;
     const title = pages[pageNumber].title;
     const { value: text } = await Swal.fire({
       title: 'Enter the Title of the page',
@@ -131,9 +130,8 @@ export const AddPages = ({ next, back, setNewPages }) => {
     });
 
     if (text) {
-      pages[pageNumber] = { title: text, buttons: btn };
+      pages[pageNumber] = { title: text, btns: btn };
       setPages([...pages]);
-      console.log(pages);
     }
   };
 
@@ -295,7 +293,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
                       {page.title}
                     </Typography>
                   </Box>
-                  {page?.buttons.map((btn, btnIndex) => (
+                  {page?.btns.map((btn, btnIndex) => (
                     <>
                       <Grid
                         key={btnIndex}

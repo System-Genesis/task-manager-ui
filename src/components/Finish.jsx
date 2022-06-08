@@ -72,6 +72,13 @@ const Finish = ({ info, back }) => {
   };
 
   const finishButton = () => {
+    console.log(info);
+    const a = info.pages.filter((page) => {
+       page.btns.map((btn) => {
+         return btn._id
+       })
+    })
+    console.log(a);
     setActive(3);
     Swal.fire({
       icon: 'success',
@@ -80,7 +87,7 @@ const Finish = ({ info, back }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         navigate('/button');
-        console.log(info);
+  
       }
     });
   };
@@ -111,7 +118,7 @@ const Finish = ({ info, back }) => {
         </Grid>
       </Box>
       <Grid container>
-        <Grid item lg={5} md={5}>
+        <Grid item lg={5} md={5} sx={{mt:4}}>
           <Typography
             color='#00897b'
             variant='h4'
@@ -145,7 +152,7 @@ const Finish = ({ info, back }) => {
                     <Typography variant='h5' className={classes.pageHeader}>
                       {page.title}
                     </Typography>
-                    {page?.buttons.map((btn, btnIndex) => (
+                    {page?.btns.map((btn, btnIndex) => (
                       <>
                         <Grid
                           key={btnIndex}
