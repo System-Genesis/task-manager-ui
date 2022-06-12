@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import axios from 'axios';
 
-
 const useStyles = makeStyles({
   mainBox: {
     display: 'flex',
@@ -29,9 +28,10 @@ const useStyles = makeStyles({
     textTransform: 'none',
     fontFamily: 'Roboto Mono, monospace',
   },
-  nameAndPassword: {
+  nameAndRule: {
     textTransform: 'none',
     fontFamily: 'Roboto Mono, monospace',
+    marginTop: '8px',
   },
   page: {
     overflow: 'auto',
@@ -67,7 +67,6 @@ const Finish = ({ info, back }) => {
   const classes = useStyles();
   let navigate = useNavigate();
   const [active, setActive] = useState(2);
-  const [newPages, setNewPages] = useState([])
 
   const backButton = (e) => {
     e.preventDefault();
@@ -75,35 +74,27 @@ const Finish = ({ info, back }) => {
   };
 
   const finishButton = async () => {
-    console.log(info);
-    // console.log(info.pages);
-    // const a = [];
-    // info.pages.map((page) => {
-    //   setNewPages([{title: page.title, btns:[]}])
-    //    page.btns.map((btn) => {
-    //      setNewPages({title:page.title, btns:[btn._id]})
-    //    })
-    // a.push(newPages)
-    // })
-    // console.log(a);
-
-    // const a = info.pages.map((page) => {
-    //   console.log(page.title);
-    //   page.btns.map((btn) => {
-    //     console.log(btn._id);
-    //   })
-    // })
-    // console.log(a);
     setActive(3);
     const swalRes = await Swal.fire({
       icon: 'success',
       title: 'success',
       text: 'You Create the user succesfully',
-    })
+    });
     if (swalRes.isConfirmed) {
       try {
+        const pages = info.pages.map((page) => {
+          return {
+            title: page.title,
+            btns: page.btns.map((btn) => btn._id),
+          };
+        });
+        const user = info.user;
         console.log(info);
-        const res = await axios.post('http://localhost:3020/users/new', info);
+        console.log(pages.length);
+        const res = await axios.post('http://localhost:3020/users/new', {
+          user,
+          pages,
+        });
         console.log(res.data);
         // navigate('/button');
       } catch (error) {
@@ -111,20 +102,6 @@ const Finish = ({ info, back }) => {
       }
     }
   };
-  // if (btn?.message) {
-  //   const swalRes = await Swal.fire({
-  //     title: 'Are you sure?',
-  //     text: "You won't be able to revert this!",
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Yes, I am sure!',
-  //   });
-  //   if (!swalRes.isConfirmed) {
-  //     return '';
-  //   }
-  // }
 
   return (
     <>
@@ -156,13 +133,17 @@ const Finish = ({ info, back }) => {
           <Typography
             color='#00897b'
             variant='h4'
-            className={classes.nameAndPassword}
+            className={classes.nameAndRule}
           >
-            Username <DoubleArrowIcon sx={{ color: '#c0ca33' }} />
+            Username <DoubleArrowIcon sx={{ color: '#c0ca33', mr: 1 }} />
             {info?.user?.userName}
           </Typography>
-          <Typography color='#00897b' variant='h4'>
-            Rule <DoubleArrowIcon sx={{ color: '#c0ca33' }} />
+          <Typography
+            color='#00897b'
+            variant='h4'
+            className={classes.nameAndRule}
+          >
+            Rule <DoubleArrowIcon sx={{ color: '#c0ca33', mr: 1 }} />
             {info?.user?.rule}
           </Typography>
           <Typography

@@ -54,7 +54,7 @@ export const Create = ({ next, setNewUser }) => {
 
   const handleUserChange = (e, key) => {
     e.preventDefault();
-    setUser({ ...user, [key]: e.target.value });
+    setUser({ ...user, [key]: e.target.value.trim() });
     setError({ ...error, [key]: false });
   };
 

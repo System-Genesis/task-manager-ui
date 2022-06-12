@@ -76,14 +76,16 @@ const SignIn = () => {
             onChange={(e) => handleUserChange(e, 'userName')}
             error={error.userName}
           />
-          <Box sx={{ mt: 1 }} />
+          <div style={{marginTop: '8px'}} />
           <PasswordInput
+            sx={{mt: 1}}
             label={'Password'}
             fullWidth={true}
             onChange={(e) => handleUserChange(e, 'password')}
             error={error.password}
           />
-          <Box sx={{ my: 0.7 }} />
+          <div style={{marginTop: '7px', marginBottom: '7px'}} />
+          {/* <Box sx={{ my: 0.7 }} /> */}
           {(error.userName || error.password) && (
             <Typography variant='h7' className={classes.typographyError}>
               Username or Password Incorrect

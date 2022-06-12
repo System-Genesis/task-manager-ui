@@ -6,7 +6,7 @@ import { getObj } from '../utils/localStorage';
 import Pages from '../components/Pages';
 import NavBar from '../components/NavBar';
 import { InfoContext } from '../InfoContext';
-// import Logo from '../components/Logo';
+import Logo from '../components/Logo';
 
 const Button = () => {
   let navigate = useNavigate();
@@ -31,7 +31,7 @@ const Button = () => {
       <Container>
         <Pages />
       </Container>
-      {/* <Logo /> */}
+      <Logo />
     </>
   );
 };

@@ -15,9 +15,11 @@ const useStyles = makeStyles({
   paper: {
     minWidth: '28vw',
     minHeight: '60vh',
+    maxHeight: '60vh',
     margin: '24px',
     borderRadius: '20px',
     alignItems: 'center',
+    overflow: 'auto'
   },
   typographyHeader: {
     textAlign: 'center',
@@ -55,11 +57,13 @@ const Pages = () => {
                     key={i}
                     onClick={() => {
                       changeBtn(pageIndex, i);
-                      navigate('/action');
+                      navigate('/action'); //?request=${title}
                     }}
                     fullWidth={false}
                     txt={btn?.title}
                     margin={2}
+                    width={'180px'}
+                    height={'55px'}
                   />
                 ))}
               </Box>
