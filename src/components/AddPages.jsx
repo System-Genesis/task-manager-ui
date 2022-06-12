@@ -41,16 +41,26 @@ export const AddPages = ({ next, back, setNewPages }) => {
     });
     if (text) {
       setPages([...pages, { title: text, btns: [] }]);
+      setCurrPage(pages.length)
     }
   };
 
   const chooseBtn = async (btn) => {
+    const newPages = [...pages].length - 1
+    if(newPages < currPage) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You must choose a page when you add a button ',
+      });
+    }
     if (pages.length > 0) {
       const newPages = [...pages];
       newPages[currPage].btns.push(btn);
       setPages(newPages);
       setBtns(btns.filter(({ _id }) => _id !== btn?._id));
-    } else {
+    }
+     else {
       const { value: text } = await Swal.fire({
         title: 'Yoe must to create page before you choose button',
         inputLabel: 'Enter your Page title',
@@ -262,9 +272,8 @@ export const AddPages = ({ next, back, setNewPages }) => {
                     borderRadius: '10px',
                     alignItems: 'center',
                     overflow: 'auto',
-                    border: `3px solid  ${
-                      pageIndex === currPage ? 'lightBlue' : 'white'
-                    }`,
+                    border: `3px solid  ${pageIndex === currPage ? 'lightBlue' : 'white'
+                      }`,
                   }}
                 >
                   <Box

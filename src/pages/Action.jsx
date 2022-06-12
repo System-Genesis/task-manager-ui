@@ -24,7 +24,6 @@ import errorHandler from '../utils/errorHandler';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import Swal from 'sweetalert2';
 
-// let cancel = false;
 
 const Action = () => {
   const primary = teal[500];
@@ -98,9 +97,8 @@ const Action = () => {
       try {
         setLoading('indeterminate');
         const request = buildRequest(params, btn?.name, btn?.type);
-        // console.log(req);
         const res = await fetchData(abortAxios, request);
-        if (res.data.length < 65) {
+        if (res.data.length < 100) {
           if (res.data && !Array.isArray(res.data)) {
             setDataToShow([res.data]);
           } else {
@@ -127,7 +125,6 @@ const Action = () => {
     setLoading('determinate');
     abortAxios.abort();
     setCancel(prev => true);
-    // console.log('cancel');
   };
 
   const handleDownloadClick = () => {

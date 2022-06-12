@@ -13,21 +13,21 @@ import StepperNumber from './StepperNumber';
 
 export const Create = ({ next, setNewUser }) => {
   const [user, setUser] = useState({
-    name: '',
+    userName: '',
     password: '',
     rule: 'user',
     confirm: '',
   });
   const [error, setError] = useState({
-    name: false,
+    userName: false,
     password: false,
     confirm: false,
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError({ name: false, password: false, confirm: false });
-    error.name = !user.name;
+    setError({ userName: false, password: false, confirm: false });
+    error.userName = !user.userName;
     error.password = !user.password;
     if (error.password) {
       error.confirm = false;
@@ -39,16 +39,15 @@ export const Create = ({ next, setNewUser }) => {
       }
     }
 
-    if (error.name || error.password || user.password !== user.confirm) {
+    if (error.userName || error.password || user.password !== user.confirm) {
       setError({ ...error });
     } else {
       try {
         delete user.confirm;
         setNewUser(user);
-        console.log(user);
         next();
       } catch (error) {
-        setError({ name: true, password: true });
+        setError({ userName: true, password: true });
       }
     }
   };
@@ -106,10 +105,10 @@ export const Create = ({ next, setNewUser }) => {
             <Input
               label={'Username'}
               fullWidth={true}
-              onChange={(e) => handleUserChange(e, 'name')}
-              error={error.name}
+              onChange={(e) => handleUserChange(e, 'userName')}
+              error={error.userName}
             />
-            {error.name && errorMsg('Enter a Username')}
+            {error.userName && errorMsg('Enter a Username')}
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <PasswordInput

@@ -5,6 +5,8 @@ import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
+import axios from 'axios';
+
 
 const useStyles = makeStyles({
   mainBox: {
@@ -65,32 +67,64 @@ const Finish = ({ info, back }) => {
   const classes = useStyles();
   let navigate = useNavigate();
   const [active, setActive] = useState(2);
+  const [newPages, setNewPages] = useState([])
 
   const backButton = (e) => {
     e.preventDefault();
     back();
   };
 
-  const finishButton = () => {
+  const finishButton = async () => {
     console.log(info);
-    const a = info.pages.filter((page) => {
-       page.btns.map((btn) => {
-         return btn._id
-       })
-    })
-    console.log(a);
+    // console.log(info.pages);
+    // const a = [];
+    // info.pages.map((page) => {
+    //   setNewPages([{title: page.title, btns:[]}])
+    //    page.btns.map((btn) => {
+    //      setNewPages({title:page.title, btns:[btn._id]})
+    //    })
+    // a.push(newPages)
+    // })
+    // console.log(a);
+
+    // const a = info.pages.map((page) => {
+    //   console.log(page.title);
+    //   page.btns.map((btn) => {
+    //     console.log(btn._id);
+    //   })
+    // })
+    // console.log(a);
     setActive(3);
-    Swal.fire({
+    const swalRes = await Swal.fire({
       icon: 'success',
       title: 'success',
       text: 'You Create the user succesfully',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate('/button');
-  
+    })
+    if (swalRes.isConfirmed) {
+      try {
+        console.log(info);
+        const res = await axios.post('http://localhost:3020/users/new', info);
+        console.log(res.data);
+        // navigate('/button');
+      } catch (error) {
+        console.log(error.message);
       }
-    });
+    }
   };
+  // if (btn?.message) {
+  //   const swalRes = await Swal.fire({
+  //     title: 'Are you sure?',
+  //     text: "You won't be able to revert this!",
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'Yes, I am sure!',
+  //   });
+  //   if (!swalRes.isConfirmed) {
+  //     return '';
+  //   }
+  // }
 
   return (
     <>
@@ -118,17 +152,17 @@ const Finish = ({ info, back }) => {
         </Grid>
       </Box>
       <Grid container>
-        <Grid item lg={5} md={5} sx={{mt:4}}>
+        <Grid item lg={5} md={5} sx={{ mt: 4 }}>
           <Typography
             color='#00897b'
             variant='h4'
             className={classes.nameAndPassword}
           >
-            Name <DoubleArrowIcon sx={{ color: '#c0ca33' }} />{' '}
-            {info?.user?.name}
+            Username <DoubleArrowIcon sx={{ color: '#c0ca33' }} />
+            {info?.user?.userName}
           </Typography>
           <Typography color='#00897b' variant='h4'>
-            Rule <DoubleArrowIcon sx={{ color: '#c0ca33' }} />{' '}
+            Rule <DoubleArrowIcon sx={{ color: '#c0ca33' }} />
             {info?.user?.rule}
           </Typography>
           <Typography
