@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
   paper: {
     minWidth: '28vw',
-    minHeight: '60vh',
+    minHeight: '54vh',
     maxHeight: '60vh',
     margin: '24px',
     borderRadius: '20px',
@@ -61,9 +61,10 @@ const Pages = () => {
                     }}
                     fullWidth={false}
                     txt={btn?.title}
-                    margin={2}
-                    width={'180px'}
-                    height={'55px'}
+                    margin={'12px'}
+                    padding={'6px'}
+                    width={'140px'}
+                    height={'60px'}
                   />
                 ))}
               </Box>
