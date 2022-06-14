@@ -10,7 +10,7 @@ import { getObj } from '../utils/localStorage';
 
 const NavBar = () => {
   let navigate = useNavigate();
-  const getUserName = getObj('data')?.user?.name;
+  const getUserName = getObj('data')?.user?.userName;
 
   const handleSignOutButton = () => {
     navigate('/');

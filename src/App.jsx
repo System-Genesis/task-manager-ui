@@ -30,6 +30,7 @@ function App() {
             <Route path='/button' element={<Button />} />
             <Route path='/action' element={<Action />} />
             <Route path='/create' element={<Create />} />
+            <Route path="*" element={<Button />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

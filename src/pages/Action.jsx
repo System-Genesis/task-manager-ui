@@ -2,7 +2,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-expressions */
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import Input from '../components/Input';
 import NavBar from '../components/NavBar';
 import SubmitButton from '../components/Button';
@@ -10,7 +10,7 @@ import { Box, Typography, Paper, Grid } from '@mui/material';
 import { InfoContext } from '../InfoContext';
 import SelectList from '../components/Select';
 import SendIcon from '@mui/icons-material/Send';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { getObj } from '../utils/localStorage';
 import { teal, grey } from '@mui/material/colors';
 import axios from 'axios';
@@ -24,15 +24,23 @@ import errorHandler from '../utils/errorHandler';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import Swal from 'sweetalert2';
 
+const useQuery = () => {
+  const { search } = useLocation();
+
+  return useMemo(() => new URLSearchParams(search), [search]);
+};
 
 const Action = () => {
+  const { setBtnByTitle, getTypeReq } = useContext(InfoContext);
+
+  let query = useQuery();
   const primary = teal[500];
   const greyColor = grey[600];
   let navigate = useNavigate();
-  const reqType = useContext(InfoContext).getTypeReq();  
   const [params, setParams] = useState({});
   const [cancel, setCancel] = useState(false);
-  const [btn] = useState(useContext(InfoContext).getBtn());
+  const [btn, setBtn] = useState(null);
+
   const [dataToShow, setDataToShow] = useState(null);
 
   const [loading, setLoading] = useState('determinate');
@@ -56,13 +64,22 @@ const Action = () => {
         signal: abortController.signal,
       }
     );
-  }
+  };
   useEffect(() => {
     const localData = getObj('data');
     if (!localData) {
       navigate(`/`);
-    } else if (!btn) {
-      navigate(`/button`);
+    } else {
+      const currBtn = setBtnByTitle(
+        query.get('pageTitle'),
+        query.get('btnTitle')
+      );
+      setBtn(currBtn);
+      if (!currBtn) {
+        // changeBtn(...getIndicesByTitle(query.get('pageTitle'), query.get('btnTitle')));
+        // } else {
+        navigate(`/button`);
+      }
     }
   }, []);
 
@@ -73,7 +90,7 @@ const Action = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     const currError = {};
-    setCancel(prev => false);
+    setCancel((prev) => false);
     Object.keys(btn?.params).forEach((par) => (currError[par] = !params[par]));
 
     if (Object.values(currError).some((i) => i)) {
@@ -111,12 +128,12 @@ const Action = () => {
               message: 'You got the data in a file',
               'count of record': res.data.length,
             },
-          ]);          
-        }        
+          ]);
+        }
       } catch (error) {
         const statusCode = JSON.parse(JSON.stringify(error)).status;
         setDataToShow(errorHandler(statusCode));
-        setError({ ...error });        
+        setError({ ...error });
       }
     }
   };
@@ -124,7 +141,7 @@ const Action = () => {
   const handleCancelClick = () => {
     setLoading('determinate');
     abortAxios.abort();
-    setCancel(prev => true);
+    setCancel((prev) => true);
   };
 
   const handleDownloadClick = () => {
@@ -145,7 +162,7 @@ const Action = () => {
           textDecoration: 'underline',
         }}
       >
-        {`${reqType} ${btn?.title}`}
+        {`${getTypeReq()} ${btn?.title}`}
       </Typography>
       <Typography
         variant='h4'
@@ -220,7 +237,7 @@ const Action = () => {
           onClick={handleClick}
           margin={2}
         />
-        {!cancel && dataToShow && dataToShow.length >= 2 && (
+        {!cancel && dataToShow && dataToShow.length >= 1 && (
           <SubmitButton
             txt={'Download'}
             onClick={handleDownloadClick}
@@ -270,35 +287,36 @@ const Action = () => {
             </Typography>
           ) : (
             <>
-              {dataToShow && dataToShow.map((json, i) => {
-                return (
-                  <Grid key={i} item xs={6} md={6} lg={4}>
-                    <Paper
-                      elevation={8}
-                      variant='elevation'
-                      sx={{
-                        // minWidth: '25vw',
-                        height: '93%',
-                        m: 3,
-                        p: 2,
-                        borderRadius: '20px',
-                        alignItems: 'center',
-                      }}
-                    >
-                      {
-                        <JsonFormatter
-                          json={JSON.stringify(json, null, 2).replace(
-                            /\//g,
-                            ' /'
-                          )}
-                          tabWith='2'
-                          JsonStyle={JsonStyle}
-                        />
-                      }
-                    </Paper>
-                  </Grid>
-                );
-              })}
+              {dataToShow &&
+                dataToShow.map((json, i) => {
+                  return (
+                    <Grid key={i} item xs={6} md={6} lg={4}>
+                      <Paper
+                        elevation={8}
+                        variant='elevation'
+                        sx={{
+                          // minWidth: '25vw',
+                          height: '93%',
+                          m: 3,
+                          p: 2,
+                          borderRadius: '20px',
+                          alignItems: 'center',
+                        }}
+                      >
+                        {
+                          <JsonFormatter
+                            json={JSON.stringify(json, null, 2).replace(
+                              /\//g,
+                              ' /'
+                            )}
+                            tabWith='2'
+                            JsonStyle={JsonStyle}
+                          />
+                        }
+                      </Paper>
+                    </Grid>
+                  );
+                })}
             </>
           )}
         </Box>

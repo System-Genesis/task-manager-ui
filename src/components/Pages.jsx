@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Paper, Typography, Grid } from '@mui/material';
 import { InfoContext } from '../InfoContext';
 import SubmitButton from './Button';
@@ -14,12 +14,12 @@ const useStyles = makeStyles({
   },
   paper: {
     minWidth: '28vw',
-    minHeight: '54vh',
+    minHeight: '60vh',
     maxHeight: '60vh',
     margin: '24px',
     borderRadius: '20px',
     alignItems: 'center',
-    overflow: 'auto'
+    overflow: 'auto',
   },
   typographyHeader: {
     textAlign: 'center',
@@ -36,13 +36,14 @@ const useStyles = makeStyles({
 const Pages = () => {
   const classes = useStyles();
   let navigate = useNavigate();
-  const { info, changeBtn } = useContext(InfoContext);
+  const { info, changeBtn, getPageTitle } =
+    useContext(InfoContext);
 
   return (
     <Grid container>
       <Box className={classes.box}>
         {info.map((obj, pageIndex) => (
-          <Grid key={pageIndex} item xs={10} md={6} lg={6}>
+          <Grid key={pageIndex} item xs={11} sm={9} md={6} lg={6}>
             <Paper elevation={10} variant='elevation' className={classes.paper}>
               <Typography
                 variant='h4'
@@ -56,14 +57,16 @@ const Pages = () => {
                   <SubmitButton
                     key={i}
                     onClick={() => {
-                      changeBtn(pageIndex, i);
-                      navigate('/action'); //?request=${title}
+                      changeBtn(pageIndex, i);      
+                      navigate(
+                        `/action?pageTitle=${info[pageIndex].title}&btnTitle=${info[pageIndex].btns[i].title}`
+                      );
                     }}
                     fullWidth={false}
                     txt={btn?.title}
                     margin={'12px'}
                     padding={'6px'}
-                    width={'140px'}
+                    width={'145px'}
                     height={'60px'}
                   />
                 ))}
