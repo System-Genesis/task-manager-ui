@@ -1,14 +1,10 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext } from 'react';
 import { getObj } from './utils/localStorage';
 
 export const InfoContext = createContext();
 
 export const InfoProvider = (props) => {
   const [info, setInfo] = useState(null);
-
-  // useEffect(() => {
-  //   setInfo(getObj('data')?.data || 'no Data');
-  // }, []);
 
   const [index, setIndex] = useState({
     pageNum: 0,
@@ -25,7 +21,7 @@ export const InfoProvider = (props) => {
       setInfo(newInfo || 'no data');
     }
 
-    return newInfo[index.pageNum-1].btns[index.btnNum];
+    return newInfo[index.pageNum - 1].btns[index.btnNum];
   };
 
   const setBtnByTitle = (pageTitle, btnTitle) => {
@@ -38,12 +34,16 @@ export const InfoProvider = (props) => {
       setInfo(newInfo || 'no data');
     }
 
-    const newPage = newInfo.find((page) => page.title.toLowerCase() === pageTitle.toLowerCase());
+    const pageIndex = newInfo.findIndex(
+      (page) => page.title.toLowerCase() === pageTitle.toLowerCase()
+    );
 
-    const btnIndex = newPage.btns.findIndex((btn) => btn.title.toLowerCase() === btnTitle.toLowerCase());
+    const btnIndex = newInfo[pageIndex].btns.findIndex(
+      (btn) => btn.title.toLowerCase() === btnTitle.toLowerCase()
+    );
 
-    setIndex({ pageNum: newPage.pageNum, btnNum: btnIndex });
-    return newPage.btns[btnIndex];
+    setIndex({ pageNum: pageIndex, btnNum: btnIndex });
+    return newInfo[pageIndex].btns[btnIndex];
   };
 
   const getTypeReq = () => {
@@ -53,7 +53,7 @@ export const InfoProvider = (props) => {
       if (!newInfo) return;
       setInfo(newInfo || 'no data');
     }
-    return newInfo[index?.pageNum-1]?.title?.toLowerCase();
+    return newInfo[index?.pageNum]?.title?.toLowerCase();
   };
 
   const changeBtn = (page, btnIndex) => {
@@ -62,22 +62,6 @@ export const InfoProvider = (props) => {
       btnNum: btnIndex,
     });
   };
-
-  // return !info ? <p>Loading...</p> : (
-  //     <InfoContext.Provider
-  //       value={{
-  //         info,
-  //         changeBtn,
-  //         getBtn,
-  //         getTypeReq,
-  //         setInfo,
-  //         getBtnByTitle,
-  //         getIndicesByTitle
-  //       }}
-  //     >
-  //       {props.children}
-  //     </InfoContext.Provider>
-  //   );
 
   return (
     <InfoContext.Provider

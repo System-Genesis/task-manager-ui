@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Box, Paper, Typography, Grid } from '@mui/material';
 import { InfoContext } from '../InfoContext';
 import SubmitButton from './Button';
@@ -36,7 +36,7 @@ const useStyles = makeStyles({
 const Pages = () => {
   const classes = useStyles();
   let navigate = useNavigate();
-  const { info, changeBtn, getPageTitle } =
+  const { info, changeBtn } =
     useContext(InfoContext);
 
   return (

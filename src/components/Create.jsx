@@ -43,6 +43,7 @@ export const Create = ({ next, setNewUser }) => {
       setError({ ...error });
     } else {
       try {
+        // const res = await axios()
         delete user.confirm;
         setNewUser(user);
         next();

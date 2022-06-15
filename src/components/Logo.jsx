@@ -15,7 +15,7 @@ const Logo = () => {
       <LogoShowcase
         images={[
           {
-            src: himan,
+            src: himan, //Heymann
             alt: 'himan',
           },
           {

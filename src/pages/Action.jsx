@@ -12,7 +12,6 @@ import SelectList from '../components/Select';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getObj } from '../utils/localStorage';
-import { teal, grey } from '@mui/material/colors';
 import axios from 'axios';
 import Loading from '../components/Loading';
 import buildRequest from '../utils/buildRequest';
@@ -32,28 +31,22 @@ const useQuery = () => {
 
 const Action = () => {
   const { setBtnByTitle, getTypeReq } = useContext(InfoContext);
-
-  let query = useQuery();
-  const primary = teal[500];
-  const greyColor = grey[600];
-  let navigate = useNavigate();
+  const query = useQuery();
+  const navigate = useNavigate();
   const [params, setParams] = useState({});
   const [cancel, setCancel] = useState(false);
   const [btn, setBtn] = useState(null);
-
   const [dataToShow, setDataToShow] = useState(null);
-
   const [loading, setLoading] = useState('determinate');
   const [error, setError] = useState({});
-
   const JsonStyle = {
     propertyStyle: { color: 'red' },
     stringStyle: { color: 'green' },
     colonStyle: { color: 'darkorange' },
   };
-
   const abortAxios = new AbortController();
   const fetchData = async (abortController, request) => {
+    const reqType = getTypeReq(); 
     return axios.post(
       'http://localhost:3020/action',
       {
@@ -76,8 +69,6 @@ const Action = () => {
       );
       setBtn(currBtn);
       if (!currBtn) {
-        // changeBtn(...getIndicesByTitle(query.get('pageTitle'), query.get('btnTitle')));
-        // } else {
         navigate(`/button`);
       }
     }
@@ -154,7 +145,7 @@ const Action = () => {
       <Typography
         variant='h4'
         align='center'
-        color={greyColor}
+        color='#757575'
         sx={{
           mb: 2,
           fontWeight: 'bold',
@@ -167,7 +158,7 @@ const Action = () => {
       <Typography
         variant='h4'
         align='center'
-        color={primary}
+        color='#009688'
         sx={{ mb: 2, fontWeight: 'bold' }}
       >
         הכנס את הערכים
