@@ -227,6 +227,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 maxHeight: '37vh',
+                minHeight: '37vh',
                 overflow: 'auto',
               }}
             >
@@ -235,7 +236,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
                   <Grid key={i} item>
                     <SubmitButton
                       margin={1}
-                      width={'15vw'}
+                      width={'13vw'}
                       size={'small'}
                       color={'info'}
                       txt={btn?.title}

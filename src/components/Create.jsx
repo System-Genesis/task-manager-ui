@@ -12,7 +12,6 @@ import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import StepperNumber from './StepperNumber';
 import axios from 'axios';
 
-
 export const Create = ({ next, setNewUser }) => {
   const [user, setUser] = useState({
     username: '',
@@ -26,9 +25,14 @@ export const Create = ({ next, setNewUser }) => {
     confirm: false,
   });
 
+  const [sameUser, setSameUser] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(user.username);
+
     setError({ username: false, password: false, confirm: false });
+    setSameUser(false);
     error.username = !user.username;
     error.password = !user.password;
     if (error.password) {
@@ -45,23 +49,22 @@ export const Create = ({ next, setNewUser }) => {
       setError({ ...error });
     } else {
       try {
-        const userNames = await axios.get('http://localhost:3020/users/username');
-        const allUserName = userNames.data;
-        console.log(allUserName.length);
-        for(let i = 0; i < allUserName.length; i++ ) {
-          console.log(allUserName[i].username);
-          if(allUserName[i].username === user.username) {
-            console.log('same username');
-            return 'same username'
-          }
-          else {
-            console.log('good username');
-            return 'good username'
-          }
+        const res = await axios.get(
+          `http://localhost:3020/users/username/exist/${user.username}`
+        );
+        const userNameExist = res.data;
+        if (userNameExist === true) {
+          setSameUser(true);
+          setError({ ...error, username: true });
+          return;
         }
-        delete user.confirm;
-        setNewUser(user);
-        next();
+        else {
+
+          delete user.confirm;
+          setNewUser(user);
+          next();
+        }
+
       } catch (error) {
         setError({ username: true, password: true });
       }
@@ -108,7 +111,7 @@ export const Create = ({ next, setNewUser }) => {
         <Typography
           variant='h4'
           sx={{
-            mb: 3,
+            my: 3,
             fontWeight: 'bold',
             textTransform: 'uppercase',
             color: '#4e342e',
@@ -119,12 +122,15 @@ export const Create = ({ next, setNewUser }) => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={12}>
             <Input
-              label={'username'}
+              label={'Username'}
               fullWidth={true}
-              onChange={(e) => handleUserChange(e, 'Username')}
+              onChange={(e) => handleUserChange(e, 'username')}
               error={error.username}
             />
-            {error.username && errorMsg('Enter a username')}
+            {error.username && !sameUser && errorMsg('Enter a username')}
+            {error.username &&
+              sameUser &&
+              errorMsg('That username is taken, Try another')}
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <PasswordInput
@@ -136,9 +142,9 @@ export const Create = ({ next, setNewUser }) => {
             {error.password
               ? errorMsg('Enter a Password')
               : user.password.length > 0 &&
-              user.password.length < 8 &&
-              !error.password &&
-              errorMsg('Use 8 characters or more for your password')}
+                user.password.length < 8 &&
+                !error.password &&
+                errorMsg('Use 8 characters or more for your password')}
             {error.confirm &&
               user.password.length >= 8 &&
               errorMsg('Those passwords didn’t match. Try again.')}
@@ -168,7 +174,7 @@ export const Create = ({ next, setNewUser }) => {
             textTransform: 'capitalize',
             bgcolor: '#546e7a',
             width: '20%',
-            m: 3,
+            mt: 10,
             '&:hover': { bgcolor: '#546e7a', opacity: 10 },
           }}
         >

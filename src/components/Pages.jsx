@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Box, Paper, Typography, Grid } from '@mui/material';
+import { Box, Paper, Typography, Grid, Tooltip } from '@mui/material';
 import { InfoContext } from '../InfoContext';
 import SubmitButton from './Button';
 import { useNavigate } from 'react-router-dom';
@@ -23,8 +23,9 @@ const useStyles = makeStyles({
   },
   typographyHeader: {
     textAlign: 'center',
-    paddingTop: '16px',
+    marginTop: '12px',
     fontWeight: 'bold',
+    marginBottom: '24px'
   },
   pages: {
     display: 'flex',
@@ -36,8 +37,7 @@ const useStyles = makeStyles({
 const Pages = () => {
   const classes = useStyles();
   let navigate = useNavigate();
-  const { info, changeBtn } =
-    useContext(InfoContext);
+  const { info, changeBtn } = useContext(InfoContext);
 
   return (
     <Grid container>
@@ -54,21 +54,26 @@ const Pages = () => {
               </Typography>
               <Box className={classes.pages}>
                 {obj.btns.map((btn, i) => (
-                  <SubmitButton
-                    key={i}
-                    onClick={() => {
-                      changeBtn(pageIndex, i);      
-                      navigate(
-                        `/action?pageTitle=${info[pageIndex].title}&btnTitle=${info[pageIndex].btns[i].title}`
-                      );
-                    }}
-                    fullWidth={false}
-                    txt={btn?.title}
-                    margin={'12px'}
-                    padding={'6px'}
-                    width={'145px'}
-                    height={'60px'}
-                  />
+                  <Tooltip key={i} placement='top-start' title={btn.toolTip} arrow>
+                    <div>
+                      <SubmitButton
+                        key={i}
+                        onClick={() => {
+                          changeBtn(pageIndex, i);
+                          navigate(
+                            `/action?pageTitle=${info[pageIndex].title}&btnTitle=${info[pageIndex].btns[i].title}`
+                          );
+                        }}
+                        fullWidth={false}
+                        txt={btn?.title}
+                        margin={'12px'}
+                        padding={'6px'}
+                        width={'145px'}
+                        height={'60px'}
+                        marginTop={'5px'}
+                      />
+                    </div>
+                  </Tooltip>
                 ))}
               </Box>
             </Paper>

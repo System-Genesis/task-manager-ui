@@ -7,6 +7,7 @@ import Pages from '../components/Pages';
 import NavBar from '../components/NavBar';
 import { InfoContext } from '../InfoContext';
 import Logo from '../components/Logo';
+import TooltipInfo from '../components/TooltipInfo';
 
 const Button = () => {
   let navigate = useNavigate();
@@ -34,6 +35,7 @@ const Button = () => {
   ) : (
     <>
       <NavBar />
+      <TooltipInfo  />
       <Container>
         <Pages />
       </Container>
