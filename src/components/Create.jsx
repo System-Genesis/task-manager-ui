@@ -10,24 +10,26 @@ import RadiosGroup from '../components/RadiosGroup';
 import { Grid } from '@mui/material';
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import StepperNumber from './StepperNumber';
+import axios from 'axios';
+
 
 export const Create = ({ next, setNewUser }) => {
   const [user, setUser] = useState({
-    userName: '',
+    username: '',
     password: '',
     rule: 'user',
     confirm: '',
   });
   const [error, setError] = useState({
-    userName: false,
+    username: false,
     password: false,
     confirm: false,
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError({ userName: false, password: false, confirm: false });
-    error.userName = !user.userName;
+    setError({ username: false, password: false, confirm: false });
+    error.username = !user.username;
     error.password = !user.password;
     if (error.password) {
       error.confirm = false;
@@ -39,16 +41,29 @@ export const Create = ({ next, setNewUser }) => {
       }
     }
 
-    if (error.userName || error.password || user.password !== user.confirm) {
+    if (error.username || error.password || user.password !== user.confirm) {
       setError({ ...error });
     } else {
       try {
-        // const res = await axios()
+        const userNames = await axios.get('http://localhost:3020/users/username');
+        const allUserName = userNames.data;
+        console.log(allUserName.length);
+        for(let i = 0; i < allUserName.length; i++ ) {
+          console.log(allUserName[i].username);
+          if(allUserName[i].username === user.username) {
+            console.log('same username');
+            return 'same username'
+          }
+          else {
+            console.log('good username');
+            return 'good username'
+          }
+        }
         delete user.confirm;
         setNewUser(user);
         next();
       } catch (error) {
-        setError({ userName: true, password: true });
+        setError({ username: true, password: true });
       }
     }
   };
@@ -104,12 +119,12 @@ export const Create = ({ next, setNewUser }) => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={12}>
             <Input
-              label={'Username'}
+              label={'username'}
               fullWidth={true}
-              onChange={(e) => handleUserChange(e, 'userName')}
-              error={error.userName}
+              onChange={(e) => handleUserChange(e, 'Username')}
+              error={error.username}
             />
-            {error.userName && errorMsg('Enter a Username')}
+            {error.username && errorMsg('Enter a username')}
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <PasswordInput
@@ -121,9 +136,9 @@ export const Create = ({ next, setNewUser }) => {
             {error.password
               ? errorMsg('Enter a Password')
               : user.password.length > 0 &&
-                user.password.length < 8 &&
-                !error.password &&
-                errorMsg('Use 8 characters or more for your password')}
+              user.password.length < 8 &&
+              !error.password &&
+              errorMsg('Use 8 characters or more for your password')}
             {error.confirm &&
               user.password.length >= 8 &&
               errorMsg('Those passwords didn’t match. Try again.')}
@@ -149,7 +164,7 @@ export const Create = ({ next, setNewUser }) => {
         <Button
           variant='contained'
           type='submit'
-          sx={{            
+          sx={{
             textTransform: 'capitalize',
             bgcolor: '#546e7a',
             width: '20%',

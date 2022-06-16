@@ -10,7 +10,7 @@ import { getObj } from '../utils/localStorage';
 
 const NavBar = () => {
   let navigate = useNavigate();
-  const getUserName = getObj('data')?.user?.userName;
+  const getusername = getObj('data')?.user?.username;
 
   const handleSignOutButton = () => {
     navigate('/');
@@ -32,7 +32,7 @@ const NavBar = () => {
           textTransform='capitalize'
         >
           <Link href='/button' underline='none'>
-            hello {getUserName}
+            hello {getusername}
           </Link>
         </Typography>
         <Button

@@ -173,8 +173,8 @@ const Finish = ({ info, back }) => {
             variant='h4'
             className={classes.nameAndRule}
           >
-            Username <DoubleArrowIcon sx={{ color: '#c0ca33', mr: 1 }} />
-            {info?.user?.userName}
+            username <DoubleArrowIcon sx={{ color: '#c0ca33', mr: 1 }} />
+            {info?.user?.username}
           </Typography>
           <Typography
             color='#00897b'

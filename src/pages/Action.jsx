@@ -39,6 +39,7 @@ const Action = () => {
   const [dataToShow, setDataToShow] = useState(null);
   const [loading, setLoading] = useState('determinate');
   const [error, setError] = useState({});
+  const [download, setDownload] = useState(false)
   const JsonStyle = {
     propertyStyle: { color: 'red' },
     stringStyle: { color: 'green' },
@@ -82,6 +83,7 @@ const Action = () => {
     e.preventDefault();
     const currError = {};
     setCancel((prev) => false);
+    setDownload(false)
     Object.keys(btn?.params).forEach((par) => (currError[par] = !params[par]));
 
     if (Object.values(currError).some((i) => i)) {
@@ -107,6 +109,7 @@ const Action = () => {
         const request = buildRequest(params, btn?.name, btn?.type);
         const res = await fetchData(abortAxios, request);
         if (res.data.length < 100) {
+          setDownload(true)
           if (res.data && !Array.isArray(res.data)) {
             setDataToShow([res.data]);
           } else {
@@ -136,6 +139,7 @@ const Action = () => {
   };
 
   const handleDownloadClick = () => {
+    if(res)
     printToFile(dataToShow);
   };
 
@@ -228,7 +232,7 @@ const Action = () => {
           onClick={handleClick}
           margin={2}
         />
-        {!cancel && dataToShow && dataToShow.length >= 1 && (
+        {!cancel && dataToShow && dataToShow.length >= 1 && download && (
           <SubmitButton
             txt={'Download'}
             onClick={handleDownloadClick}

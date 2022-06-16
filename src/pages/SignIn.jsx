@@ -28,17 +28,17 @@ const useStyles = makeStyles({
 const SignIn = () => {
   let navigate = useNavigate();
   const classes = useStyles();
-  const [user, setUser] = useState({ userName: '', password: '' });
-  const [error, setError] = useState({ userName: false, password: false });
+  const [user, setUser] = useState({ username: '', password: '' });
+  const [error, setError] = useState({ username: false, password: false });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError({ userName: false, password: false });
+    setError({ username: false, password: false });
 
-    error.userName = !user.userName;
+    error.username = !user.username;
     error.password = !user.password;
 
-    if (error.userName || error.password) {
+    if (error.username || error.password) {
       setError({ ...error });
     } else {
       try {
@@ -46,7 +46,7 @@ const SignIn = () => {
         setObj('data', res.data);
         navigate('/button');
       } catch (error) {
-        setError({ userName: true, password: true });
+        setError({ username: true, password: true });
       }
     }
   };
@@ -71,24 +71,24 @@ const SignIn = () => {
             traking
           </Typography>
           <Input
-            label={'Username'}
+            label={'username'}
             fullWidth={true}
-            onChange={(e) => handleUserChange(e, 'userName')}
-            error={error.userName}
+            onChange={(e) => handleUserChange(e, 'username')}
+            error={error.username}
           />
-          <div style={{marginTop: '8px'}} />
+          <div style={{ marginTop: '8px' }} />
           <PasswordInput
-            sx={{mt: 1}}
+            sx={{ mt: 1 }}
             label={'Password'}
             fullWidth={true}
             onChange={(e) => handleUserChange(e, 'password')}
             error={error.password}
           />
-          <div style={{marginTop: '7px', marginBottom: '7px'}} />
+          <div style={{ marginTop: '7px', marginBottom: '7px' }} />
           {/* <Box sx={{ my: 0.7 }} /> */}
-          {(error.userName || error.password) && (
+          {(error.username || error.password) && (
             <Typography variant='h7' className={classes.typographyError}>
-              Username or Password Incorrect
+              username or Password Incorrect
             </Typography>
           )}
           <SubmitButton margin={2} txt={'submit'} fullWidth={true} />
