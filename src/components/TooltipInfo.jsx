@@ -1,10 +1,19 @@
-import * as React from 'react';
-import { Tooltip, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Tooltip } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles(theme => ({
+  customWidth: {
+    maxWidth: 590,
+    fontSize: "1em",
+  }
+}));
 
 export const TooltipInfo = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const classes = useStyles();
 
   const handleTooltipClose = () => {
     setOpen(false);
@@ -14,14 +23,13 @@ export const TooltipInfo = () => {
     setOpen(true);
   };
 
-
-  const info = `Splitter - .היחיד שניגש למקורות המידע, לוקח מידע מהמקורות מפצל אותם ליחידים ומעביר אותם לטיפול המערכת
-                                Mergeduser - מאגד את כל האובייקטים מכל מקורות המידע של אדם אחד תחת אובייקט אחד`;
+  const info = `Splitter - .לוקח מידע מהמקורות, מפצל אותם ליחידים ומעביר אותם לטיפול המערכת
+  Mergeduser - מאגד את כל האובייקטים מכל מקורות המידע של אדם אחד תחת אובייקט אחד`;
 
   return (
     <div>
       <ClickAwayListener onClickAway={handleTooltipClose}>
-        <Tooltip sx={{maxWidth: 400}}
+        <Tooltip 
           PopperProps={{
             disablePortal: true,
           }}
@@ -31,14 +39,15 @@ export const TooltipInfo = () => {
           disableHoverListener
           disableTouchListener
           title={info}
-          placement='bottom-end'
+          placement='bottom-end' 
+          classes={{ tooltip: classes.customWidth }}         
         >
           <Button
             sx={{
-              color: '#757575',
+              color: '#ff9800',
               position: 'relative',
-              left: '5px',
-              top: '-25px',
+              left: '-7px',
+              top: '-32px',
               padding: '4px',
             }}
             onClick={handleTooltipOpen}

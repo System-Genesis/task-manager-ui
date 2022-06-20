@@ -3,7 +3,6 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
 import { clear } from '../utils/localStorage';
 import Link from '@mui/material/Link';
@@ -37,6 +36,17 @@ const NavBar = () => {
           </Link>
         </Typography>
         <Button
+
+          variant='contained'
+          size='small'
+          onClick={''}
+          sx={{
+            mr: 2, bgcolor: '#ef5350', '&:hover': { bgcolor: '#ef5350', opacity: 0.9 },
+          }}
+        >
+          Create button
+        </Button>
+        <Button
           color='secondary'
           variant='contained'
           size='small'
@@ -45,8 +55,6 @@ const NavBar = () => {
         >
           create user
         </Button>
-        <Tooltip title="Add" placement="top-start">
-
         <Button
           color='primary'
           variant='contained'
@@ -55,8 +63,6 @@ const NavBar = () => {
         >
           Sign Out
         </Button>
-        </Tooltip>
-
       </Toolbar>
     </AppBar>
   );
