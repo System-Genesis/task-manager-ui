@@ -11,7 +11,7 @@ import yoni from '../images/yoni.jpeg';
 
 const Logo = () => {
   return (
-    <div style={{ overflow: 'hidden' }}>
+    <div style={{ overflow: 'hidden', paddingBottom: '25px' }}>
       <LogoShowcase
         images={[
           {

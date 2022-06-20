@@ -30,7 +30,7 @@ const useQuery = () => {
 };
 
 const Action = () => {
-  const { setBtnByTitle, getTypeReq } = useContext(InfoContext);
+  const { setBtnByTitle } = useContext(InfoContext);
   const query = useQuery();
   const navigate = useNavigate();
   const [params, setParams] = useState({});
@@ -39,7 +39,7 @@ const Action = () => {
   const [dataToShow, setDataToShow] = useState(null);
   const [loading, setLoading] = useState('determinate');
   const [error, setError] = useState({});
-  const [download, setDownload] = useState(false)
+  const [downloadBtn, setDownloadBtn] = useState(false);
   const JsonStyle = {
     propertyStyle: { color: 'red' },
     stringStyle: { color: 'green' },
@@ -47,12 +47,11 @@ const Action = () => {
   };
   const abortAxios = new AbortController();
   const fetchData = async (abortController, request) => {
-    const reqType = getTypeReq(); 
     return axios.post(
       'http://localhost:3020/action',
       {
         ...request,
-        reqType,
+        reqType: btn.methods,
       },
       {
         signal: abortController.signal,
@@ -69,6 +68,7 @@ const Action = () => {
         query.get('btnTitle')
       );
       setBtn(currBtn);
+      console.log(btn);
       if (!currBtn) {
         navigate(`/button`);
       }
@@ -83,8 +83,8 @@ const Action = () => {
     e.preventDefault();
     const currError = {};
     setCancel((prev) => false);
-    setDownload(false)
-    Object.keys(btn?.params).forEach((par) => (currError[par] = !params[par]));
+    setDownloadBtn(false);
+    // Object.keys(btn?.params).forEach((par) => (currError[par] = !params[par]));
 
     if (Object.values(currError).some((i) => i)) {
       setError({ ...currError });
@@ -108,8 +108,8 @@ const Action = () => {
         setLoading('indeterminate');
         const request = buildRequest(params, btn?.name, btn?.type);
         const res = await fetchData(abortAxios, request);
-        if (res.data.length < 100) {
-          setDownload(true)
+        if (!Array.isArray(res.data) || res.data.length < 100) {
+          setDownloadBtn(true);
           if (res.data && !Array.isArray(res.data)) {
             setDataToShow([res.data]);
           } else {
@@ -139,8 +139,7 @@ const Action = () => {
   };
 
   const handleDownloadClick = () => {
-    if(res)
-    printToFile(dataToShow);
+    if (res) printToFile(dataToShow);
   };
 
   return (
@@ -157,7 +156,7 @@ const Action = () => {
           textDecoration: 'underline',
         }}
       >
-        {`${getTypeReq()} ${btn?.title}`}
+        {btn?.title}
       </Typography>
       <Typography
         variant='h4'
@@ -232,7 +231,7 @@ const Action = () => {
           onClick={handleClick}
           margin={2}
         />
-        {!cancel && dataToShow && dataToShow.length >= 1 && download && (
+        {!cancel && dataToShow && dataToShow.length >= 1 && downloadBtn && (
           <SubmitButton
             txt={'Download'}
             onClick={handleDownloadClick}

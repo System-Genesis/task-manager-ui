@@ -25,7 +25,10 @@ const useStyles = makeStyles({
     textAlign: 'center',
     marginTop: '12px',
     fontWeight: 'bold',
-    marginBottom: '24px'
+    marginBottom: '24px',
+    textTransform: 'capitalize',
+    fontFamily: 'Roboto Mono, monospace',
+
   },
   pages: {
     display: 'flex',

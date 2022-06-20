@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
   customWidth: {
-    maxWidth: 590,
+    maxWidth: 620,
     fontSize: "1em",
   }
 }));
