@@ -181,8 +181,8 @@ const Finish = ({ info, back }) => {
             variant='h4'
             className={classes.nameAndRule}
           >
-            Rule <DoubleArrowIcon sx={{ color: '#c0ca33', mr: 1 }} />
-            {info?.user?.rule}
+            Role <DoubleArrowIcon sx={{ color: '#c0ca33', mr: 1 }} />
+            {info?.user?.role}
           </Typography>
           <Typography
             color='#00897b'

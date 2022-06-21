@@ -84,7 +84,9 @@ const Action = () => {
     const currError = {};
     setCancel((prev) => false);
     setDownloadBtn(false);
-    // Object.keys(btn?.params).forEach((par) => (currError[par] = !params[par]));
+    if(btn?.params){
+      Object.keys(btn.params).forEach((par) => (currError[par] = !params[par]));
+    }
 
     if (Object.values(currError).some((i) => i)) {
       setError({ ...currError });

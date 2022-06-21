@@ -11,12 +11,13 @@ const useStyles = makeStyles({
     flexWrap: 'wrap',
     margin: '0 auto',
     justifyContent: 'center',
+    marginBottom: '16px'
   },
   paper: {
-    minWidth: '28vw',
+    // minWidth: '28vw',
     minHeight: '60vh',
     maxHeight: '60vh',
-    margin: '24px',
+    margin: '16px',
     borderRadius: '20px',
     alignItems: 'center',
     overflow: 'auto',
@@ -46,7 +47,7 @@ const Pages = () => {
     <Grid container>
       <Box className={classes.box}>
         {info.map((obj, pageIndex) => (
-          <Grid key={pageIndex} item xs={11} sm={9} md={6} lg={6}>
+          <Grid key={pageIndex} item xs={10} sm={6} md={4} lg={4}>
             <Paper elevation={10} variant='elevation' className={classes.paper}>
               <Typography
                 variant='h4'

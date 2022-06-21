@@ -16,7 +16,7 @@ export const Create = ({ next, setNewUser }) => {
   const [user, setUser] = useState({
     username: '',
     password: '',
-    rule: 'user',
+    role: 'user',
     confirm: '',
   });
   const [error, setError] = useState({
@@ -57,14 +57,11 @@ export const Create = ({ next, setNewUser }) => {
           setSameUser(true);
           setError({ ...error, username: true });
           return;
-        }
-        else {
-
+        } else {
           delete user.confirm;
           setNewUser(user);
           next();
         }
-
       } catch (error) {
         setError({ username: true, password: true });
       }
@@ -162,7 +159,7 @@ export const Create = ({ next, setNewUser }) => {
             <RadiosGroup
               onChange={(e) => {
                 e.preventDefault();
-                setUser({ ...user, rule: e.target.value });
+                setUser({ ...user, role: e.target.value });
               }}
             />
           </Grid>

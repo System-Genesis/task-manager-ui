@@ -8,7 +8,7 @@ import FormLabel from '@mui/material/FormLabel';
 const RadiosGroup = ({ onChange }) => {
   return (
     <FormControl>
-      <FormLabel>Rule</FormLabel>
+      <FormLabel>Role</FormLabel>
       <RadioGroup onChange={onChange} row defaultValue='user'>
         <FormControlLabel value='manager' control={<Radio />} label='manager' />
         <FormControlLabel value='user' control={<Radio />} label='user' />

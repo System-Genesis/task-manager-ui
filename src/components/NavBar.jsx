@@ -39,7 +39,6 @@ const NavBar = () => {
 
           variant='contained'
           size='small'
-          onClick={''}
           sx={{
             mr: 2, bgcolor: '#ef5350', '&:hover': { bgcolor: '#ef5350', opacity: 0.9 },
           }}
