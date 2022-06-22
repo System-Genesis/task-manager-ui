@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Avatar from '@mui/material/Avatar';
+// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+// import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Input from '../components/Input';
@@ -26,13 +26,13 @@ export const Create = ({ next, setNewUser }) => {
   });
 
   const [sameUser, setSameUser] = useState(false);
+  const [checkValidation, setCheckValidation] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user.username);
-
     setError({ username: false, password: false, confirm: false });
     setSameUser(false);
+    setCheckValidation(false);
     error.username = !user.username;
     error.password = !user.password;
     if (error.password) {
@@ -43,6 +43,11 @@ export const Create = ({ next, setNewUser }) => {
         error.confirm = true;
         setUser({ ...user, confirm: '' });
       }
+    }
+    const checkValidation = checkValid(user.username);
+    if (!checkValidation) {
+      error.username = true;
+      setCheckValidation(true);
     }
 
     if (error.username || error.password || user.password !== user.confirm) {
@@ -91,6 +96,11 @@ export const Create = ({ next, setNewUser }) => {
       </Typography>
     </>
   );
+
+  const checkValid = (str) => {
+    return /^[A-Za-z0-9_]*$/.test(str);
+  };
+
   return (
     <form noValidate autoComplete='off' onSubmit={handleSubmit}>
       <Box
@@ -124,10 +134,19 @@ export const Create = ({ next, setNewUser }) => {
               onChange={(e) => handleUserChange(e, 'username')}
               error={error.username}
             />
-            {error.username && !sameUser && errorMsg('Enter a username')}
+            {error.username &&
+              !sameUser &&
+              !checkValidation &&
+              errorMsg('Enter a username')}
             {error.username &&
               sameUser &&
+              !checkValidation &&
               errorMsg('That username is taken, Try another')}
+            {error.username &&
+              checkValidation &&
+              errorMsg(
+                'Sorry, only letters (a-z), numbers  (0-9), and underscore (_) are allowed'
+              )}
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <PasswordInput

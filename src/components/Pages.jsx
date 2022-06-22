@@ -11,10 +11,10 @@ const useStyles = makeStyles({
     flexWrap: 'wrap',
     margin: '0 auto',
     justifyContent: 'center',
-    marginBottom: '16px'
+    marginBottom: '16px',
+    minWidth: '100%',
   },
   paper: {
-    // minWidth: '28vw',
     minHeight: '60vh',
     maxHeight: '60vh',
     margin: '16px',
@@ -73,7 +73,7 @@ const Pages = () => {
                         margin={'12px'}
                         padding={'6px'}
                         width={'145px'}
-                        height={'60px'}
+                        height={'75px'}
                         marginTop={'5px'}
                       />
                     </div>
