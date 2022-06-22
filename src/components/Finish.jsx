@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     textTransform: 'none',
     fontFamily: 'Roboto Mono, monospace',
   },
-  nameAndRule: {
+  nameAndRole: {
     textTransform: 'none',
     fontFamily: 'Roboto Mono, monospace',
     marginTop: '8px',
@@ -171,7 +171,7 @@ const Finish = ({ info, back }) => {
           <Typography
             color='#00897b'
             variant='h4'
-            className={classes.nameAndRule}
+            className={classes.nameAndRole}
           >
             username <DoubleArrowIcon sx={{ color: '#c0ca33', mr: 1 }} />
             {info?.user?.username}
@@ -179,7 +179,7 @@ const Finish = ({ info, back }) => {
           <Typography
             color='#00897b'
             variant='h4'
-            className={classes.nameAndRule}
+            className={classes.nameAndRole}
           >
             Role <DoubleArrowIcon sx={{ color: '#c0ca33', mr: 1 }} />
             {info?.user?.role}

@@ -19,7 +19,7 @@ const CreateUser = () => {
   useEffect(() => {
     const localData = getObj('data');
     if (!localData) navigate(`/`);
-    // if (userRule !== 'manager') {
+    // if (userRole !== 'manager') {
     // navigate(`/`);
     // }
   }, []);
