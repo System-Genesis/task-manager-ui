@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { clear } from '../utils/localStorage';
 import Link from '@mui/material/Link';
 import { getObj } from '../utils/localStorage';
+import axios from 'axios';
 
 const NavBar = () => {
   let navigate = useNavigate();
   const getusername = getObj('data')?.user?.username;
+  const [userRole, setUserRole] = useState(false)
 
   const handleSignOutButton = () => {
     navigate('/');
@@ -20,6 +22,24 @@ const NavBar = () => {
   const handleCreateBUtton = () => {
     navigate('/create');
   };
+
+  useEffect(() => {
+    const localData = getObj('data');
+    const userCheck = {
+      username: localData?.user.username,
+      password: localData?.user.password,
+    };
+    const checkUserRole = async () => {
+      try {
+        const res = await axios.post(
+          'http://localhost:3020/users/checkuserrole',
+          userCheck
+        );
+        setUserRole(res.data)
+      } catch (e) {}
+    };
+    checkUserRole()  
+  }, []);
 
   return (
     <AppBar position='static' color='default' elevation={5} sx={{ mb: 5 }}>
@@ -35,25 +55,30 @@ const NavBar = () => {
             hello {getusername}
           </Link>
         </Typography>
-        <Button
-
-          variant='contained'
-          size='small'
-          sx={{
-            mr: 2, bgcolor: '#ef5350', '&:hover': { bgcolor: '#ef5350', opacity: 0.9 },
-          }}
-        >
-          Create button
-        </Button>
-        <Button
-          color='secondary'
-          variant='contained'
-          size='small'
-          onClick={handleCreateBUtton}
-          sx={{ mr: 2 }}
-        >
-          create user
-        </Button>
+        {userRole === true && (
+          <>
+            <Button
+              variant='contained'
+              size='small'
+              sx={{
+                mr: 2,
+                bgcolor: '#ef5350',
+                '&:hover': { bgcolor: '#ef5350', opacity: 0.9 },
+              }}
+            >
+              Create button
+            </Button>
+            <Button
+              color='secondary'
+              variant='contained'
+              size='small'
+              onClick={handleCreateBUtton}
+              sx={{ mr: 2 }}
+            >
+              create user
+            </Button>
+          </>
+        )}
         <Button
           color='primary'
           variant='contained'

@@ -322,10 +322,3 @@ const Action = () => {
 };
 
 export default Action;
-
-
-// "title":"Get identifier from splitter",
-// "params":{"identifier":"string",},
-// "name":"splitter/digitalIdentity/:digitalIdentity",
-// "methods":"Get",
-// "toolTip":"קבלת מידע גולמי לפי מזהה אישי"

@@ -63,6 +63,16 @@ export const InfoProvider = (props) => {
     });
   };
 
+  const getUserRule = () => {
+    let newInfo = info;
+    if (!newInfo) {
+      newInfo = getObj('data')?.user;
+      if (!newInfo) return;
+      setInfo(newInfo || 'no data');
+    }
+    return newInfo;
+  }
+
   return (
     <InfoContext.Provider
       value={{
@@ -72,6 +82,7 @@ export const InfoProvider = (props) => {
         getTypeReq,
         setInfo,
         setBtnByTitle,
+        getUserRule
       }}
     >
       {props.children}

@@ -7,7 +7,7 @@ import Create from '../components/Create';
 import { AddPages } from '../components/AddPages';
 import SwipeableViews from 'react-swipeable-views';
 import Finish from '../components/Finish';
-
+import axios from 'axios';
 
 const CreateUser = () => {
   let navigate = useNavigate();
@@ -16,12 +16,28 @@ const CreateUser = () => {
   const [user, setUser] = useState();
   const [pages, setPages] = useState([]);
 
+  const checkUserRole = async (userCheck) => {
+    try {
+      const res = await axios.post(
+        'http://localhost:3020/users/checkuserrole',
+        userCheck
+      );
+      if (res.data) {
+        return;
+      }
+    } catch (e) {
+    }
+    navigate(`/button`);
+  };
+
   useEffect(() => {
     const localData = getObj('data');
     if (!localData) navigate(`/`);
-    // if (userRole !== 'manager') {
-    // navigate(`/`);
-    // }
+    const userCheck = {
+      username: localData?.user.username,
+      password: localData?.user.password,
+    };
+    checkUserRole(userCheck);
   }, []);
 
   const next = () => {
@@ -29,7 +45,7 @@ const CreateUser = () => {
   };
   const back = () => {
     setStage(stage - 1);
-  }
+  };
 
   return (
     <>
@@ -44,13 +60,13 @@ const CreateUser = () => {
               borderRadius: '8px',
               height: '71vh',
               overflow: 'auto',
-              backgroundColor: '#f3f7f0'
+              backgroundColor: '#f3f7f0',
             }}
           >
             <SwipeableViews index={stage}>
               <Create next={next} setNewUser={setUser} />
               <AddPages next={next} back={back} setNewPages={setPages} />
-              <Finish info={{user,pages}} back={back} />
+              <Finish info={{ user, pages }} back={back} />
             </SwipeableViews>
           </Container>
         </>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
 import { makeStyles } from '@mui/styles';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { setObj } from '../utils/localStorage';
 import PasswordInput from '../components/PasswordInput';
+import { getObj } from '../utils/localStorage';
 
 const useStyles = makeStyles({
   box: {
@@ -30,6 +31,13 @@ const SignIn = () => {
   const classes = useStyles();
   const [user, setUser] = useState({ username: '', password: '' });
   const [error, setError] = useState({ username: false, password: false });
+
+  useEffect(() => {
+    const localData = getObj('data');
+    if (localData) {
+      navigate(`/button`);
+    }
+  },[]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

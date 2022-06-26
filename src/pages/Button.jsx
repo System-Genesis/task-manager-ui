@@ -26,7 +26,7 @@ const Button = () => {
       }
       setUser(localData.user);
       setInfo(localData.data);
-      
+    
     }
   }, []);
 
