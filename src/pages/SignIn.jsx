@@ -8,10 +8,10 @@ import Typography from '@mui/material/Typography';
 import Input from '../components/Input';
 import SubmitButton from '../components/Button';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { setObj } from '../utils/localStorage';
 import PasswordInput from '../components/PasswordInput';
-import { getObj } from '../utils/localStorage';
+import { getObj, clear } from '../utils/localStorage';
 
 const useStyles = makeStyles({
   box: {
@@ -28,16 +28,36 @@ const useStyles = makeStyles({
 
 const SignIn = () => {
   let navigate = useNavigate();
+  const location = useLocation();
+
   const classes = useStyles();
   const [user, setUser] = useState({ username: '', password: '' });
   const [error, setError] = useState({ username: false, password: false });
 
   useEffect(() => {
     const localData = getObj('data');
-    if (localData) {
-      navigate(`/button`);
-    }
-  },[]);
+    if (!localData) { return }
+    const userCheck = {
+      username: localData?.user.username,
+      password: localData?.user.password,
+    };
+    axios.post(
+      'http://localhost:3020/users/checkuserexist',
+      userCheck
+    ).then(res => {
+
+      if (!res.data) {
+        clear();
+       }
+      else {
+        const currentLocatin = location.pathname
+        if (currentLocatin !== '/button') {
+          navigate(`/button`)
+        }
+      }
+    })
+      .catch(e => { })
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,7 +100,7 @@ const SignIn = () => {
             traking
           </Typography>
           <Input
-            label={'username'}
+            label={'Username'}
             fullWidth={true}
             onChange={(e) => handleUserChange(e, 'username')}
             error={error.username}

@@ -8,6 +8,7 @@ import { AddPages } from '../components/AddPages';
 import SwipeableViews from 'react-swipeable-views';
 import Finish from '../components/Finish';
 import axios from 'axios';
+import Loading from '../components/Loading';
 
 const CreateUser = () => {
   let navigate = useNavigate();
@@ -15,6 +16,7 @@ const CreateUser = () => {
   const [stage, setStage] = useState(0);
   const [user, setUser] = useState();
   const [pages, setPages] = useState([]);
+  const [loading, setLoading] = useState('indeterminate')
 
   const checkUserRole = async (userCheck) => {
     try {
@@ -23,6 +25,7 @@ const CreateUser = () => {
         userCheck
       );
       if (res.data) {
+        setLoading('determinate')
         return;
       }
     } catch (e) {
@@ -47,30 +50,29 @@ const CreateUser = () => {
     setStage(stage - 1);
   };
 
-  return (
+  return loading === 'indeterminate' ? (
+    <div style={{ display: 'grid', placeItems: 'center', height: '100vh' }}  >
+      <Loading variant={'indeterminate'} />
+    </div>) : (
     <>
-      {
-        <>
-          <NavBar />
-          <Container
-            maxWidth='md'
-            sx={{
-              mt: 10,
-              border: '1px solid #dadce0',
-              borderRadius: '8px',
-              height: '71vh',
-              overflow: 'auto',
-              backgroundColor: '#f3f7f0',
-            }}
-          >
-            <SwipeableViews index={stage}>
-              <Create next={next} setNewUser={setUser} />
-              <AddPages next={next} back={back} setNewPages={setPages} />
-              <Finish info={{ user, pages }} back={back} />
-            </SwipeableViews>
-          </Container>
-        </>
-      }
+      <NavBar />
+      <Container
+        maxWidth='md'
+        sx={{
+          mt: 10,
+          border: '1px solid #dadce0',
+          borderRadius: '8px',
+          height: '71vh',
+          overflow: 'auto',
+          backgroundColor: '#f3f7f0',
+        }}
+      >
+        <SwipeableViews index={stage}>
+          <Create next={next} setNewUser={setUser} />
+          <AddPages next={next} back={back} setNewPages={setPages} />
+          <Finish info={{ user, pages }} back={back} />
+        </SwipeableViews>
+      </Container>
     </>
   );
 };

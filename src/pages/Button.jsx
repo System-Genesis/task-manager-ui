@@ -8,6 +8,9 @@ import NavBar from '../components/NavBar';
 import { InfoContext } from '../InfoContext';
 import Logo from '../components/Logo';
 import TooltipInfo from '../components/TooltipInfo';
+import axios from 'axios';
+import Loading from '../components/Loading';
+import { grid } from '@mui/system';
 
 const Button = () => {
   let navigate = useNavigate();
@@ -20,22 +23,43 @@ const Button = () => {
     if (!localData) {
       navigate(`/`);
     } else {
-      const currentLocatin = location.pathname
-      if(currentLocatin !== '/button') {
-        navigate(`/button`)
-      }
-      setUser(localData.user);
-      setInfo(localData.data);
-    
+      const userCheck = {
+        username: localData?.user.username,
+        password: localData?.user.password,
+      };
+      const checkUserExist = async () => {
+        try {
+          const res = await axios.post(
+            'http://localhost:3020/users/checkuserexist',
+            userCheck
+          );
+          if (!res.data) {
+            navigate(`/`)
+          }
+          else {
+            const currentLocatin = location.pathname
+            if (currentLocatin !== '/button') {
+              navigate(`/button`)
+            }
+            setInfo(localData.data);
+            setUser(localData.user);
+          }
+        } catch (e) {
+          navigate(`/`)
+        }
+      };
+      checkUserExist();
     }
   }, []);
 
   return !user ? (
-    <p>loading...</p>
+    <div style={{display: 'grid', placeItems: 'center', height: '100vh'}}  >
+    <Loading variant={'indeterminate'} />
+    </div>
   ) : (
     <>
       <NavBar />
-      <TooltipInfo  />
+      <TooltipInfo />
       <Container>
         <Pages />
       </Container>
