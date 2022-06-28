@@ -9,9 +9,10 @@ import Button from './pages/Button';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { InfoProvider } from './InfoContext';
 import Action from './pages/Action';
-// require('dotenv').config()
+import Create from './pages/CreateUser';
 let theme = createTheme({
   typography: {
+    fontFamily: 'Rubik, sans-serif'
   },
 });
 
@@ -26,6 +27,8 @@ function App() {
             <Route path='/' element={<SignIn />} />
             <Route path='/button' element={<Button />} />
             <Route path='/action' element={<Action />} />
+            <Route path='/create' element={<Create />} />
+            <Route path="*" element={<Button />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

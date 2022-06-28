@@ -1,67 +1,83 @@
 import React, { useContext } from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import { Box, Paper, Typography, Grid, Tooltip } from '@mui/material';
 import { InfoContext } from '../InfoContext';
 import SubmitButton from './Button';
 import { useNavigate } from 'react-router-dom';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  box: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: '0 auto',
+    justifyContent: 'center',
+    marginBottom: '16px',
+    minWidth: '100%',
+  },
+  paper: {
+    minHeight: '58vh',
+    maxHeight: '60vh',
+    margin: '16px',
+    borderRadius: '20px',
+    alignItems: 'center',
+    overflow: 'auto',
+  },
+  typographyHeader: {
+    textAlign: 'center',
+    marginTop: '12px',
+    fontWeight: 'bold',
+    marginBottom: '24px',
+    textTransform: 'capitalize',
+    fontFamily: 'Roboto Mono, monospace',
+
+  },
+  pages: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+});
 
 const Pages = () => {
+  const classes = useStyles();
   let navigate = useNavigate();
   const { info, changeBtn } = useContext(InfoContext);
 
   return (
     <Grid container>
-      <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          margin: '0 auto',
-          justifyContent: 'center',
-        }}
-      >
+      <Box className={classes.box}>
         {info.map((obj, pageIndex) => (
-          <Grid key={pageIndex} item xs={10} md={6} lg={6}>
-            <Paper
-              elevation={10}
-              variant='elevation'
-              sx={{
-                minWidth: '28vw',
-                minHeight: '60vh',
-                m: 3,
-                borderRadius: '20px',
-                alignItems: 'center',
-              }}
-            >
+          <Grid key={pageIndex} item xs={10} sm={6} md={4} lg={4}>
+            <Paper elevation={10} variant='elevation' className={classes.paper}>
               <Typography
                 variant='h4'
-                sx={{
-                  textAlign: 'center',
-                  pt: 2,
-                  fontWeight: 'bold',
-                  color: 'secondary.light',
-                }}
+                className={classes.typographyHeader}
+                sx={{ color: 'secondary.light' }}
               >
                 {obj.title}
               </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  flexWrap: 'wrap',
-                }}
-              >
+              <Box className={classes.pages}>
                 {obj.btns.map((btn, i) => (
-                  <SubmitButton
-                    key={i}
-                    onClick={() => {
-                      changeBtn(pageIndex, i);
-                      navigate('/action');
-                    }}
-                    fullWidth={false}
-                    txt={btn.title}
-                  />
+                  <Tooltip key={i} placement='top-start' title={btn.toolTip} arrow>
+                    <div>
+                      <SubmitButton
+                        key={i}
+                        onClick={() => {
+                          changeBtn(pageIndex, i);
+                          navigate(
+                            `/action?pageTitle=${info[pageIndex].title}&btnTitle=${info[pageIndex].btns[i].title}`
+                          );
+                        }}
+                        fullWidth={false}
+                        txt={btn?.title}
+                        margin={'12px'}
+                        padding={'6px'}
+                        width={'145px'}
+                        height={'75px'}
+                        marginTop={'5px'}
+                      />
+                    </div>
+                  </Tooltip>
                 ))}
               </Box>
             </Paper>

@@ -7,7 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-export const PasswordInput = ({onChange, error}) => {
+export const PasswordInput = ({onChange, error, fullWidth, label, value}) => {
     const [values, setValues] = useState({
         password: '',
         showPassword: false,
@@ -29,14 +29,15 @@ export const PasswordInput = ({onChange, error}) => {
         event.preventDefault();
       };
   return (
-    <FormControl sx={{ m: 1 }} required fullWidth variant="outlined" error={error}>
-    <InputLabel >Password</InputLabel>
+    <FormControl  required fullWidth={fullWidth} variant="outlined" error={error}>
+    <InputLabel >{label}</InputLabel>
     <OutlinedInput
       type={values.showPassword ? 'text' : 'password'}
-    //   value={values.password}
       onChange={handleChange('password')}
+      value={value}
       endAdornment={
-        <InputAdornment>
+        <InputAdornment >
+
           <IconButton
             onClick={handleClickShowPassword}
             onMouseDown={handleMouseDownPassword}
@@ -46,7 +47,7 @@ export const PasswordInput = ({onChange, error}) => {
           </IconButton>
         </InputAdornment>
       }
-      label="Password"
+      label={label}
     />
   </FormControl>
   )

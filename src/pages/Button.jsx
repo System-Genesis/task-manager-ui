@@ -1,15 +1,19 @@
 /* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useState, useContext } from 'react';
 import Container from '@mui/material/Container';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { getObj } from '../utils/localStorage';
 import Pages from '../components/Pages';
 import NavBar from '../components/NavBar';
 import { InfoContext } from '../InfoContext';
 import Logo from '../components/Logo';
+import TooltipInfo from '../components/TooltipInfo';
+import axios from 'axios';
+import Loading from '../components/Loading';
 
-const Manager = () => {
+const Button = () => {
   let navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState(null);
   const { setInfo } = useContext(InfoContext);
 
@@ -18,16 +22,42 @@ const Manager = () => {
     if (!localData) {
       navigate(`/`);
     } else {
-      setUser(localData.user);
-      setInfo(localData.data);
+      const userCheck = {
+        username: localData?.user.username,
+        password: localData?.user.password,
+      };
+      const checkUserExist = async () => {
+        try {
+          const res = await axios.post(
+            `${process.env.REACT_APP_BECKEND_URL}/users/checkuserexist`,
+            userCheck
+          );
+          if (!res.data) {
+            navigate(`/`);
+          } else {
+            const currentLocatin = location.pathname;
+            if (currentLocatin !== '/button') {
+              navigate(`/button`);
+            }
+            setInfo(localData.data);
+            setUser(localData.user);
+          }
+        } catch (e) {
+          navigate(`/`);
+        }
+      };
+      checkUserExist();
     }
   }, []);
 
   return !user ? (
-    <p>loading...</p>
+    <div style={{ display: 'grid', placeItems: 'center', height: '100vh' }}>
+      <Loading variant={'indeterminate'} />
+    </div>
   ) : (
     <>
-      <NavBar signInUser={user?.rule} />
+      <NavBar />
+      <TooltipInfo />
       <Container>
         <Pages />
       </Container>
@@ -36,4 +66,4 @@ const Manager = () => {
   );
 };
 
-export default Manager;
+export default Button;
