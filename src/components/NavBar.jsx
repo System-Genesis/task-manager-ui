@@ -58,17 +58,6 @@ const NavBar = () => {
         {userRole === true && (
           <>
             <Button
-              variant='contained'
-              size='small'
-              sx={{
-                mr: 2,
-                bgcolor: '#ef5350',
-                '&:hover': { bgcolor: '#ef5350', opacity: 0.9 },
-              }}
-            >
-              Create button
-            </Button>
-            <Button
               color='secondary'
               variant='contained'
               size='small'
