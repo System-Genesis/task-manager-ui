@@ -55,7 +55,7 @@ export const Create = ({ next, setNewUser }) => {
     } else {
       try {
         const res = await axios.get(
-          `http://localhost:3020/users/username/exist/${user.username}`
+          `${process.env.REACT_APP_BECKEND_URL}/users/username/exist/${user.username}`
         );
         const userNameExist = res.data;
         if (userNameExist === true) {

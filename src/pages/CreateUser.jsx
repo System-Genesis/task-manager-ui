@@ -16,20 +16,19 @@ const CreateUser = () => {
   const [stage, setStage] = useState(0);
   const [user, setUser] = useState();
   const [pages, setPages] = useState([]);
-  const [loading, setLoading] = useState('indeterminate')
+  const [loading, setLoading] = useState('indeterminate');
 
   const checkUserRole = async (userCheck) => {
     try {
       const res = await axios.post(
-        'http://localhost:3020/users/checkuserrole',
+        `${process.env.REACT_APP_BECKEND_URL}/users/checkuserrole`,
         userCheck
       );
       if (res.data) {
-        setLoading('determinate')
+        setLoading('determinate');
         return;
       }
-    } catch (e) {
-    }
+    } catch (e) {}
     navigate(`/button`);
   };
 
@@ -51,9 +50,10 @@ const CreateUser = () => {
   };
 
   return loading === 'indeterminate' ? (
-    <div style={{ display: 'grid', placeItems: 'center', height: '100vh' }}  >
+    <div style={{ display: 'grid', placeItems: 'center', height: '100vh' }}>
       <Loading variant={'indeterminate'} />
-    </div>) : (
+    </div>
+  ) : (
     <>
       <NavBar />
       <Container

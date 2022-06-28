@@ -48,7 +48,7 @@ const Action = () => {
   const abortAxios = new AbortController();
   const fetchData = async (abortController, request) => {
     return axios.post(
-      'http://localhost:3020/action',
+      `${process.env.REACT_APP_BECKEND_URL}/action`,
       {
         ...request,
         reqType: btn.methods,
@@ -83,7 +83,7 @@ const Action = () => {
     const currError = {};
     setCancel((prev) => false);
     setDownloadBtn(false);
-    if(btn?.params){
+    if (btn?.params) {
       Object.keys(btn.params).forEach((par) => (currError[par] = !params[par]));
     }
 

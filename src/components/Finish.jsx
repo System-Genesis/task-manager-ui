@@ -88,10 +88,13 @@ const Finish = ({ info, back }) => {
         };
       });
       const user = info.user;
-      const res = await axios.post('http://localhost:3020/users/new', {
-        user,
-        pages,
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_BECKEND_URL}/users/new`,
+        {
+          user,
+          pages,
+        }
+      );
       const swalRes = await Swal.fire({
         icon: 'success',
         title: 'success',

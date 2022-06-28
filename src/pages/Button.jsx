@@ -29,22 +29,21 @@ const Button = () => {
       const checkUserExist = async () => {
         try {
           const res = await axios.post(
-            'http://localhost:3020/users/checkuserexist',
+            `${process.env.REACT_APP_BECKEND_URL}/users/checkuserexist`,
             userCheck
           );
           if (!res.data) {
-            navigate(`/`)
-          }
-          else {
-            const currentLocatin = location.pathname
+            navigate(`/`);
+          } else {
+            const currentLocatin = location.pathname;
             if (currentLocatin !== '/button') {
-              navigate(`/button`)
+              navigate(`/button`);
             }
             setInfo(localData.data);
             setUser(localData.user);
           }
         } catch (e) {
-          navigate(`/`)
+          navigate(`/`);
         }
       };
       checkUserExist();
@@ -52,8 +51,8 @@ const Button = () => {
   }, []);
 
   return !user ? (
-    <div style={{display: 'grid', placeItems: 'center', height: '100vh'}}  >
-    <Loading variant={'indeterminate'} />
+    <div style={{ display: 'grid', placeItems: 'center', height: '100vh' }}>
+      <Loading variant={'indeterminate'} />
     </div>
   ) : (
     <>

@@ -16,7 +16,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
 
   const getBTnsTitle = async () => {
     try {
-      const btnsTitle = await axios.get('http://localhost:3020/buttons/title');
+      const btnsTitle = await axios.get(`${process.env.REACT_APP_BECKEND_URL}/buttons/title`);
       setBtns(btnsTitle.data);
     } catch (err) {
       Navigate(`/button`)

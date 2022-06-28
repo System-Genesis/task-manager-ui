@@ -4,15 +4,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import { clear } from '../utils/localStorage';
+import { clear, getObj } from '../utils/localStorage';
 import Link from '@mui/material/Link';
-import { getObj } from '../utils/localStorage';
 import axios from 'axios';
 
 const NavBar = () => {
   let navigate = useNavigate();
   const getusername = getObj('data')?.user?.username;
-  const [userRole, setUserRole] = useState(false)
+  const [userRole, setUserRole] = useState(false);
 
   const handleSignOutButton = () => {
     navigate('/');
@@ -32,13 +31,13 @@ const NavBar = () => {
     const checkUserRole = async () => {
       try {
         const res = await axios.post(
-          'http://localhost:3020/users/checkuserrole',
+          `${process.env.REACT_APP_BECKEND_URL}/users/checkuserrole`,
           userCheck
         );
-        setUserRole(res.data)
+        setUserRole(res.data);
       } catch (e) {}
     };
-    checkUserRole()  
+    checkUserRole();
   }, []);
 
   return (

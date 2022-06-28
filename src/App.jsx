@@ -6,12 +6,10 @@ import {
   ThemeProvider,
 } from '@mui/material/styles';
 import Button from './pages/Button';
-// import User from './pages/User';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { InfoProvider } from './InfoContext';
 import Action from './pages/Action';
 import Create from './pages/CreateUser';
-
 let theme = createTheme({
   typography: {
     fontFamily: 'Rubik, sans-serif'

@@ -34,34 +34,36 @@ const SignIn = () => {
   const classes = useStyles();
   const [user, setUser] = useState({ username: '', password: '' });
   const [error, setError] = useState({ username: false, password: false });
-  const [loading, setLoading] = useState('determinate')
+  const [loading, setLoading] = useState('determinate');
 
   useEffect(() => {
     const localData = getObj('data');
-    if (!localData) { return }
-    setLoading('indeterminate')
+    if (!localData) {
+      return;
+    }
+    setLoading('indeterminate');
     const userCheck = {
       username: localData?.user.username,
       password: localData?.user.password,
     };
-    axios.post(
-      'http://localhost:3020/users/checkuserexist',
-      userCheck
-    ).then(res => {
-
-      if (!res.data) {
-        clear();
-        setLoading('determinate')
-      }
-      else {
-        const currentLocatin = location.pathname
-        if (currentLocatin !== '/button') {
-          navigate(`/button`)
+    axios
+      .post(
+        `${process.env.REACT_APP_BECKEND_URL}/users/checkuserexist`,
+        userCheck
+      )
+      .then((res) => {
+        if (!res.data) {
+          clear();
+          setLoading('determinate');
+        } else {
+          const currentLocatin = location.pathname;
+          if (currentLocatin !== '/button') {
+            navigate(`/button`);
+          }
+          setLoading('determinate');
         }
-        setLoading('determinate')
-      }
-    })
-      .catch(e => { })
+      })
+      .catch((e) => {});
   }, []);
 
   const handleSubmit = async (e) => {
@@ -75,7 +77,10 @@ const SignIn = () => {
       setError({ ...error });
     } else {
       try {
-        const res = await axios.post('http://localhost:3020/login', user);
+        const res = await axios.post(
+          `${process.env.REACT_APP_BECKEND_URL}/login`,
+          user
+        );
         setObj('data', res.data);
         navigate('/button');
       } catch (error) {
@@ -91,9 +96,10 @@ const SignIn = () => {
   };
 
   return loading === 'indeterminate' ? (
-    <div style={{ display: 'grid', placeItems: 'center', height: '100vh' }}  >
+    <div style={{ display: 'grid', placeItems: 'center', height: '100vh' }}>
       <Loading variant={'indeterminate'} />
-    </div>) : (
+    </div>
+  ) : (
     <Container maxWidth='xs'>
       <form noValidate autoComplete='off' onSubmit={handleSubmit}>
         <Box className={classes.box}>
