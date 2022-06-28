@@ -25,7 +25,6 @@ export const InfoProvider = (props) => {
   };
 
   const setBtnByTitle = (pageTitle, btnTitle) => {
-    console.log(pageTitle, btnTitle);
     let newInfo = info;
 
     if (!newInfo) {

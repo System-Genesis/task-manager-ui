@@ -12,6 +12,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { setObj } from '../utils/localStorage';
 import PasswordInput from '../components/PasswordInput';
 import { getObj, clear } from '../utils/localStorage';
+import Loading from '../components/Loading';
 
 const useStyles = makeStyles({
   box: {
@@ -33,10 +34,12 @@ const SignIn = () => {
   const classes = useStyles();
   const [user, setUser] = useState({ username: '', password: '' });
   const [error, setError] = useState({ username: false, password: false });
+  const [loading, setLoading] = useState('determinate')
 
   useEffect(() => {
     const localData = getObj('data');
     if (!localData) { return }
+    setLoading('indeterminate')
     const userCheck = {
       username: localData?.user.username,
       password: localData?.user.password,
@@ -48,12 +51,14 @@ const SignIn = () => {
 
       if (!res.data) {
         clear();
-       }
+        setLoading('determinate')
+      }
       else {
         const currentLocatin = location.pathname
         if (currentLocatin !== '/button') {
           navigate(`/button`)
         }
+        setLoading('determinate')
       }
     })
       .catch(e => { })
@@ -72,7 +77,6 @@ const SignIn = () => {
       try {
         const res = await axios.post('http://localhost:3020/login', user);
         setObj('data', res.data);
-        console.log(res.data);
         navigate('/button');
       } catch (error) {
         setError({ username: true, password: true });
@@ -86,7 +90,10 @@ const SignIn = () => {
     setError({ ...error, [key]: false });
   };
 
-  return (
+  return loading === 'indeterminate' ? (
+    <div style={{ display: 'grid', placeItems: 'center', height: '100vh' }}  >
+      <Loading variant={'indeterminate'} />
+    </div>) : (
     <Container maxWidth='xs'>
       <form noValidate autoComplete='off' onSubmit={handleSubmit}>
         <Box className={classes.box}>
@@ -114,7 +121,7 @@ const SignIn = () => {
             error={error.password}
           />
           <div style={{ marginTop: '7px', marginBottom: '7px' }} />
-          {/* <Box sx={{ my: 0.7 }} /> */}
+          <Box sx={{ my: 0.7 }} />
           {(error.username || error.password) && (
             <Typography variant='h7' className={classes.typographyError}>
               username or Password Incorrect

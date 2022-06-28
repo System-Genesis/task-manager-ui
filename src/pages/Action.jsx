@@ -68,7 +68,6 @@ const Action = () => {
         query.get('btnTitle')
       );
       setBtn(currBtn);
-      console.log(btn);
       if (!currBtn) {
         navigate(`/button`);
       }

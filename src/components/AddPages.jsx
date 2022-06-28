@@ -7,6 +7,7 @@ import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Swal from 'sweetalert2';
+import { Navigate } from 'react-router-dom';
 
 export const AddPages = ({ next, back, setNewPages }) => {
   const [btns, setBtns] = useState([]);
@@ -18,7 +19,7 @@ export const AddPages = ({ next, back, setNewPages }) => {
       const btnsTitle = await axios.get('http://localhost:3020/buttons/title');
       setBtns(btnsTitle.data);
     } catch (err) {
-      console.log(err);
+      Navigate(`/button`)
     }
   };
 

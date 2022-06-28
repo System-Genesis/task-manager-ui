@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -24,12 +22,13 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+  <title>React App</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -39,5 +38,52 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+  <script type="text/javascript">
+    function get_browser() {
+      var ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+      if (/trident/i.test(M[1])) {
+        tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+        return { name: 'IE', version: (tem[1] || '') };
+      }
+      if (M[1] === 'Chrome') {
+        tem = ua.match(/\bOPR\/(\d+)/)
+        if (tem != null) { return { name: 'Opera', version: tem[1] }; }
+      }
+      if (window.navigator.userAgent.indexOf("Edge") > -1) {
+        tem = ua.match(/\Edge\/(\d+)/)
+        if (tem != null) { return { name: 'Edge', version: tem[1] }; }
+      }
+      M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+      if ((tem = ua.match(/version\/(\d+)/i)) != null) { M.splice(1, 1, tem[1]); }
+      return {
+        name: M[0],
+        version: +M[1]
+      };
+    }
+
+    var browser = get_browser()
+    var isSupported = isSupported(browser);
+
+    function isSupported(browser) {
+      var supported = false;
+      if (browser.name === "Chrome" && browser.version >= 98) {
+        supported = true;
+      } else if ((browser.name === "MSIE" || browser.name === "IE") && browser.version >= 10) {
+        supported = true;
+      } else if (browser.name === "Edge") {
+        supported = true;
+      }
+      return supported;
+    }
+
+    if (!isSupported) {
+      document.write(<h1>fghghfggggggggggggggg</h1>)
+    }
+  </script>
+
+  <script type="application/javascript">
+    if (/MSIE|Trident/.test(window.navigator.userAgent)) window.location.href = '/ie.html';
+  </script>
+</body>
+
 </html>

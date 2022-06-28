@@ -88,7 +88,6 @@ const Finish = ({ info, back }) => {
         };
       });
       const user = info.user;
-      console.log(pages.length);
       const res = await axios.post('http://localhost:3020/users/new', {
         user,
         pages,
@@ -112,34 +111,6 @@ const Finish = ({ info, back }) => {
       }
     }
   };
-
-  // const swalRes = await Swal.fire({
-  //   icon: 'success',
-  //   title: 'success',
-  //   text: 'You Create the user succesfully',
-  // });
-  // if (swalRes.isConfirmed) {
-  //   try {
-  //     const pages = info.pages.map((page) => {
-  //       return {
-  //         title: page.title,
-  //         btns: page.btns.map((btn) => btn._id),
-  //       };
-  //     });
-  //     const user = info.user;
-  //     console.log(info);
-  //     console.log(pages.length);
-  //     const res = await axios.post('http://localhost:3020/users/new', {
-  //       user,
-  //       pages,
-  //     });
-  //     console.log(res.data);
-  //     // navigate('/button');
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // }
-  // };
 
   return (
     <>
