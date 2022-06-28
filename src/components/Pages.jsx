@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     minWidth: '100%',
   },
   paper: {
-    minHeight: '60vh',
+    minHeight: '58vh',
     maxHeight: '60vh',
     margin: '16px',
     borderRadius: '20px',
