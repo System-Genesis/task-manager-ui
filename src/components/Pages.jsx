@@ -24,9 +24,8 @@ const useStyles = makeStyles({
   },
   typographyHeader: {
     textAlign: 'center',
-    marginTop: '12px',
+    margin: '12px',
     fontWeight: 'bold',
-    marginBottom: '24px',
     textTransform: 'capitalize',
     fontFamily: 'Roboto Mono, monospace',
 
@@ -74,7 +73,6 @@ const Pages = () => {
                         padding={'6px'}
                         width={'145px'}
                         height={'75px'}
-                        marginTop={'5px'}
                       />
                     </div>
                   </Tooltip>
