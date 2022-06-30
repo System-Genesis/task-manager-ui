@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   },
   paper: {
     minHeight: '58vh',
-    maxHeight: '60vh',
+    maxHeight: '58vh',
     margin: '16px',
     borderRadius: '20px',
     alignItems: 'center',
@@ -71,7 +71,7 @@ const Pages = () => {
                         txt={btn?.title}
                         margin={'12px'}
                         padding={'6px'}
-                        width={'145px'}
+                        width={'140px'}
                         height={'75px'}
                       />
                     </div>
