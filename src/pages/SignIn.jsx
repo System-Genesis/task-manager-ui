@@ -63,7 +63,9 @@ const SignIn = () => {
           setLoading('determinate');
         }
       })
-      .catch((e) => {});
+      .catch((e) => {
+        setLoading('determinate');
+      });
   }, []);
 
   const handleSubmit = async (e) => {
