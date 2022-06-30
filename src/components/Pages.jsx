@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   },
   paper: {
     minHeight: '58vh',
-    maxHeight: '60vh',
+    maxHeight: '58vh',
     margin: '16px',
     borderRadius: '20px',
     alignItems: 'center',
@@ -24,12 +24,10 @@ const useStyles = makeStyles({
   },
   typographyHeader: {
     textAlign: 'center',
-    marginTop: '12px',
+    margin: '12px',
     fontWeight: 'bold',
-    marginBottom: '24px',
     textTransform: 'capitalize',
     fontFamily: 'Roboto Mono, monospace',
-
   },
   pages: {
     display: 'flex',
@@ -72,9 +70,9 @@ const Pages = () => {
                         txt={btn?.title}
                         margin={'12px'}
                         padding={'6px'}
-                        width={'145px'}
+                        width={'140px'}
                         height={'75px'}
-                        marginTop={'5px'}
+                        // marginTop={'5px'}
                       />
                     </div>
                   </Tooltip>
