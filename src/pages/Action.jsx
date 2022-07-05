@@ -45,8 +45,9 @@ const Action = () => {
     stringStyle: { color: 'green' },
     colonStyle: { color: 'darkorange' },
   };
-  const abortAxios = new AbortController();
-  const fetchData = async (abortController, request) => {
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
+  const fetchData = async (source, request) => {
     return axios.post(
       `${process.env.REACT_APP_BECKEND_URL}/action`,
       {
@@ -54,7 +55,7 @@ const Action = () => {
         reqType: btn.methods,
       },
       {
-        signal: abortController.signal,
+        cancelToken: source.token,
       }
     );
   };
@@ -108,7 +109,7 @@ const Action = () => {
       try {
         setLoading('indeterminate');
         const request = buildRequest(params, btn?.name, btn?.type);
-        const res = await fetchData(abortAxios, request);
+        const res = await fetchData(source, request);
         if (!Array.isArray(res.data) || res.data.length < 100) {
           setDownloadBtn(true);
           if (res.data && !Array.isArray(res.data)) {
@@ -135,12 +136,12 @@ const Action = () => {
 
   const handleCancelClick = () => {
     setLoading('determinate');
-    abortAxios.abort();
+    source.cancel('Operation canceled by the user.');
     setCancel(() => true);
   };
 
   const handleDownloadClick = () => {
-    if (res) printToFile(dataToShow);
+    printToFile(dataToShow);
   };
 
   return (
