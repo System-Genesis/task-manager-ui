@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { InfoProvider } from './InfoContext';
 import Action from './pages/Action';
 import Create from './pages/CreateUser';
+import EditUser from './pages/EditUser';
 let theme = createTheme({
   typography: {
     fontFamily: 'Rubik, sans-serif'
@@ -28,6 +29,7 @@ function App() {
             <Route path='/button' element={<Button />} />
             <Route path='/action' element={<Action />} />
             <Route path='/create' element={<Create />} />
+            <Route path='/edit' element={<EditUser />} />
             <Route path="*" element={<Button />} />
           </Routes>
         </BrowserRouter>
