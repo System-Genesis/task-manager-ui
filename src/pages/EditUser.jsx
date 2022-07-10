@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from '../components/NavBar.jsx'
-import { Container, Table } from '@mui/material';
+import NavBar from '../components/NavBar.jsx';
+import Table from '../components/Table';
+import { Container } from '@mui/material';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
 
@@ -28,8 +29,8 @@ const EditUser = () => {
       <NavBar />
       <Container>
         <Table
-          rows={[{ username: usernameAndRole.username, role: usernameAndRole.role}]}
-          headersTitles={['Usernames', 'Role', 'Edit']}
+          rows={usernameAndRole}
+          headersTitles={['Usernames', 'Role', 'Edit Username', 'Edit Pages']}
         />
       </Container>
     </>
