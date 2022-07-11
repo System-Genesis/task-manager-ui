@@ -18,8 +18,12 @@ const NavBar = () => {
     clear();
   };
 
-  const handleCreateBUtton = () => {
+  const handleCreateButton = () => {
     navigate('/create');
+  };
+
+  const handleEditButton = () => {
+    navigate('/edit');
   };
 
   useEffect(() => {
@@ -57,10 +61,19 @@ const NavBar = () => {
         {userRole === true && (
           <>
             <Button
+              color='warning'
+              variant='contained'
+              size='small'
+              onClick={handleEditButton}
+              sx={{ mr: 2 }}
+            >
+              edit user
+            </Button>
+            <Button
               color='secondary'
               variant='contained'
               size='small'
-              onClick={handleCreateBUtton}
+              onClick={handleCreateButton}
               sx={{ mr: 2 }}
             >
               create user

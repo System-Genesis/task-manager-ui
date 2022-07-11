@@ -14,7 +14,7 @@ import ContactPageIcon from '@mui/icons-material/ContactPage';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: '#795548',
+    backgroundColor: '#607d8b',
     color: theme.palette.common.white,
     fontSize: 18,
   },
@@ -53,7 +53,7 @@ const BasicTable = ({ rows, headersTitles, onClickUsername, onClickPages }) => {
                 </StyledTableCell>
                 <StyledTableCell align='left'>{row.role}</StyledTableCell>
                 <StyledTableCell
-                  sx={{ cursor: 'pointer' }}
+                  sx={{ cursor: 'pointer', '&:hover': { opacity: 0.7 } }}
                   onClick={() => onClickUsername(row.username)}
                   align='left'
                 >
@@ -61,8 +61,8 @@ const BasicTable = ({ rows, headersTitles, onClickUsername, onClickPages }) => {
                   <EditIcon />
                 </StyledTableCell>
                 <StyledTableCell
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => onClickPages(row.role)}
+                  sx={{ cursor: 'pointer', '&:hover': { opacity: 0.7 } }}
+                  onClick={() => onClickPages(row.username)}
                   align='left'
                 >
                   <ContactPageIcon />

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from '../components/NavBar.jsx';
+import NavBar from '../components/NavBar';
 import Table from '../components/Table';
 import { Container } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import Search from '../components/Search';
 
 const EditUser = () => {
   let navigate = useNavigate();
   const [usernameAndRole, setUsernameAndRole] = useState([]);
+  const [usernameAndRoleFiltered, setUsernameAndRoleFiltered] = useState(usernameAndRole);
 
   const getUsernameAndRoles = async () => {
     try {
@@ -16,7 +18,7 @@ const EditUser = () => {
         `${process.env.REACT_APP_BECKEND_URL}/users/usernameandroles`
       );
       setUsernameAndRole(usernameAndRoles.data);
-      console.log(usernameAndRole);
+      setUsernameAndRoleFiltered(usernameAndRoles.data)
     } catch (err) {
       navigate(`/button`);
     }
@@ -41,7 +43,6 @@ const EditUser = () => {
     });
     if (text) {
       if (text === userName) {
-        console.log('1');
         return '';
       } else {
         try {
@@ -64,21 +65,34 @@ const EditUser = () => {
             text: 'There is a problem to change the username, Try again',
           });
           if (swalRes.isConfirmed) {
-            navigate('/edit');
+            navigate(`/edit`);
           }
         }
       }
     }
   };
+
+  const clickEditPages = (userName) => {
+    navigate(`/editpage?userName=${userName}`)
+  }
+
+  const filterData = (value) => {
+    const resData = usernameAndRole.filter(({username}) => username.includes(value))
+    setUsernameAndRoleFiltered(resData)
+  };
+
   return (
     <>
       <NavBar />
-      <Container>
+      <Container
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      >
+        <Search setData={filterData} />
         <Table
-          rows={usernameAndRole}
+          rows={usernameAndRoleFiltered}
           headersTitles={['Usernames', 'Role', 'Edit Username', 'Edit Pages']}
           onClickUsername={clickEditUsername}
-          // onClickPages={() => console.log()}
+          onClickPages={clickEditPages}
         />
       </Container>
     </>
